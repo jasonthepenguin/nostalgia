@@ -8,8 +8,304 @@
 </head>
 <body>
     <div class="desktop">
-       
+        <!-- Desktop icons can go here -->
+        
+        <!-- Windows -->
+        <div class="window" id="home-window" style="display: none;">
+            <div class="window-titlebar">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23fff'%3E%3Cpath d='M8 1L2 7v7h5v-4h2v4h5V7z'/%3E%3C/svg%3E" alt="Home">
+                <span class="window-title">Home - Windows Explorer</span>
+                <div class="window-controls">
+                    <button class="window-minimize">_</button>
+                    <button class="window-maximize">□</button>
+                    <button class="window-close">×</button>
+                </div>
+            </div>
+            <div class="window-menu">
+                <span>File</span>
+                <span>Edit</span>
+                <span>View</span>
+                <span>Favorites</span>
+                <span>Tools</span>
+                <span>Help</span>
+            </div>
+            <div class="window-toolbar">
+                <button class="toolbar-btn">← Back</button>
+                <button class="toolbar-btn">→</button>
+                <button class="toolbar-btn">↑ Up</button>
+                <button class="toolbar-btn">🔍 Search</button>
+                <button class="toolbar-btn">📁 Folders</button>
+            </div>
+            <div class="window-content">
+                <div class="sidebar">
+                    <div class="sidebar-section">
+                        <h3>System Tasks</h3>
+                        <a href="#">View system information</a>
+                        <a href="#">Add or remove programs</a>
+                        <a href="#">Change a setting</a>
+                    </div>
+                    <div class="sidebar-section">
+                        <h3>Other Places</h3>
+                        <a href="#">My Network Places</a>
+                        <a href="#">My Documents</a>
+                        <a href="#">Shared Documents</a>
+                        <a href="#">Control Panel</a>
+                    </div>
+                </div>
+                <div class="main-content">
+                    <h1>Welcome to My Windows XP Site!</h1>
+                    <div class="icon-grid">
+                        <div class="desktop-icon">
+                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect x='8' y='8' width='32' height='32' fill='%23FFE4B5' stroke='%23000' stroke-width='1'/%3E%3Ctext x='24' y='28' text-anchor='middle' font-size='20'%3E👤%3C/text%3E%3C/svg%3E" alt="User">
+                            <span>My Profile</span>
+                        </div>
+                        <div class="desktop-icon">
+                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect x='8' y='8' width='32' height='32' fill='%23E6F3FF' stroke='%23000' stroke-width='1'/%3E%3Ctext x='24' y='28' text-anchor='middle' font-size='20'%3E📄%3C/text%3E%3C/svg%3E" alt="Documents">
+                            <span>My Documents</span>
+                        </div>
+                        <div class="desktop-icon">
+                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect x='8' y='8' width='32' height='32' fill='%23FFE6E6' stroke='%23000' stroke-width='1'/%3E%3Ctext x='24' y='28' text-anchor='middle' font-size='20'%3E🎵%3C/text%3E%3C/svg%3E" alt="Music">
+                            <span>My Music</span>
+                        </div>
+                        <div class="desktop-icon">
+                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect x='8' y='8' width='32' height='32' fill='%23E6FFE6' stroke='%23000' stroke-width='1'/%3E%3Ctext x='24' y='28' text-anchor='middle' font-size='20'%3E🖼️%3C/text%3E%3C/svg%3E" alt="Pictures">
+                            <span>My Pictures</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="window-status">
+                <span>4 objects</span>
+                <span class="status-separator"></span>
+                <span>My Computer</span>
+            </div>
+        </div>
+
+        <!-- About Me Window -->
+        <div class="window" id="about-window" style="display: none;">
+            <div class="window-titlebar">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23fff'%3E%3Ccircle cx='8' cy='8' r='7' fill='none' stroke='%23fff' stroke-width='2'/%3E%3Ctext x='8' y='11' text-anchor='middle' fill='%23fff' font-size='10'%3Ei%3C/text%3E%3C/svg%3E" alt="About">
+                <span class="window-title">About Me - Notepad</span>
+                <div class="window-controls">
+                    <button class="window-minimize">_</button>
+                    <button class="window-maximize">□</button>
+                    <button class="window-close">×</button>
+                </div>
+            </div>
+            <div class="window-menu">
+                <span>File</span>
+                <span>Edit</span>
+                <span>Format</span>
+                <span>View</span>
+                <span>Help</span>
+            </div>
+            <div class="notepad-content">
+                <div class="notepad-text">
+Hello! Welcome to my Windows XP themed personal website! 👋
+
+I'm a nostalgic developer who misses the simpler times of Windows XP.
+Remember when computers made those satisfying startup sounds?
+
+About Me:
+---------
+• Name: Jason Botterill
+• Favorite OS: Windows XP (obviously!)
+• Hobbies: Coding, collecting vintage software, playing Pinball 3D
+• Favorite XP Feature: That beautiful Bliss wallpaper
+
+Fun Facts:
+----------
+• I still have my original Windows XP installation CD
+• I can navigate Control Panel with my eyes closed
+• My notification sound is still the classic XP "ding!"
+
+Feel free to explore my site and relive the glory days of computing!
+
+Best viewed in Internet Explorer 6 😉
+                </div>
+            </div>
+            <div class="window-status">
+                <span>Ln 1, Col 1</span>
+                <span class="status-separator"></span>
+                <span>Windows (CRLF)</span>
+                <span class="status-separator"></span>
+                <span>UTF-8</span>
+            </div>
+        </div>
+
+        <!-- Projects Window -->
+        <div class="window" id="projects-window" style="display: none;">
+            <div class="window-titlebar">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23fff'%3E%3Crect x='2' y='4' width='12' height='10' fill='none' stroke='%23fff' stroke-width='1.5'/%3E%3Crect x='4' y='2' width='8' height='3' fill='%23fff'/%3E%3C/svg%3E" alt="Projects">
+                <span class="window-title">My Projects - Windows Explorer</span>
+                <div class="window-controls">
+                    <button class="window-minimize">_</button>
+                    <button class="window-maximize">□</button>
+                    <button class="window-close">×</button>
+                </div>
+            </div>
+            <div class="window-menu">
+                <span>File</span>
+                <span>Edit</span>
+                <span>View</span>
+                <span>Favorites</span>
+                <span>Tools</span>
+                <span>Help</span>
+            </div>
+            <div class="window-toolbar">
+                <button class="toolbar-btn">← Back</button>
+                <button class="toolbar-btn">→</button>
+                <button class="toolbar-btn">↑ Up</button>
+                <button class="toolbar-btn">🔍 Search</button>
+                <button class="toolbar-btn">📁 Folders</button>
+            </div>
+            <div class="window-content">
+                <div class="file-explorer">
+                    <div class="file-item">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M4 8h24v18H4z' fill='%23FFE4B5'/%3E%3Cpath d='M4 8h24v2H4z' fill='%23DEB887'/%3E%3Cpath d='M4 8l4-4h8l4 4' fill='%23F0E68C'/%3E%3C/svg%3E" alt="Folder">
+                        <span>XP Theme Generator</span>
+                    </div>
+                    <div class="file-item">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M4 8h24v18H4z' fill='%23FFE4B5'/%3E%3Cpath d='M4 8h24v2H4z' fill='%23DEB887'/%3E%3Cpath d='M4 8l4-4h8l4 4' fill='%23F0E68C'/%3E%3C/svg%3E" alt="Folder">
+                        <span>Retro Game Collection</span>
+                    </div>
+                    <div class="file-item">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M4 8h24v18H4z' fill='%23FFE4B5'/%3E%3Cpath d='M4 8h24v2H4z' fill='%23DEB887'/%3E%3Cpath d='M4 8l4-4h8l4 4' fill='%23F0E68C'/%3E%3C/svg%3E" alt="Folder">
+                        <span>Windows XP Sounds</span>
+                    </div>
+                    <div class="file-item">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='6' y='4' width='20' height='24' fill='%23fff' stroke='%23000'/%3E%3Ctext x='16' y='20' text-anchor='middle' font-size='8'%3E.exe%3C/text%3E%3C/svg%3E" alt="Executable">
+                        <span>PinballClone.exe</span>
+                    </div>
+                    <div class="file-item">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='6' y='4' width='20' height='24' fill='%23E6F3FF' stroke='%23000'/%3E%3Ctext x='16' y='20' text-anchor='middle' font-size='8'%3E.txt%3C/text%3E%3C/svg%3E" alt="Text">
+                        <span>README.txt</span>
+                    </div>
+                </div>
+            </div>
+            <div class="window-status">
+                <span>5 objects</span>
+                <span class="status-separator"></span>
+                <span>2.4 MB</span>
+                <span class="status-separator"></span>
+                <span>My Computer</span>
+            </div>
+        </div>
+
+        <!-- Contact Window -->
+        <div class="window" id="contact-window" style="display: none;">
+            <div class="window-titlebar">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23fff'%3E%3Cpath d='M2 4h12v8H2z' fill='none' stroke='%23fff' stroke-width='1.5'/%3E%3Cpath d='M2 4l6 4 6-4' stroke='%23fff' stroke-width='1.5' fill='none'/%3E%3C/svg%3E" alt="Contact">
+                <span class="window-title">Contact - Outlook Express</span>
+                <div class="window-controls">
+                    <button class="window-minimize">_</button>
+                    <button class="window-maximize">□</button>
+                    <button class="window-close">×</button>
+                </div>
+            </div>
+            <div class="window-menu">
+                <span>File</span>
+                <span>Edit</span>
+                <span>View</span>
+                <span>Tools</span>
+                <span>Message</span>
+                <span>Help</span>
+            </div>
+            <div class="window-toolbar">
+                <button class="toolbar-btn">✉️ New Mail</button>
+                <button class="toolbar-btn">↩️ Reply</button>
+                <button class="toolbar-btn">➡️ Forward</button>
+                <button class="toolbar-btn">🖨️ Print</button>
+                <button class="toolbar-btn">🗑️ Delete</button>
+                <button class="toolbar-btn">📧 Send/Recv</button>
+            </div>
+            <div class="window-content">
+                <div class="email-form">
+                    <div class="email-field">
+                        <label>To:</label>
+                        <input type="text" value="jason@windowsxp.com" readonly>
+                    </div>
+                    <div class="email-field">
+                        <label>From:</label>
+                        <input type="text" placeholder="your.email@example.com">
+                    </div>
+                    <div class="email-field">
+                        <label>Subject:</label>
+                        <input type="text" placeholder="Hello from the past!">
+                    </div>
+                    <div class="email-body">
+                        <textarea placeholder="Type your message here...
+
+Remember when email was simple? No fancy HTML, just plain text and maybe an attachment or two.
+
+Feel free to reach out! I love talking about:
+- Vintage computing
+- Windows XP memories
+- Classic software
+- Retro gaming
+
+P.S. Don't forget to defrag your hard drive! 😄"></textarea>
+                    </div>
+                    <div class="email-buttons">
+                        <button class="xp-button">Send</button>
+                        <button class="xp-button">Save Draft</button>
+                        <button class="xp-button">Attach File</button>
+                    </div>
+                </div>
+            </div>
+            <div class="window-status">
+                <span>Ready</span>
+                <span class="status-separator"></span>
+                <span>HTML Mail</span>
+            </div>
+        </div>
     </div>
+    
+    <!-- Windows XP Taskbar -->
+    <div class="taskbar">
+        <button class="start-button">
+            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ffffff'%3E%3Cpath d='M3 3h8v8H3zm10 0h8v8h-8zM3 13h8v8H3zm10 0h8v8h-8z'/%3E%3C/svg%3E" alt="Windows Logo">
+            <span>Start</span>
+        </button>
+        
+        <div class="taskbar-items">
+            <div class="taskbar-item active">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23333'%3E%3Cpath d='M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z'/%3E%3C/svg%3E" alt="Home">
+                <span>Home</span>
+            </div>
+            <div class="taskbar-item">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23333'%3E%3Cpath d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z'/%3E%3C/svg%3E" alt="About">
+                <span>About Me</span>
+            </div>
+            <div class="taskbar-item">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23333'%3E%3Cpath d='M20 6h-2.18c.11-.31.18-.65.18-1a2.996 2.996 0 0 0-5.5-1.65l-.5.67-.5-.68C10.96 2.54 10.05 2 9 2 7.34 2 6 3.34 6 5c0 .35.07.69.18 1H4c-1.11 0-1.99.89-1.99 2L2 19c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z'/%3E%3C/svg%3E" alt="Projects">
+                <span>Projects</span>
+            </div>
+            <div class="taskbar-item">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23333'%3E%3Cpath d='M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z'/%3E%3C/svg%3E" alt="Contact">
+                <span>Contact</span>
+            </div>
+        </div>
+        
+        <div class="system-tray">
+            <div class="tray-icons">
+                <span class="tray-icon">🔊</span>
+                <span class="tray-icon">🌐</span>
+                <span class="tray-icon">🔋</span>
+            </div>
+            <div class="clock" id="clock">12:00 PM</div>
+        </div>
+    </div>
+    
     <script src="script.js"></script>
+    
+    <!-- Matrix Screensaver (activate with Ctrl+Alt+M) -->
+    <div id="matrix-screensaver" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: black; z-index: 99999;">
+        <canvas id="matrix-canvas"></canvas>
+        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #0F0; font-family: monospace; font-size: 20px; text-align: center;">
+            <p>SCREENSAVER ACTIVE</p>
+            <p style="font-size: 14px;">Move mouse to exit</p>
+        </div>
+    </div>
 </body>
 </html>
