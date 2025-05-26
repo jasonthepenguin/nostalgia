@@ -70,10 +70,7 @@ function showClippy() {
     `;
     document.body.appendChild(clippy);
     
-    setTimeout(() => {
-        clippy.style.opacity = '0';
-        setTimeout(() => clippy.remove(), 500);
-    }, 5000);
+
 }
 
 function openSolitaire() {

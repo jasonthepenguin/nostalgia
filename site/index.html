@@ -8,8 +8,49 @@
 </head>
 <body>
     <div class="desktop">
-        <!-- Desktop icons can go here -->
-        
+        <!-- Desktop Icons -->
+        <div class="desktop-icons">
+            <div class="desktop-icon-item" ondblclick="alert('🗑️ Recycle Bin\\n\\nThe Recycle Bin is empty.\\n\\nSize: 0 bytes\\nContains: 0 files, 0 folders')">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath d='M12 38c0 2.2 1.8 4 4 4h16c2.2 0 4-1.8 4-4V14H12v24zM38 8h-7l-2-2H19l-2 2h-7v4h28V8z' fill='%23C0C0C0'/%3E%3Cpath d='M16 18h2v16h-2zm6 0h2v16h-2zm6 0h2v16h-2z' fill='%23808080'/%3E%3C/svg%3E" alt="Recycle Bin">
+                <span>Recycle Bin</span>
+            </div>
+            
+            <div class="desktop-icon-item" ondblclick="alert('💻 My Computer\\n\\nLocal Disk (C:)\\nUsed: 2.3 GB\\nFree: 37.7 GB\\n\\n3½ Floppy (A:)\\nCD Drive (D:)\\n\\nRemember to defrag regularly!')">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath d='M8 10h32v24H8z' fill='%23E0E0E0'/%3E%3Cpath d='M8 34h32v4H8z' fill='%23C0C0C0'/%3E%3Cpath d='M12 14h24v16H12z' fill='%234169E1'/%3E%3Ccircle cx='38' cy='36' r='1' fill='%2300FF00'/%3E%3C/svg%3E" alt="My Computer">
+                <span>My Computer</span>
+            </div>
+            
+            <div class="desktop-icon-item" ondblclick="alert('🌐 Internet Explorer\\n\\nVersion 6.0\\n\\nYour homepage is set to:\\nwww.msn.com\\n\\nToolbars installed: 7\\nPop-ups blocked today: 1,337')">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Ccircle cx='24' cy='24' r='20' fill='%231E90FF'/%3E%3Cpath d='M24 8c-8.8 0-16 7.2-16 16s7.2 16 16 16 16-7.2 16-16S32.8 8 24 8zm0 4c2.2 0 4.3.5 6.2 1.4-1.8 2.5-4.6 4.2-7.7 4.6-1.7-2.8-3-4.6-4-5.5 1.7-.3 3.6-.5 5.5-.5z' fill='%23FFD700'/%3E%3Cpath d='M20 20h8v2h-8zm-2 4h12v2H18zm2 4h8v2h-8z' fill='%23fff'/%3E%3C/svg%3E" alt="Internet Explorer">
+                <span>Internet Explorer</span>
+            </div>
+            
+            <div class="desktop-icon-item" ondblclick="openMessenger()">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Ccircle cx='24' cy='24' r='20' fill='%231E90FF'/%3E%3Cpath d='M16 24c0-4.4 3.6-8 8-8s8 3.6 8 8-3.6 8-8 8c-1.2 0-2.3-.3-3.3-.7L16 32.5V24z' fill='%23fff'/%3E%3Ccircle cx='20' cy='24' r='2' fill='%2300FF00'/%3E%3Ccircle cx='28' cy='24' r='2' fill='%2300FF00'/%3E%3C/svg%3E" alt="MSN Messenger">
+                <span>MSN Messenger</span>
+            </div>
+            
+            <div class="desktop-icon-item" ondblclick="alert('📁 My Documents\\n\\nContains:\\n📄 homework.doc (2 KB)\\n📄 essay_final_FINAL_v2.doc (15 KB)\\n📁 Kazaa Downloads (2.7 GB)\\n📁 Burned CDs (147 folders)\\n🎵 My Music (8,432 files)')">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath d='M10 8h28l4 6v24c0 1.1-.9 2-2 2H8c-1.1 0-2-.9-2-2V10c0-1.1.9-2 2-2z' fill='%23FFE4B5'/%3E%3Cpath d='M10 8h12l4 6H10z' fill='%23F0E68C'/%3E%3Cpath d='M14 20h20v2H14zm0 4h16v2H14zm0 4h20v2H14z' fill='%23666'/%3E%3C/svg%3E" alt="My Documents">
+                <span>My Documents</span>
+            </div>
+            
+            <div class="desktop-icon-item" ondblclick="alert('🌐 Network Places\\n\\nWorkgroup: MSHOME\\n\\nComputers found:\\nDADS-PC\\nMOMS-LAPTOP\\nKIDS-COMPUTER\\nPRINTER\\n\\nShared folders: 23\\nShared printers: 1')">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath d='M8 16h8v8H8zm12 0h8v8h-8zm12 0h8v8h-8zM8 28h8v8H8zm12 0h8v8h-8zm12 0h8v8h-8z' fill='%23C0C0C0'/%3E%3Cpath d='M4 12h40v2H4zm20 10v20m-10-10h20' stroke='%234169E1' stroke-width='2' fill='none'/%3E%3C/svg%3E" alt="Network">
+                <span>My Network Places</span>
+            </div>
+            
+            <div class="desktop-icon-item" ondblclick="alert('🎮 Games\\n\\nInstalled Games:\\n• 3D Pinball Space Cadet\\n• Solitaire (Win rate: 2%)\\n• Minesweeper (Best time: 999 sec)\\n• Hearts\\n• FreeCell\\n• Spider Solitaire\\n\\nTotal time played: 2,847 hours')">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect x='8' y='16' width='32' height='20' rx='4' fill='%23333'/%3E%3Ccircle cx='18' cy='26' r='4' fill='%23666'/%3E%3Cpath d='M30 22h2v2h2v2h-2v2h-2v-2h-2v-2h2v-2z' fill='%23FF0000'/%3E%3Crect x='12' y='20' width='2' height='6' fill='%23999'/%3E%3Crect x='15' y='23' width='6' height='2' fill='%23999'/%3E%3C/svg%3E" alt="Games">
+                <span>Games</span>
+            </div>
+            
+            <div class="desktop-icon-item" ondblclick="openMediaPlayer()">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Ccircle cx='24' cy='24' r='20' fill='%23FF6600'/%3E%3Ccircle cx='24' cy='24' r='16' fill='%23FF8C00'/%3E%3Cpath d='M18 16v16l14-8z' fill='%23fff'/%3E%3C/svg%3E" alt="Media Player">
+                <span>Windows Media Player</span>
+            </div>
+        </div>
+
         <!-- Windows -->
         <div class="window" id="home-window" style="display: none;">
             <div class="window-titlebar">
@@ -234,17 +275,17 @@ Best viewed in Internet Explorer 6 😉
                         <input type="text" placeholder="Hello from the past!">
                     </div>
                     <div class="email-body">
-                        <textarea placeholder="Type your message here...
+                        <textarea placeholder="Type your message here...">guys i dont really want to do this anymore. i just want my own separate universe post agi
 
-Remember when email was simple? No fancy HTML, just plain text and maybe an attachment or two.
+honestly, i'm tired of all the complexity and noise. once AGI hits, i just want to retreat to my own little digital world where things make sense again.
 
-Feel free to reach out! I love talking about:
-- Vintage computing
-- Windows XP memories
-- Classic software
-- Retro gaming
+remember when computing was simple? when you could understand your whole system? that's what i want back.
 
-P.S. Don't forget to defrag your hard drive! 😄"></textarea>
+maybe we can build something together in the after times. something pure and uncomplicated.
+
+until then, i'll be here in my XP nostalgia bubble, waiting for the world to make sense again.
+
+- jason</textarea>
                     </div>
                     <div class="email-buttons">
                         <button class="xp-button">Send</button>
