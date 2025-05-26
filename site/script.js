@@ -459,7 +459,7 @@ setTimeout(() => {
         </div>
     `;
     document.body.appendChild(popup);
-}, 10000);
+}, 3000);
 
 // Add the dancing baby easter egg
 let konamiCode = [];
@@ -561,12 +561,11 @@ setTimeout(() => {
     `;
     document.body.appendChild(error);
     playSound('error');
-}, 20000);
+}, 8000);
 
 // Add more nostalgic pop-ups
 const nostalgicPopups = [
     {
-        delay: 15000,
         content: `
             <div class="popup-header">
                 <span>🎰 WINNER WINNER!</span>
@@ -581,7 +580,6 @@ const nostalgicPopups = [
         `
     },
     {
-        delay: 25000,
         content: `
             <div class="popup-header">
                 <span>⚠️ System Alert</span>
@@ -596,7 +594,6 @@ const nostalgicPopups = [
         `
     },
     {
-        delay: 35000,
         content: `
             <div class="popup-header">
                 <span>🎊 Congratulations!</span>
@@ -611,7 +608,6 @@ const nostalgicPopups = [
         `
     },
     {
-        delay: 45000,
         content: `
             <div class="popup-header">
                 <span>💋 Local Singles Alert!</span>
@@ -626,7 +622,6 @@ const nostalgicPopups = [
         `
     },
     {
-        delay: 55000,
         content: `
             <div class="popup-header">
                 <span>🎮 Play Now!</span>
@@ -641,7 +636,6 @@ const nostalgicPopups = [
         `
     },
     {
-        delay: 65000,
         content: `
             <div class="popup-header">
                 <span>📧 You've Got Mail!</span>
@@ -655,7 +649,6 @@ const nostalgicPopups = [
         `
     },
     {
-        delay: 75000,
         content: `
             <div class="popup-header">
                 <span>🏃 Don't Leave Yet!</span>
@@ -673,7 +666,7 @@ const nostalgicPopups = [
 ];
 
 // Schedule all the pop-ups
-nostalgicPopups.forEach(popup => {
+nostalgicPopups.forEach((popup, index) => {
     setTimeout(() => {
         const popupEl = document.createElement('div');
         popupEl.className = 'popup-ad';
@@ -685,7 +678,7 @@ nostalgicPopups.forEach(popup => {
         popupEl.style.left = Math.random() * 50 + 20 + '%';
         
         playSound('ding');
-    }, popup.delay);
+    }, 5000 + (index * 3000));
 });
 
 // Add a toolbar installer popup
@@ -715,7 +708,7 @@ setTimeout(() => {
         </div>
     `;
     document.body.appendChild(toolbar);
-}, 30000);
+}, 12000);
 
 // Add CSS for marquee effect
 const style = document.createElement('style');
