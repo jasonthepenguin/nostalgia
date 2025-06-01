@@ -34,7 +34,7 @@ function openMessenger() {
 
 Your contacts:
 - xXx_DarkAngel_xXx (Away - "brb")
-- ~*PrincessSparkles*~ (Online)
+- Viss Mubbles (Online)
 - Sk8erBoi2003 (Busy - "homework -_-")
 - (L)Joey(L) (Online)
 
@@ -69,11 +69,11 @@ const messengerConversation = [
     { delay: 3500, sender: 'other', text: 'IKR?!?! it was crazyyyyy' },
     { delay: 2000, sender: 'other', text: 'brb mom is calling 4 dinner -_-' },
     { delay: 2500, sender: 'self', text: 'kk ttyl!! <3' },
-    { delay: 1500, sender: 'system', text: '~*PrincessSparkles*~ appears to be offline.' },
+    { delay: 1500, sender: 'system', text: 'Viss Mubbles appears to be offline.' },
     { delay: 10000, sender: 'other', text: 'back!! that took 4everrrr' },
     { delay: 2000, sender: 'other', text: 'r u still there???' },
     { delay: 3000, sender: 'other', text: 'helloooooo????' },
-    { delay: 2000, sender: 'nudge', text: '~*PrincessSparkles*~ just sent you a nudge!' },
+    { delay: 2000, sender: 'nudge', text: 'Viss Mubbles just sent you a nudge!' },
     { delay: 3000, sender: 'self', text: 'sorry was afk!! im here :)' },
     { delay: 2500, sender: 'other', text: 'yayyyy!! wanna play a game?' },
     { delay: 2000, sender: 'self', text: 'sure!! what game?' },
@@ -82,7 +82,7 @@ const messengerConversation = [
     { delay: 4000, sender: 'other', text: 'hmmmm... who do u have a crush on??? :P' },
     { delay: 3000, sender: 'self', text: 'OMG no fair!! thats so hard lol' },
     { delay: 2500, sender: 'other', text: 'u have 2 answer!!! its the rules!! :D' },
-    { delay: 1500, sender: 'typing', text: '~*PrincessSparkles*~ is typing...' }
+    { delay: 1500, sender: 'typing', text: 'Viss Mubbles is typing...' }
 ];
 
 function startMessengerConversation() {
@@ -161,7 +161,7 @@ function addMessage(sender, text) {
             `;
         } else {
             messageDiv.innerHTML = `
-                <span class="sender other msg-color-pink comic-sans">~*PrincessSparkles*~ (${time}) says:</span>
+                <span class="sender other msg-color-pink comic-sans">Viss Mubbles (${time}) says:</span>
                 <div class="text msg-color-purple comic-sans">${processEmoticons(text)}</div>
             `;
         }
