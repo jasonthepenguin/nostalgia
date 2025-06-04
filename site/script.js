@@ -1354,7 +1354,7 @@ setTimeout(() => {
         </div>
     `;
     document.body.appendChild(popup);
-}, 3000);
+}, 15000);
 
 // Add the dancing baby easter egg
 let konamiCode = [];
@@ -1438,7 +1438,7 @@ function startMatrixScreensaver() {
     }, 1000);
 }
 
-// Add Windows error message after 20 seconds
+// Add Windows error message after 45 seconds
 setTimeout(() => {
     const error = document.createElement('div');
     error.className = 'windows-error';
@@ -1456,7 +1456,7 @@ setTimeout(() => {
     `;
     document.body.appendChild(error);
     playSound('error');
-}, 8000);
+}, 45000);
 
 // Add more nostalgic pop-ups
 const nostalgicPopups = [
@@ -1560,7 +1560,7 @@ const nostalgicPopups = [
     }
 ];
 
-// Schedule all the pop-ups
+// Schedule all the pop-ups with less frequency
 nostalgicPopups.forEach((popup, index) => {
     setTimeout(() => {
         const popupEl = document.createElement('div');
@@ -1573,7 +1573,7 @@ nostalgicPopups.forEach((popup, index) => {
         popupEl.style.left = Math.random() * 50 + 20 + '%';
         
         playSound('ding');
-    }, 5000 + (index * 3000));
+    }, 20000 + (index * 15000));
 });
 
 // Add enter key support for messenger
@@ -1614,7 +1614,7 @@ setTimeout(() => {
         </div>
     `;
     document.body.appendChild(toolbar);
-}, 12000);
+}, 60000);
 
 // Add CSS for marquee effect
 const style = document.createElement('style');
