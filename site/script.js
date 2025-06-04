@@ -261,8 +261,690 @@ Visualizations: Enabled 🌈
 Don't forget to rip your CDs at 128kbps!`);
 }
 
-function openPinball() {
-    alert('🎮 3D Pinball for Windows - Space Cadet\\n\\nHigh Scores:\\n1. AAA - 10,000,000\\n2. YOU - 5,432,100\\n3. MOM - 1,234,567\\n\\nPress SPACE to launch ball!');
+// Pinball Game Variables
+let pinballCanvas, pinballCtx;
+let pinballInitialized = false;
+let pinballAnimationId = null;
+
+// Game state
+const pinballGame = {
+    ball: {
+        x: 470,
+        y: 650,
+        vx: 0,
+        vy: 0,
+        radius: 8,
+        launched: false
+    },
+    flippers: {
+        left: {
+            angle: 0,
+            targetAngle: 0,
+            x: 150,
+            y: 600,
+            length: 60,
+            maxAngle: 45
+        },
+        right: {
+            angle: 0,
+            targetAngle: 0,
+            x: 350,
+            y: 600,
+            length: 60,
+            maxAngle: -45
+        }
+    },
+    score: 0,
+    highScore: 1000000,
+    balls: 3,
+    currentBall: 1,
+    gravity: 0.2,  // Reduced gravity for better gameplay
+    friction: 0.998,  // Less friction for smoother ball movement
+    bumpers: [],
+    targets: [],
+    lights: [],
+    lastTime: 0,
+    keys: {}
+};
+
+// Initialize pinball game
+function initPinballGame() {
+    if (pinballInitialized) return;
+    
+    pinballCanvas = document.getElementById('pinball-canvas');
+    if (!pinballCanvas) return;
+    
+    pinballCtx = pinballCanvas.getContext('2d');
+    pinballInitialized = true;
+    
+    // Create game objects
+    createPinballObjects();
+    
+    // Set up event listeners
+    setupPinballControls();
+    
+    // Start game loop
+    startPinballGame();
+}
+
+function createPinballObjects() {
+    // Create bumpers
+    pinballGame.bumpers = [
+        { x: 150, y: 200, radius: 25, color: '#FFD700', hits: 0, value: 100 },
+        { x: 250, y: 150, radius: 25, color: '#FF1493', hits: 0, value: 100 },
+        { x: 350, y: 200, radius: 25, color: '#00CED1', hits: 0, value: 100 },
+        { x: 200, y: 280, radius: 20, color: '#7FFF00', hits: 0, value: 50 },
+        { x: 300, y: 280, radius: 20, color: '#FF6347', hits: 0, value: 50 }
+    ];
+    
+    // Create targets
+    pinballGame.targets = [
+        { x: 100, y: 350, width: 30, height: 10, hit: false, value: 25 },
+        { x: 150, y: 350, width: 30, height: 10, hit: false, value: 25 },
+        { x: 200, y: 350, width: 30, height: 10, hit: false, value: 25 },
+        { x: 270, y: 350, width: 30, height: 10, hit: false, value: 25 },
+        { x: 320, y: 350, width: 30, height: 10, hit: false, value: 25 },
+        { x: 370, y: 350, width: 30, height: 10, hit: false, value: 25 }
+    ];
+    
+    // Create lights
+    pinballGame.lights = [
+        { x: 100, y: 100, radius: 5, on: false },
+        { x: 400, y: 100, radius: 5, on: false },
+        { x: 100, y: 500, radius: 5, on: false },
+        { x: 400, y: 500, radius: 5, on: false }
+    ];
+}
+
+function setupPinballControls() {
+    // Keyboard controls
+    document.addEventListener('keydown', (e) => {
+        pinballGame.keys[e.key] = true;
+        
+        // Prevent default for game keys
+        if (['z', 'Z', '/', ' ', 'ArrowUp', 'x', 'X', '.'].includes(e.key)) {
+            e.preventDefault();
+        }
+    });
+    
+    document.addEventListener('keyup', (e) => {
+        pinballGame.keys[e.key] = false;
+    });
+    
+    // Clean up when window closes
+    const pinballWindow = document.getElementById('pinball-window');
+    if (pinballWindow) {
+        const closeBtn = pinballWindow.querySelector('.window-close');
+        const originalClose = closeBtn.onclick;
+        closeBtn.onclick = function() {
+            stopPinballGame();
+            if (originalClose) originalClose.call(this);
+        };
+    }
+}
+
+function startPinballGame() {
+    if (pinballAnimationId) return;
+    
+    pinballGame.lastTime = performance.now();
+    gameLoop();
+}
+
+function stopPinballGame() {
+    if (pinballAnimationId) {
+        cancelAnimationFrame(pinballAnimationId);
+        pinballAnimationId = null;
+    }
+}
+
+function gameLoop(currentTime) {
+    const deltaTime = Math.min((currentTime - pinballGame.lastTime) / 16.67, 2);
+    pinballGame.lastTime = currentTime;
+    
+    updatePinball(deltaTime);
+    renderPinball();
+    
+    pinballAnimationId = requestAnimationFrame(gameLoop);
+}
+
+function updatePinball(dt) {
+    const { ball, flippers, keys } = pinballGame;
+    
+    // Handle input
+    if (keys[' '] && !ball.launched && ball.x > 460) {
+        ball.launched = true;
+        ball.vy = -25;  // Increased launch power
+        ball.vx = -3 + (Math.random() * 2);  // Slight leftward bias to get onto the table
+    }
+    
+    // Update flippers
+    flippers.left.targetAngle = (keys['z'] || keys['Z']) ? flippers.left.maxAngle : 0;
+    flippers.right.targetAngle = (keys['/']) ? flippers.right.maxAngle : 0;
+    
+    // Animate flippers
+    flippers.left.angle += (flippers.left.targetAngle - flippers.left.angle) * 0.3;
+    flippers.right.angle += (flippers.right.targetAngle - flippers.right.angle) * 0.3;
+    
+    // Handle nudging
+    if (keys['x'] || keys['X']) {
+        ball.vx -= 0.5;
+    }
+    if (keys['.']) {
+        ball.vx += 0.5;
+    }
+    if (keys['ArrowUp']) {
+        ball.vy -= 0.5;
+    }
+    
+    // Update ball physics
+    if (ball.launched) {
+        ball.vy += pinballGame.gravity * dt;
+        ball.vx *= pinballGame.friction;
+        ball.vy *= pinballGame.friction;
+        
+        ball.x += ball.vx * dt;
+        ball.y += ball.vy * dt;
+        
+        // Check collisions
+        checkWallCollisions();
+        checkBumperCollisions();
+        checkTargetCollisions();
+        checkFlipperCollisions();
+        
+        // Check if ball is lost
+        if (ball.y > pinballCanvas.height + 50) {
+            lostBall();
+        }
+    }
+    
+    // Update UI
+    document.getElementById('pinball-score').textContent = pinballGame.score;
+    document.getElementById('pinball-ball').textContent = pinballGame.currentBall;
+    document.getElementById('balls-remaining').textContent = pinballGame.balls;
+}
+
+function checkWallCollisions() {
+    const { ball } = pinballGame;
+    
+    // Launch chute exit - guide ball onto table
+    if (ball.launched && ball.x > 440 && ball.y < 100) {
+        // Push ball left onto the table
+        ball.vx = -8;
+        ball.vy = 2;
+    }
+    
+    // Side walls
+    if (ball.x - ball.radius < 50) {
+        ball.x = 50 + ball.radius;
+        ball.vx *= -0.8;
+        addScore(10);
+    } else if (ball.x + ball.radius > 450 && ball.y > 100) {
+        // Only bounce off right wall if not in launch area
+        ball.x = 450 - ball.radius;
+        ball.vx *= -0.8;
+        addScore(10);
+    }
+    
+    // Top wall
+    if (ball.y - ball.radius < 0) {
+        ball.y = ball.radius;
+        ball.vy *= -0.8;
+    }
+    
+    // Keep ball in launch chute before launch
+    if (!ball.launched && ball.x > 460) {
+        if (ball.y - ball.radius < 0) {
+            ball.y = ball.radius;
+            ball.vy = 0;
+        }
+        if (ball.x > 480) {
+            ball.x = 480;
+            ball.vx = 0;
+        }
+    }
+}
+
+function checkBumperCollisions() {
+    const { ball, bumpers } = pinballGame;
+    
+    bumpers.forEach(bumper => {
+        const dx = ball.x - bumper.x;
+        const dy = ball.y - bumper.y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+        
+        if (distance < ball.radius + bumper.radius) {
+            // Calculate bounce
+            const angle = Math.atan2(dy, dx);
+            const speed = Math.sqrt(ball.vx * ball.vx + ball.vy * ball.vy);
+            
+            ball.vx = Math.cos(angle) * speed * 1.5;
+            ball.vy = Math.sin(angle) * speed * 1.5;
+            
+            // Move ball outside bumper
+            const overlap = ball.radius + bumper.radius - distance;
+            ball.x += Math.cos(angle) * overlap;
+            ball.y += Math.sin(angle) * overlap;
+            
+            // Score and effects
+            addScore(bumper.value);
+            bumper.hits++;
+            flashBumper(bumper);
+            playPinballSound('bumper');
+        }
+    });
+}
+
+function checkTargetCollisions() {
+    const { ball, targets } = pinballGame;
+    
+    targets.forEach(target => {
+        if (!target.hit &&
+            ball.x + ball.radius > target.x &&
+            ball.x - ball.radius < target.x + target.width &&
+            ball.y + ball.radius > target.y &&
+            ball.y - ball.radius < target.y + target.height) {
+            
+            target.hit = true;
+            addScore(target.value);
+            ball.vy *= -0.8;
+            
+            // Check if all targets hit
+            if (targets.every(t => t.hit)) {
+                targets.forEach(t => t.hit = false);
+                addScore(500);
+                flashLights();
+            }
+        }
+    });
+}
+
+function checkFlipperCollisions() {
+    const { ball, flippers } = pinballGame;
+    
+    // Check left flipper
+    checkSingleFlipperCollision(flippers.left, 1);
+    
+    // Check right flipper
+    checkSingleFlipperCollision(flippers.right, -1);
+}
+
+function checkSingleFlipperCollision(flipper, direction) {
+    const { ball } = pinballGame;
+    
+    // Convert flipper angle to radians
+    const angleRad = (flipper.angle * Math.PI) / 180;
+    
+    // Flipper end position
+    let endX, endY;
+    if (direction === 1) {
+        // Left flipper
+        endX = flipper.x + Math.cos(angleRad) * flipper.length;
+        endY = flipper.y - Math.sin(angleRad) * flipper.length;
+    } else {
+        // Right flipper - mirror horizontally
+        endX = flipper.x - Math.cos(angleRad) * flipper.length;
+        endY = flipper.y - Math.sin(angleRad) * flipper.length;
+    }
+    
+    // Check collision with flipper line
+    const dist = pointToLineDistance(ball.x, ball.y, flipper.x, flipper.y, endX, endY);
+    
+    if (dist < ball.radius) {
+        // Calculate flipper velocity
+        const flipperVelocity = (flipper.targetAngle - flipper.angle) * 0.5;
+        
+        // Calculate bounce angle
+        const normal = Math.atan2(endY - flipper.y, endX - flipper.x) + Math.PI / 2;
+        const speed = Math.sqrt(ball.vx * ball.vx + ball.vy * ball.vy);
+        
+        ball.vx = Math.cos(normal) * (speed + Math.abs(flipperVelocity)) * 1.2;
+        ball.vy = Math.sin(normal) * (speed + Math.abs(flipperVelocity)) * -1.2;
+        
+        // Move ball outside flipper
+        ball.y = Math.min(ball.y, flipper.y - ball.radius);
+        
+        addScore(10);
+        playPinballSound('flipper');
+    }
+}
+
+function pointToLineDistance(px, py, x1, y1, x2, y2) {
+    const A = px - x1;
+    const B = py - y1;
+    const C = x2 - x1;
+    const D = y2 - y1;
+    
+    const dot = A * C + B * D;
+    const lenSq = C * C + D * D;
+    let param = -1;
+    
+    if (lenSq !== 0) {
+        param = dot / lenSq;
+    }
+    
+    let xx, yy;
+    
+    if (param < 0) {
+        xx = x1;
+        yy = y1;
+    } else if (param > 1) {
+        xx = x2;
+        yy = y2;
+    } else {
+        xx = x1 + param * C;
+        yy = y1 + param * D;
+    }
+    
+    const dx = px - xx;
+    const dy = py - yy;
+    
+    return Math.sqrt(dx * dx + dy * dy);
+}
+
+function lostBall() {
+    const { ball } = pinballGame;
+    
+    ball.x = 470;
+    ball.y = 650;
+    ball.vx = 0;
+    ball.vy = 0;
+    ball.launched = false;
+    
+    pinballGame.balls--;
+    pinballGame.currentBall++;
+    
+    if (pinballGame.balls <= 0) {
+        gameOver();
+    }
+}
+
+function gameOver() {
+    stopPinballGame();
+    
+    if (pinballGame.score > pinballGame.highScore) {
+        pinballGame.highScore = pinballGame.score;
+        document.getElementById('pinball-highscore').textContent = pinballGame.highScore;
+        alert(`🏆 NEW HIGH SCORE! ${pinballGame.score} points!`);
+    } else {
+        alert(`Game Over!\nFinal Score: ${pinballGame.score}`);
+    }
+    
+    // Reset game
+    pinballGame.score = 0;
+    pinballGame.balls = 3;
+    pinballGame.currentBall = 1;
+    pinballGame.ball.x = 470;
+    pinballGame.ball.y = 650;
+    pinballGame.ball.vx = 0;
+    pinballGame.ball.vy = 0;
+    pinballGame.ball.launched = false;
+    
+    startPinballGame();
+}
+
+function addScore(points) {
+    pinballGame.score += points;
+}
+
+function flashBumper(bumper) {
+    const originalColor = bumper.color;
+    bumper.color = '#FFFFFF';
+    setTimeout(() => {
+        bumper.color = originalColor;
+    }, 100);
+}
+
+function flashLights() {
+    pinballGame.lights.forEach(light => {
+        light.on = true;
+        setTimeout(() => {
+            light.on = false;
+        }, 500);
+    });
+}
+
+function playPinballSound(type) {
+    // Simple sound effect simulation
+    const audio = new Audio();
+    audio.volume = 0.3;
+    
+    switch(type) {
+        case 'bumper':
+        case 'flipper':
+            audio.src = 'data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAAA=';
+            break;
+    }
+    
+    audio.play().catch(() => {});
+}
+
+function renderPinball() {
+    const ctx = pinballCtx;
+    const canvas = pinballCanvas;
+    
+    // Clear canvas
+    ctx.fillStyle = 'linear-gradient(to bottom, #2d1b69 0%, #1a0f3d 100%)';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    
+    // Draw table gradient
+    const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+    gradient.addColorStop(0, '#2d1b69');
+    gradient.addColorStop(0.5, '#251553');
+    gradient.addColorStop(1, '#1a0f3d');
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    
+    // Draw walls
+    ctx.strokeStyle = '#444';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(50, 0);
+    ctx.lineTo(50, canvas.height);
+    ctx.moveTo(450, 0);
+    ctx.lineTo(450, 600);
+    ctx.stroke();
+    
+    // Draw launch chute
+    ctx.strokeStyle = '#666';
+    ctx.beginPath();
+    ctx.moveTo(460, 0);
+    ctx.lineTo(460, canvas.height);
+    ctx.moveTo(490, 0);
+    ctx.lineTo(490, canvas.height);
+    ctx.stroke();
+    
+    // Draw launch chute exit ramp
+    ctx.fillStyle = '#FFD700';
+    ctx.beginPath();
+    ctx.moveTo(440, 80);
+    ctx.lineTo(460, 60);
+    ctx.lineTo(460, 100);
+    ctx.lineTo(440, 100);
+    ctx.closePath();
+    ctx.fill();
+    ctx.strokeStyle = '#000';
+    ctx.stroke();
+    
+    // Draw targets
+    pinballGame.targets.forEach(target => {
+        ctx.fillStyle = target.hit ? '#333' : '#FFD700';
+        ctx.fillRect(target.x, target.y, target.width, target.height);
+        ctx.strokeStyle = '#000';
+        ctx.strokeRect(target.x, target.y, target.width, target.height);
+    });
+    
+    // Draw bumpers
+    pinballGame.bumpers.forEach(bumper => {
+        // Bumper shadow
+        ctx.beginPath();
+        ctx.arc(bumper.x + 2, bumper.y + 2, bumper.radius, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.3)';
+        ctx.fill();
+        
+        // Bumper body
+        ctx.beginPath();
+        ctx.arc(bumper.x, bumper.y, bumper.radius, 0, Math.PI * 2);
+        const bumperGradient = ctx.createRadialGradient(
+            bumper.x - bumper.radius/3, bumper.y - bumper.radius/3, 0,
+            bumper.x, bumper.y, bumper.radius
+        );
+        bumperGradient.addColorStop(0, bumper.color);
+        bumperGradient.addColorStop(1, shadeColor(bumper.color, -40));
+        ctx.fillStyle = bumperGradient;
+        ctx.fill();
+        ctx.strokeStyle = '#000';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+    });
+    
+    // Draw lights
+    pinballGame.lights.forEach(light => {
+        ctx.beginPath();
+        ctx.arc(light.x, light.y, light.radius, 0, Math.PI * 2);
+        ctx.fillStyle = light.on ? '#FFFF00' : '#444';
+        ctx.fill();
+        if (light.on) {
+            ctx.shadowBlur = 20;
+            ctx.shadowColor = '#FFFF00';
+            ctx.fill();
+            ctx.shadowBlur = 0;
+        }
+    });
+    
+    // Draw flippers
+    drawFlipper(pinballGame.flippers.left, 1);
+    drawFlipper(pinballGame.flippers.right, -1);
+    
+    // Draw ball
+    const { ball } = pinballGame;
+    
+    // Ball shadow
+    ctx.beginPath();
+    ctx.arc(ball.x + 2, ball.y + 2, ball.radius, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.3)';
+    ctx.fill();
+    
+    // Ball body
+    ctx.beginPath();
+    ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
+    const ballGradient = ctx.createRadialGradient(
+        ball.x - ball.radius/3, ball.y - ball.radius/3, 0,
+        ball.x, ball.y, ball.radius
+    );
+    ballGradient.addColorStop(0, '#E0E0E0');
+    ballGradient.addColorStop(0.5, '#C0C0C0');
+    ballGradient.addColorStop(1, '#808080');
+    ctx.fillStyle = ballGradient;
+    ctx.fill();
+    ctx.strokeStyle = '#000';
+    ctx.lineWidth = 1;
+    ctx.stroke();
+    
+    // Draw table details
+    drawTableDetails();
+}
+
+function drawFlipper(flipper, direction) {
+    const ctx = pinballCtx;
+    const angleRad = (flipper.angle * Math.PI) / 180;
+    
+    ctx.save();
+    ctx.translate(flipper.x, flipper.y);
+    
+    if (direction === 1) {
+        // Left flipper
+        ctx.rotate(angleRad);
+        ctx.beginPath();
+        ctx.moveTo(0, 0);
+        ctx.lineTo(flipper.length, -5);
+        ctx.lineTo(flipper.length, 5);
+        ctx.closePath();
+    } else {
+        // Right flipper - mirror horizontally
+        ctx.scale(-1, 1);
+        ctx.rotate(-angleRad);
+        ctx.beginPath();
+        ctx.moveTo(0, 0);
+        ctx.lineTo(flipper.length, -5);
+        ctx.lineTo(flipper.length, 5);
+        ctx.closePath();
+    }
+    
+    const flipperGradient = ctx.createLinearGradient(0, -5, 0, 5);
+    flipperGradient.addColorStop(0, '#C0C0C0');
+    flipperGradient.addColorStop(0.5, '#E0E0E0');
+    flipperGradient.addColorStop(1, '#A0A0A0');
+    
+    ctx.fillStyle = flipperGradient;
+    ctx.fill();
+    ctx.strokeStyle = '#000';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+    
+    // Flipper pivot
+    ctx.beginPath();
+    ctx.arc(0, 0, 8, 0, Math.PI * 2);
+    ctx.fillStyle = '#666';
+    ctx.fill();
+    ctx.strokeStyle = '#000';
+    ctx.stroke();
+    
+    ctx.restore();
+}
+
+function drawTableDetails() {
+    const ctx = pinballCtx;
+    
+    // Draw score multiplier areas
+    ctx.font = 'bold 16px Arial';
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
+    ctx.textAlign = 'center';
+    
+    ctx.fillText('2X', 125, 250);
+    ctx.fillText('3X', 250, 200);
+    ctx.fillText('5X', 375, 250);
+    
+    // Draw arrows
+    drawArrow(100, 400, 150, 380, '#00FF00');
+    drawArrow(400, 400, 350, 380, '#00FF00');
+    
+    // Draw launch instructions
+    if (!pinballGame.ball.launched) {
+        ctx.font = 'bold 14px Arial';
+        ctx.fillStyle = '#FFD700';
+        ctx.textAlign = 'center';
+        ctx.fillText('PRESS', 475, 300);
+        ctx.fillText('SPACE', 475, 320);
+        ctx.fillText('TO', 475, 340);
+        ctx.fillText('LAUNCH', 475, 360);
+    }
+}
+
+function drawArrow(x1, y1, x2, y2, color) {
+    const ctx = pinballCtx;
+    const headlen = 10;
+    const angle = Math.atan2(y2 - y1, x2 - x1);
+    
+    ctx.strokeStyle = color;
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.moveTo(x1, y1);
+    ctx.lineTo(x2, y2);
+    ctx.lineTo(x2 - headlen * Math.cos(angle - Math.PI / 6), y2 - headlen * Math.sin(angle - Math.PI / 6));
+    ctx.moveTo(x2, y2);
+    ctx.lineTo(x2 - headlen * Math.cos(angle + Math.PI / 6), y2 - headlen * Math.sin(angle + Math.PI / 6));
+    ctx.stroke();
+}
+
+function shadeColor(color, percent) {
+    const num = parseInt(color.replace('#', ''), 16);
+    const amt = Math.round(2.55 * percent);
+    const R = (num >> 16) + amt;
+    const G = (num >> 8 & 0x00FF) + amt;
+    const B = (num & 0x0000FF) + amt;
+    return '#' + (0x1000000 + (R < 255 ? R < 1 ? 0 : R : 255) * 0x10000 +
+        (G < 255 ? G < 1 ? 0 : G : 255) * 0x100 +
+        (B < 255 ? B < 1 ? 0 : B : 255)).toString(16).slice(1);
 }
 
 function showClippy() {
@@ -351,7 +1033,7 @@ const startMenuHTML = `
                 <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='%23FF6600'/%3E%3Cpath d='M12 10v12l10-6z' fill='%23fff'/%3E%3C/svg%3E" alt="Media Player">
                 <span>Windows Media Player</span>
             </div>
-            <div class="start-menu-item" onclick="openPinball()">
+            <div class="start-menu-item" onclick="showWindow('pinball-window'); initPinballGame()">
                 <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='4' y='4' width='24' height='24' fill='%234B0082'/%3E%3Ccircle cx='16' cy='16' r='4' fill='%23C0C0C0'/%3E%3Ccircle cx='10' cy='10' r='2' fill='%23FFD700'/%3E%3Ccircle cx='22' cy='10' r='2' fill='%23FF1493'/%3E%3C/svg%3E" alt="Pinball">
                 <span>3D Pinball</span>
             </div>
