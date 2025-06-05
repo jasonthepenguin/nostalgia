@@ -1478,3 +1478,30 @@ body.loading {
     33% { content: '..'; }
     66% { content: '...'; }
 }
+
+/* Cat Rain Styles */
+#cat-rain-container {
+    overflow: hidden;
+}
+
+.falling-cat {
+    user-select: none;
+    -webkit-user-drag: element;
+    will-change: transform, top;
+}
+
+.falling-cat:active {
+    cursor: grabbing !important;
+}
+
+/* Cat bounce animation when landing */
+@keyframes catBounce {
+    0% { transform: scaleY(1); }
+    30% { transform: scaleY(0.8) scaleX(1.1); }
+    60% { transform: scaleY(1.1) scaleX(0.9); }
+    100% { transform: scaleY(1) scaleX(1); }
+}
+
+.falling-cat[data-landed="true"] {
+    animation: catBounce 0.5s ease-out;
+}

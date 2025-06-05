@@ -1626,6 +1626,172 @@ style.textContent = `
 `;
 document.head.appendChild(style);
 
+// Cat Rain Variables
+let catRainActive = false;
+let catRainInterval = null;
+const activeCats = [];
+
+// Start Cat Rain
+function startCatRain() {
+    if (catRainActive) return;
+    
+    catRainActive = true;
+    
+    // Create cat rain container
+    const catRainContainer = document.createElement('div');
+    catRainContainer.id = 'cat-rain-container';
+    catRainContainer.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 9998;
+    `;
+    document.body.appendChild(catRainContainer);
+    
+    // Start dropping cats
+    catRainInterval = setInterval(() => {
+        createFallingCat();
+    }, 300); // Drop a cat every 300ms
+    
+    // Stop after 30 seconds to prevent too many cats
+    setTimeout(() => {
+        stopCatRain();
+    }, 30000);
+}
+
+function createFallingCat() {
+    const catRainContainer = document.getElementById('cat-rain-container');
+    if (!catRainContainer) return;
+    
+    const cat = document.createElement('div');
+    cat.className = 'falling-cat';
+    cat.draggable = true;
+    
+    // Random horizontal position
+    const startX = Math.random() * window.innerWidth;
+    const rotation = Math.random() * 360;
+    const size = 40 + Math.random() * 40; // 40-80px
+    
+    // Randomly choose between jimmy.png and cat.png
+    const catImage = Math.random() < 0.5 ? 'jimmy.png' : 'cat.png';
+    
+    cat.style.cssText = `
+        position: absolute;
+        left: ${startX}px;
+        top: -100px;
+        width: ${size}px;
+        height: ${size}px;
+        background-image: url('${catImage}');
+        background-size: contain;
+        background-repeat: no-repeat;
+        cursor: grab;
+        pointer-events: auto;
+        transform: rotate(${rotation}deg);
+        transition: none;
+    `;
+    
+    // Add drag handlers
+    cat.addEventListener('dragstart', handleCatDragStart);
+    cat.addEventListener('drag', handleCatDrag);
+    cat.addEventListener('dragend', handleCatDragEnd);
+    cat.addEventListener('mousedown', () => {
+        cat.style.cursor = 'grabbing';
+        playMeow();
+    });
+    cat.addEventListener('mouseup', () => {
+        cat.style.cursor = 'grab';
+    });
+    
+    catRainContainer.appendChild(cat);
+    activeCats.push(cat);
+    
+    // Animate falling
+    animateFallingCat(cat);
+}
+
+function animateFallingCat(cat) {
+    let posY = -100;
+    const speed = 2 + Math.random() * 3; // 2-5 pixels per frame
+    const swayAmount = Math.random() * 2 - 1; // -1 to 1
+    let swayX = 0;
+    
+    const fallInterval = setInterval(() => {
+        posY += speed;
+        swayX += swayAmount;
+        
+        // Add some sway
+        cat.style.top = `${posY}px`;
+        cat.style.transform = `translateX(${Math.sin(swayX * 0.05) * 20}px) rotate(${parseFloat(cat.style.transform.match(/rotate\(([^)]+)deg\)/)[1]) + 2}deg)`;
+        
+        // Check if cat hit the bottom
+        if (posY >= window.innerHeight - 100) {
+            clearInterval(fallInterval);
+            cat.style.top = `${window.innerHeight - 100}px`;
+            // Remove fall animation, cat stays at bottom
+            cat.dataset.landed = 'true';
+        }
+    }, 16); // ~60fps
+    
+    cat.dataset.fallInterval = fallInterval;
+}
+
+function handleCatDragStart(e) {
+    const cat = e.target;
+    cat.style.opacity = '0.8';
+    e.dataTransfer.effectAllowed = 'move';
+    e.dataTransfer.setDragImage(cat, e.offsetX, e.offsetY);
+    
+    // Stop falling animation if still falling
+    if (cat.dataset.fallInterval) {
+        clearInterval(parseInt(cat.dataset.fallInterval));
+    }
+    
+    playMeow();
+}
+
+function handleCatDrag(e) {
+    if (e.clientX === 0 && e.clientY === 0) return; // Drag ended
+    
+    const cat = e.target;
+    cat.style.left = `${e.clientX - cat.offsetWidth / 2}px`;
+    cat.style.top = `${e.clientY - cat.offsetHeight / 2}px`;
+}
+
+function handleCatDragEnd(e) {
+    const cat = e.target;
+    cat.style.opacity = '1';
+    
+    // Update final position
+    if (e.clientX !== 0 || e.clientY !== 0) {
+        cat.style.left = `${e.clientX - cat.offsetWidth / 2}px`;
+        cat.style.top = `${e.clientY - cat.offsetHeight / 2}px`;
+    }
+}
+
+function playMeow() {
+    const audio = new Audio('meow.mp3');
+    audio.volume = 0.5;
+    audio.playbackRate = 0.8 + Math.random() * 0.4; // Vary pitch
+    audio.play().catch(() => {
+        // If meow.mp3 doesn't exist, use a fallback sound
+        const fallbackAudio = new Audio();
+        fallbackAudio.src = 'data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQoGAAA=';
+        fallbackAudio.volume = 0.3;
+        fallbackAudio.play().catch(() => {});
+    });
+}
+
+function stopCatRain() {
+    catRainActive = false;
+    if (catRainInterval) {
+        clearInterval(catRainInterval);
+        catRainInterval = null;
+    }
+}
+
 // Paint Application
 let paintInitialized = false;
 let paintCanvas, paintCtx;
