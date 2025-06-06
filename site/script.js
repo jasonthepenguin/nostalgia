@@ -47,6 +47,9 @@ Send a nudge?`);
 function openMessengerWindow() {
     showWindow('messenger-window');
     startMessengerConversation();
+    const audio = new Audio('message.mp3');
+    audio.volume = 0.5;
+    audio.play().catch(() => { /* Fail silently */ });
 }
 
 let messengerTimeout;
