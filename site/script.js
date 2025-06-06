@@ -2111,44 +2111,44 @@ function startFreeMeGame() {
 
     document.body.classList.add('free-me-game-active');
     
-    const recycleBin = document.getElementById('recycle-bin-icon');
     const desktop = document.querySelector('.desktop');
     const allIcons = document.querySelectorAll('.desktop-icon-item');
     gameIcons = [];
     originalIconPositions.clear();
     const initialRects = new Map();
 
+    // First, get all initial positions before changing anything
     allIcons.forEach(icon => {
         initialRects.set(icon, icon.getBoundingClientRect());
     });
 
-    if (recycleBin) {
-        recycleBin.style.display = 'none';
-    }
-
     const startTime = performance.now();
 
+    // Now, reposition all icons and set up game icons
     allIcons.forEach(icon => {
-        if (icon.id !== 'free-me-icon' && icon.id !== 'recycle-bin-icon') {
-            const rect = initialRects.get(icon);
-            originalIconPositions.set(icon, {
-                position: icon.style.position,
-                top: icon.style.top,
-                left: icon.style.left,
-                zIndex: icon.style.zIndex,
-                display: window.getComputedStyle(icon).display,
-                parent: icon.parentElement,
-                nextSibling: icon.nextSibling
-            });
+        const rect = initialRects.get(icon);
+        // Save original state so we can restore it
+        originalIconPositions.set(icon, {
+            position: icon.style.position,
+            top: icon.style.top,
+            left: icon.style.left,
+            zIndex: icon.style.zIndex,
+            display: window.getComputedStyle(icon).display,
+            parent: icon.parentElement,
+            nextSibling: icon.nextSibling
+        });
 
-            desktop.appendChild(icon);
+        // Move icon out of flex container and position it absolutely
+        desktop.appendChild(icon);
+        icon.style.position = 'absolute';
+        icon.style.top = `${rect.top}px`;
+        icon.style.left = `${rect.left}px`;
+        icon.style.zIndex = 1000;
+        icon.style.display = 'flex';
 
-            icon.style.position = 'absolute';
-            icon.style.top = `${rect.top}px`;
-            icon.style.left = `${rect.left}px`;
-            icon.style.zIndex = 1000;
-            icon.style.display = 'flex';
-            
+        if (icon.id === 'recycle-bin-icon') {
+            icon.style.display = 'none'; // Hide the recycle bin during the game
+        } else if (icon.id !== 'free-me-icon') {
             icon.addEventListener('click', trashIcon);
             gameIcons.push(icon);
             // Give each icon a random "head start" on its shooting timer to stagger the shots.
@@ -2210,6 +2210,18 @@ function stopFreeMeGame() {
     
     const audio = new Audio('congrats.mp3');
     audio.play().catch(() => { /* Fail silently */ });
+
+    if (freeMeIcon) {
+        const iconNameSpan = freeMeIcon.querySelector('span');
+        if (iconNameSpan) {
+            setTimeout(() => {
+                iconNameSpan.textContent = 'fuck.exe';
+                setTimeout(() => {
+                    iconNameSpan.textContent = 'free_me.exe';
+                }, 3000);
+            }, 3000);
+        }
+    }
 }
 
 function trackMouseForGame(e) {
