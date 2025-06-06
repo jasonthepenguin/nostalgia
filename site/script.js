@@ -2088,6 +2088,7 @@ let projectiles = [];
 let gameLoopId = null;
 let mousePos = { x: 0, y: 0 };
 let lastShotTimes = new Map();
+let freeMeFlickerInterval = null;
 
 function startFreeMeGame() {
     if (freeMeGameActive) return;
@@ -2095,7 +2096,17 @@ function startFreeMeGame() {
 
     const freeMeIcon = document.getElementById('free-me-icon');
     if (freeMeIcon) {
-        freeMeIcon.querySelector('img').src = 'stick_2.png';
+        const img = freeMeIcon.querySelector('img');
+        if (freeMeFlickerInterval) clearInterval(freeMeFlickerInterval);
+
+        img.src = 'stick_2.png';
+        freeMeFlickerInterval = setInterval(() => {
+            if (img.src.endsWith('stick_2.png')) {
+                img.src = 'stick_3.png';
+            } else {
+                img.src = 'stick_2.png';
+            }
+        }, 500);
     }
 
     document.body.classList.add('free-me-game-active');
@@ -2155,6 +2166,11 @@ function stopFreeMeGame() {
     if (gameLoopId) {
         cancelAnimationFrame(gameLoopId);
         gameLoopId = null;
+    }
+
+    if (freeMeFlickerInterval) {
+        clearInterval(freeMeFlickerInterval);
+        freeMeFlickerInterval = null;
     }
 
     const freeMeIcon = document.getElementById('free-me-icon');
