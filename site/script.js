@@ -2221,21 +2221,72 @@ function freeMeGameLoop(timestamp) {
         return;
     }
 
-    gameIcons.forEach(icon => {
-        const rect = icon.getBoundingClientRect();
+    // Read all icon positions at once to avoid performance issues from reading in a loop.
+    const iconRects = gameIcons.map(icon => icon.getBoundingClientRect());
+
+    // Calculate the movement for each icon based on all forces (attraction to mouse, repulsion from others).
+    const movements = gameIcons.map((icon, i) => {
+        const rect = iconRects[i];
         const iconCenterX = rect.left + rect.width / 2;
         const iconCenterY = rect.top + rect.height / 2;
 
-        const dx = mousePos.x - iconCenterX;
-        const dy = mousePos.y - iconCenterY;
-        const distance = Math.sqrt(dx * dx + dy * dy);
-
+        let moveX = 0;
+        let moveY = 0;
         const speed = 1;
+        const repulsionStrength = 1.5;
 
-        if (distance > 50) {
-             icon.style.left = `${rect.left + (dx / distance) * speed}px`;
-             icon.style.top = `${rect.top + (dy / distance) * speed}px`;
+        // Attraction force towards the mouse cursor.
+        const dxMouse = mousePos.x - iconCenterX;
+        const dyMouse = mousePos.y - iconCenterY;
+        const distanceMouse = Math.sqrt(dxMouse * dxMouse + dyMouse * dyMouse);
+
+        if (distanceMouse > 50) {
+            moveX += (dxMouse / distanceMouse) * speed;
+            moveY += (dyMouse / distanceMouse) * speed;
         }
+
+        // Repulsion force from other icons to prevent them from colliding.
+        gameIcons.forEach((otherIcon, j) => {
+            if (i === j) return;
+
+            const otherRect = iconRects[j];
+            const otherCenterX = otherRect.left + otherRect.width / 2;
+            const otherCenterY = otherRect.top + otherRect.height / 2;
+
+            const rdx = iconCenterX - otherCenterX;
+            const rdy = iconCenterY - otherCenterY;
+            const rDist = Math.sqrt(rdx * rdx + rdy * rdy);
+            
+            // Treat icons as circles for collision, using an average of width and height for the radius.
+            const radius1 = (rect.width + rect.height) / 4;
+            const radius2 = (otherRect.width + otherRect.height) / 4;
+            const minAllowedDist = radius1 + radius2;
+
+            if (rDist < minAllowedDist) {
+                const overlap = minAllowedDist - rDist;
+                if (rDist > 0) {
+                    // The force is proportional to the overlap and pushes icons away from each other.
+                    const repulsionForce = (overlap / rDist) * repulsionStrength;
+                    moveX += rdx * repulsionForce;
+                    moveY += rdy * repulsionForce;
+                } else {
+                    // If icons are perfectly overlapped, push them apart randomly.
+                    moveX += (Math.random() - 0.5) * repulsionStrength;
+                    moveY += (Math.random() - 0.5) * repulsionStrength;
+                }
+            }
+        });
+        return { moveX, moveY };
+    });
+    
+    // Apply new positions and handle the shooting logic.
+    gameIcons.forEach((icon, i) => {
+        const rect = iconRects[i];
+        icon.style.left = `${rect.left + movements[i].moveX}px`;
+        icon.style.top = `${rect.top + movements[i].moveY}px`;
+        
+        const iconCenterX = rect.left + rect.width / 2;
+        const iconCenterY = rect.top + rect.height / 2;
         
         const shootInterval = 2000 + Math.random() * 3000;
         if (timestamp - (lastShotTimes.get(icon) || 0) > shootInterval) {
@@ -2280,6 +2331,6 @@ function createFlame(startX, startY, targetX, targetY) {
     document.querySelector('.desktop').appendChild(flame);
 
     const audio = new Audio('fire.mp3');
-    audio.volume = 0.3;
+    audio.volume = 0.1;
     audio.play().catch(() => { /* Fail silently */ });
 }
