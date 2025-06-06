@@ -2115,6 +2115,8 @@ function startFreeMeGame() {
         recycleBin.style.display = 'none';
     }
 
+    const startTime = performance.now();
+
     allIcons.forEach(icon => {
         if (icon.id !== 'free-me-icon' && icon.id !== 'recycle-bin-icon') {
             const rect = initialRects.get(icon);
@@ -2138,7 +2140,8 @@ function startFreeMeGame() {
             
             icon.addEventListener('click', trashIcon);
             gameIcons.push(icon);
-            lastShotTimes.set(icon, 0);
+            // Give each icon a random "head start" on its shooting timer to stagger the shots.
+            lastShotTimes.set(icon, startTime - (Math.random() * 5000));
         }
     });
 
