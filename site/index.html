@@ -9,8 +9,8 @@
 <body>
     <div class="desktop">
         <!-- Desktop Icons -->
-        <div class="desktop-icons">
-            <div class="desktop-icon-item" ondblclick="alert('🗑️ Recycle Bin\\n\\nThe Recycle Bin is empty.\\n\\nSize: 0 bytes\\nContains: 0 files, 0 folders')">
+        <div class="desktop-icons" id="desktop-icons">
+            <div class="desktop-icon-item" id="recycle-bin-icon" ondblclick="alert('🗑️ Recycle Bin\\n\\nThe Recycle Bin is empty.\\n\\nSize: 0 bytes\\nContains: 0 files, 0 folders')">
                 <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath d='M12 38c0 2.2 1.8 4 4 4h16c2.2 0 4-1.8 4-4V14H12v24zM38 8h-7l-2-2H19l-2 2h-7v4h28V8z' fill='%23C0C0C0'/%3E%3Cpath d='M16 18h2v16h-2zm6 0h2v16h-2zm6 0h2v16h-2z' fill='%23808080'/%3E%3C/svg%3E" alt="Recycle Bin">
                 <span>Recycle Bin</span>
             </div>
@@ -53,6 +53,11 @@
             <div class="desktop-icon-item" ondblclick="startCatRain()">
                 <img src="jimmy.png" alt="Jimmy">
                 <span>Jimmy</span>
+            </div>
+            
+            <div class="desktop-icon-item" id="free-me-icon" ondblclick="startFreeMeGame()">
+                <img src="stick.png" alt="Free Me">
+                <span>free_me.exe</span>
             </div>
         </div>
 

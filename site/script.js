@@ -2079,3 +2079,204 @@ function hexToRgb(hex) {
         b: parseInt(result[3], 16)
     } : null;
 }
+
+// Free Me Game
+let freeMeGameActive = false;
+let originalIconPositions = new Map();
+let gameIcons = [];
+let projectiles = [];
+let gameLoopId = null;
+let mousePos = { x: 0, y: 0 };
+let lastShotTimes = new Map();
+
+function startFreeMeGame() {
+    if (freeMeGameActive) return;
+    freeMeGameActive = true;
+
+    const freeMeIcon = document.getElementById('free-me-icon');
+    if (freeMeIcon) {
+        freeMeIcon.querySelector('img').src = 'stick_2.png';
+    }
+
+    document.body.classList.add('free-me-game-active');
+    
+    const recycleBin = document.getElementById('recycle-bin-icon');
+    const desktop = document.querySelector('.desktop');
+    const allIcons = document.querySelectorAll('.desktop-icon-item');
+    gameIcons = [];
+    originalIconPositions.clear();
+    const initialRects = new Map();
+
+    allIcons.forEach(icon => {
+        initialRects.set(icon, icon.getBoundingClientRect());
+    });
+
+    if (recycleBin) {
+        recycleBin.style.display = 'none';
+    }
+
+    allIcons.forEach(icon => {
+        if (icon.id !== 'free-me-icon' && icon.id !== 'recycle-bin-icon') {
+            const rect = initialRects.get(icon);
+            originalIconPositions.set(icon, {
+                position: icon.style.position,
+                top: icon.style.top,
+                left: icon.style.left,
+                zIndex: icon.style.zIndex,
+                display: window.getComputedStyle(icon).display,
+                parent: icon.parentElement,
+                nextSibling: icon.nextSibling
+            });
+
+            desktop.appendChild(icon);
+
+            icon.style.position = 'absolute';
+            icon.style.top = `${rect.top}px`;
+            icon.style.left = `${rect.left}px`;
+            icon.style.zIndex = 1000;
+            icon.style.display = 'flex';
+            
+            icon.addEventListener('click', trashIcon);
+            gameIcons.push(icon);
+            lastShotTimes.set(icon, 0);
+        }
+    });
+
+    document.addEventListener('mousemove', trackMouseForGame);
+
+    gameLoopId = requestAnimationFrame(freeMeGameLoop);
+}
+
+function stopFreeMeGame() {
+    freeMeGameActive = false;
+    if (gameLoopId) {
+        cancelAnimationFrame(gameLoopId);
+        gameLoopId = null;
+    }
+
+    const freeMeIcon = document.getElementById('free-me-icon');
+    if (freeMeIcon) {
+        freeMeIcon.querySelector('img').src = 'stick.png';
+    }
+
+    document.body.classList.remove('free-me-game-active');
+
+    originalIconPositions.forEach((pos, icon) => {
+        icon.style.position = pos.position;
+        icon.style.top = pos.top;
+        icon.style.left = pos.left;
+        icon.style.zIndex = pos.zIndex;
+        icon.style.display = pos.display;
+        icon.removeEventListener('click', trashIcon);
+
+        if (pos.parent) {
+            if (pos.nextSibling) {
+                pos.parent.insertBefore(icon, pos.nextSibling);
+            } else {
+                pos.parent.appendChild(icon);
+            }
+        }
+    });
+    
+    const recycleBin = document.getElementById('recycle-bin-icon');
+    if (recycleBin) {
+        recycleBin.style.display = 'flex';
+    }
+
+    projectiles.forEach(p => p.element.remove());
+    projectiles = [];
+    gameIcons = [];
+
+    document.removeEventListener('mousemove', trackMouseForGame);
+    
+    const audio = new Audio('congrats.mp3');
+    audio.play().catch(() => { /* Fail silently */ });
+}
+
+function trackMouseForGame(e) {
+    mousePos.x = e.clientX;
+    mousePos.y = e.clientY;
+}
+
+function trashIcon(event) {
+    if (!freeMeGameActive) return;
+    
+    const icon = event.currentTarget;
+    icon.style.display = 'none';
+    
+    gameIcons = gameIcons.filter(i => i !== icon);
+    icon.removeEventListener('click', trashIcon);
+
+    if (gameIcons.length === 0) {
+        stopFreeMeGame();
+    }
+}
+
+function freeMeGameLoop(timestamp) {
+    if (!freeMeGameActive) {
+        cancelAnimationFrame(gameLoopId);
+        return;
+    }
+
+    gameIcons.forEach(icon => {
+        const rect = icon.getBoundingClientRect();
+        const iconCenterX = rect.left + rect.width / 2;
+        const iconCenterY = rect.top + rect.height / 2;
+
+        const dx = mousePos.x - iconCenterX;
+        const dy = mousePos.y - iconCenterY;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+
+        const speed = 1;
+
+        if (distance > 50) {
+             icon.style.left = `${rect.left + (dx / distance) * speed}px`;
+             icon.style.top = `${rect.top + (dy / distance) * speed}px`;
+        }
+        
+        const shootInterval = 2000 + Math.random() * 3000;
+        if (timestamp - (lastShotTimes.get(icon) || 0) > shootInterval) {
+            createFlame(iconCenterX, iconCenterY, mousePos.x, mousePos.y);
+            lastShotTimes.set(icon, timestamp);
+        }
+    });
+    
+    projectiles.forEach((p, index) => {
+        p.x += p.vx;
+        p.y += p.vy;
+        p.element.style.left = `${p.x}px`;
+        p.element.style.top = `${p.y}px`;
+
+        if (p.x < 0 || p.x > window.innerWidth || p.y < 0 || p.y > window.innerHeight) {
+            p.element.remove();
+            projectiles.splice(index, 1);
+        }
+    });
+
+    gameLoopId = requestAnimationFrame(freeMeGameLoop);
+}
+
+function createFlame(startX, startY, targetX, targetY) {
+    const flame = document.createElement('div');
+    flame.className = 'flame-projectile';
+    
+    const projectileSpeed = 5;
+    const dx = targetX - startX;
+    const dy = targetY - startY;
+    const distance = Math.sqrt(dx * dx + dy * dy);
+    
+    const projectile = {
+        element: flame,
+        x: startX,
+        y: startY,
+        vx: (dx / distance) * projectileSpeed,
+        vy: (dy / distance) * projectileSpeed,
+    };
+    
+    projectiles.push(projectile);
+    document.querySelector('.desktop').appendChild(flame);
+
+    const audio = new Audio('fire.mp3');
+    audio.volume = 0.3;
+    audio.play().catch(() => { /* Fail silently */ });
+}

@@ -1505,3 +1505,18 @@ body.loading {
 .falling-cat[data-landed="true"] {
     animation: catBounce 0.5s ease-out;
 }
+
+/* Free Me Game */
+body.free-me-game-active {
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 48 48'%3E%3Cpath d='M12 38c0 2.2 1.8 4 4 4h16c2.2 0 4-1.8 4-4V14H12v24zM38 8h-7l-2-2H19l-2 2h-7v4h28V8z' fill='%23C0C0C0'/%3E%3Cpath d='M16 18h2v16h-2zm6 0h2v16h-2zm6 0h2v16h-2z' fill='%23808080'/%3E%3C/svg%3E"), auto;
+}
+
+.flame-projectile {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    background-image: url('flame.png');
+    background-size: contain;
+    z-index: 1001;
+    pointer-events: none;
+}
