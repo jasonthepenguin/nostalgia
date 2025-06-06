@@ -2315,16 +2315,41 @@ function freeMeGameLoop(timestamp) {
         }
     });
     
-    projectiles.forEach((p, index) => {
+    projectiles = projectiles.filter(p => {
         p.x += p.vx;
         p.y += p.vy;
         p.element.style.left = `${p.x}px`;
         p.element.style.top = `${p.y}px`;
 
-        if (p.x < 0 || p.x > window.innerWidth || p.y < 0 || p.y > window.innerHeight) {
-            p.element.remove();
-            projectiles.splice(index, 1);
+        // Check for collision with cursor
+        const dx = p.x - mousePos.x;
+        const dy = p.y - mousePos.y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+        const collisionThreshold = 15; // Projectile radius + cursor hotspot
+
+        let shouldBeRemoved = false;
+        if (distance < collisionThreshold) {
+            // Apply knock back effect
+            if (!document.body.classList.contains('cursor-hit')) {
+                document.body.classList.add('cursor-hit');
+                playSound('error');
+                setTimeout(() => {
+                    document.body.classList.remove('cursor-hit');
+                }, 200);
+            }
+            shouldBeRemoved = true;
         }
+
+        // Check if out of bounds (with a small buffer)
+        if (p.x < -24 || p.x > window.innerWidth || p.y < -24 || p.y > window.innerHeight) {
+            shouldBeRemoved = true;
+        }
+
+        if (shouldBeRemoved) {
+            p.element.remove();
+            return false; // Remove from projectiles array
+        }
+        return true; // Keep in projectiles array
     });
 
     gameLoopId = requestAnimationFrame(freeMeGameLoop);
