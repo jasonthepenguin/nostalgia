@@ -2204,6 +2204,10 @@ function trackMouseForGame(e) {
 function trashIcon(event) {
     if (!freeMeGameActive) return;
     
+    const audio = new Audio('crumple.mp3');
+    audio.volume = 0.5;
+    audio.play().catch(() => { /* Fail silently */ });
+    
     const icon = event.currentTarget;
     icon.style.display = 'none';
     
