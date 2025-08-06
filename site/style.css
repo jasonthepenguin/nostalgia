@@ -1493,6 +1493,7 @@ body.free-me-game-active {
     height: 80px;
     object-fit: contain;
     margin-bottom: 10px;
+    animation: slowRotate 10s linear infinite;
 }
 
 .countdown-header h2 {
@@ -1652,6 +1653,12 @@ body.free-me-game-active {
     0% { transform: rotateX(0); }
     50% { transform: rotateX(90deg); }
     100% { transform: rotateX(0); }
+}
+
+/* Slow rotation for OpenAI logo */
+@keyframes slowRotate {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
 
 .time-value.updating {
