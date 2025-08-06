@@ -45,6 +45,11 @@
                 <span>Windows Media Player</span>
             </div>
             
+            <div class="desktop-icon-item" ondblclick="openCountdownGPT5()">
+                <img src="openai.png" alt="Countdown GPT-5">
+                <span>Countdown GPT-5</span>
+            </div>
+            
             <div class="desktop-icon-item" ondblclick="startCatRain()">
                 <img src="jimmy.png" alt="Jimmy">
                 <span>Jimmy</span>
@@ -454,6 +459,86 @@ until then, i'll be here in my XP nostalgia bubble, waiting for the world to mak
                 <span>Ready</span>
                 <span class="status-separator"></span>
                 <span>HTML Mail</span>
+            </div>
+        </div>
+        
+        <!-- Countdown GPT-5 Window -->
+        <div class="window" id="countdown-window" style="display: none;">
+            <div class="window-titlebar">
+                <img src="openai.png" alt="GPT-5" style="width: 16px; height: 16px; object-fit: contain;">
+                <span class="window-title">Countdown GPT-5 - Powered by OpenAI</span>
+                <div class="window-controls">
+                    <button class="window-minimize">_</button>
+                    <button class="window-maximize">□</button>
+                    <button class="window-close">×</button>
+                </div>
+            </div>
+            <div class="window-menu">
+                <span>File</span>
+                <span>Options</span>
+                <span>View</span>
+                <span>Help</span>
+            </div>
+            <div class="countdown-container">
+                <div class="countdown-header">
+                    <img src="openai.png" alt="OpenAI" class="countdown-logo">
+                    <h2>GPT-5 Launch Countdown</h2>
+                    <p class="countdown-tagline">The Future of AI is Coming...</p>
+                </div>
+                <div class="countdown-display">
+                    <div class="countdown-time">
+                        <div class="time-unit">
+                            <span class="time-value" id="days">--</span>
+                            <span class="time-label">DAYS</span>
+                        </div>
+                        <div class="time-separator">:</div>
+                        <div class="time-unit">
+                            <span class="time-value" id="hours">--</span>
+                            <span class="time-label">HOURS</span>
+                        </div>
+                        <div class="time-separator">:</div>
+                        <div class="time-unit">
+                            <span class="time-value" id="minutes">--</span>
+                            <span class="time-label">MINUTES</span>
+                        </div>
+                        <div class="time-separator">:</div>
+                        <div class="time-unit">
+                            <span class="time-value" id="seconds">--</span>
+                            <span class="time-label">SECONDS</span>
+                        </div>
+                    </div>
+                    <div class="countdown-target">
+                        <p>Target Date: August 7, 2025 • 10:00 AM PDT • San Francisco, CA</p>
+                    </div>
+                </div>
+                <div class="countdown-features">
+                    <div class="feature-box">
+                        <h3>🚀 Expected Features</h3>
+                        <ul>
+                            <li>• Multimodal Understanding</li>
+                            <li>• Advanced Reasoning</li>
+                            <li>• Real-time Learning</li>
+                            <li>• Enhanced Creativity</li>
+                        </ul>
+                    </div>
+                    <div class="feature-box">
+                        <h3>📊 Progress Tracker</h3>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progress-fill"></div>
+                        </div>
+                        <p class="progress-text" id="progress-text">Loading...</p>
+                    </div>
+                </div>
+                <div class="countdown-footer">
+                    <button class="xp-button" onclick="alert('🔔 Notification reminder set!\\n\\nYou will be notified when GPT-5 launches.\\n\\n(Just kidding, this is a 2007 website!)')">Set Reminder</button>
+                    <button class="xp-button" onclick="window.open('https://openai.com', '_blank')">Visit OpenAI</button>
+                    <button class="xp-button" onclick="shareCountdown()">Share Countdown</button>
+                </div>
+            </div>
+            <div class="window-status">
+                <span id="countdown-status">Calculating time remaining...</span>
+                <span class="status-separator"></span>
+                <span>Version 1.0</span>
             </div>
         </div>
     </div>

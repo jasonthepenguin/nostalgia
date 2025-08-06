@@ -63,4 +63,120 @@ function showShutDownDialog() {
             document.body.style.opacity = '1';
         }, 2000);
     }
-} 
+}
+
+// Countdown GPT-5 App
+let countdownInterval = null;
+
+function openCountdownGPT5() {
+    showWindow('countdown-window');
+    startCountdown();
+}
+
+function startCountdown() {
+    // Clear any existing interval
+    if (countdownInterval) {
+        clearInterval(countdownInterval);
+    }
+    
+    // Set target date to August 7, 2025, 10:00 AM San Francisco time (PDT)
+    const targetDate = new Date('2025-08-07T10:00:00-07:00');
+    
+    function updateCountdown() {
+        const now = new Date();
+        const timeLeft = targetDate - now;
+        
+        if (timeLeft < 0) {
+            // Countdown finished
+            document.getElementById('days').textContent = '00';
+            document.getElementById('hours').textContent = '00';
+            document.getElementById('minutes').textContent = '00';
+            document.getElementById('seconds').textContent = '00';
+            document.getElementById('countdown-status').textContent = 'GPT-5 has launched! 🎉';
+            document.getElementById('progress-text').textContent = 'Complete! 100%';
+            document.getElementById('progress-fill').style.width = '100%';
+            clearInterval(countdownInterval);
+            
+            // Play celebration sound
+            const audio = new Audio('congrats.mp3');
+            audio.volume = 0.5;
+            audio.play().catch(() => {});
+            
+            alert('🎉 GPT-5 HAS LAUNCHED! 🎉\\n\\nThe future is here!\\n\\nCheck OpenAI.com for more details.');
+            return;
+        }
+        
+        // Calculate time units
+        const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+        
+        // Update display with animation
+        updateTimeUnit('days', days);
+        updateTimeUnit('hours', hours);
+        updateTimeUnit('minutes', minutes);
+        updateTimeUnit('seconds', seconds);
+        
+        // Update progress bar
+        const totalTime = targetDate - new Date('2024-01-01T00:00:00-08:00'); // Assuming countdown started Jan 1, 2024
+        const elapsed = totalTime - timeLeft;
+        const progress = (elapsed / totalTime) * 100;
+        document.getElementById('progress-fill').style.width = progress + '%';
+        document.getElementById('progress-text').textContent = `Progress: ${Math.floor(progress)}%`;
+        
+        // Update status
+        document.getElementById('countdown-status').textContent = `T-minus ${days} days and counting...`;
+    }
+    
+    function updateTimeUnit(id, value) {
+        const element = document.getElementById(id);
+        const currentValue = element.textContent;
+        const newValue = value.toString().padStart(2, '0');
+        
+        if (currentValue !== newValue) {
+            element.classList.add('updating');
+            element.textContent = newValue;
+            setTimeout(() => {
+                element.classList.remove('updating');
+            }, 300);
+        }
+    }
+    
+    // Update immediately and then every second
+    updateCountdown();
+    countdownInterval = setInterval(updateCountdown, 1000);
+}
+
+function shareCountdown() {
+    const text = `I'm counting down to the GPT-5 launch on August 7, 2025! Join me at this retro countdown app! 🚀`;
+    
+    // 2007 style share dialog
+    const shareDialog = confirm(`📤 Share Countdown\\n\\n"${text}"\\n\\nWould you like to copy this to your clipboard?\\n\\n(In 2007, we'd email this to all our contacts!)`);
+    
+    if (shareDialog) {
+        // Try to copy to clipboard (won't work in 2007 but hey)
+        if (navigator.clipboard) {
+            navigator.clipboard.writeText(text).then(() => {
+                alert('✅ Copied to clipboard!\\n\\nNow paste it in your AIM away message!');
+            }).catch(() => {
+                alert('📋 Manual copy required:\\n\\n' + text);
+            });
+        } else {
+            alert('📋 Manual copy required:\\n\\n' + text);
+        }
+    }
+}
+
+// Clean up interval when window closes
+document.addEventListener('DOMContentLoaded', function() {
+    const countdownCloseBtn = document.querySelector('#countdown-window .window-close');
+    if (countdownCloseBtn) {
+        countdownCloseBtn.addEventListener('click', function() {
+            if (countdownInterval) {
+                clearInterval(countdownInterval);
+                countdownInterval = null;
+            }
+        });
+    }
+}); 
