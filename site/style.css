@@ -1739,6 +1739,100 @@ body.free-me-game-active {
     transform-origin: center center;
 }
 
+/* FREE API KEY Button - Early 2000s Scam Style */
+.free-api-key-button {
+    display: block;
+    width: 90%;
+    margin: 20px auto;
+    padding: 15px 20px;
+    background: #FFFF00;
+    background: linear-gradient(to bottom, #FFFF00 0%, #FFD700 50%, #FFA500 100%);
+    border: 3px solid #FF0000;
+    border-radius: 10px;
+    cursor: pointer;
+    position: relative;
+    box-shadow: 
+        0 0 20px rgba(255, 0, 0, 0.8),
+        inset 0 0 20px rgba(255, 255, 0, 0.5),
+        0 5px 10px rgba(0, 0, 0, 0.5);
+    animation: scamPulse 0.5s infinite alternate, scamGlow 2s infinite;
+    font-family: "Impact", "Arial Black", sans-serif;
+    text-transform: uppercase;
+    overflow: visible;
+}
+
+.free-api-key-button:hover {
+    animation: scamPulse 0.2s infinite alternate, scamGlow 1s infinite, scamShake 0.1s infinite;
+    transform: scale(1.05);
+}
+
+.free-api-key-button .blink-text {
+    display: block;
+    font-size: 24px;
+    font-weight: bold;
+    color: #000000;
+    text-shadow: 
+        2px 2px 0 #FF0000,
+        -2px -2px 0 #FF0000,
+        2px -2px 0 #FF0000,
+        -2px 2px 0 #FF0000;
+    animation: scamBlink 0.5s infinite;
+    letter-spacing: 2px;
+}
+
+.free-api-key-button .subtext {
+    display: block;
+    font-size: 16px;
+    color: #FF0000;
+    margin-top: 5px;
+    font-weight: bold;
+    text-shadow: 1px 1px 0 #000;
+    animation: scamBounce 0.3s infinite alternate;
+}
+
+/* Scam button animations */
+@keyframes scamPulse {
+    0% { 
+        box-shadow: 
+            0 0 20px rgba(255, 0, 0, 0.8),
+            inset 0 0 20px rgba(255, 255, 0, 0.5),
+            0 5px 10px rgba(0, 0, 0, 0.5);
+    }
+    100% { 
+        box-shadow: 
+            0 0 40px rgba(255, 0, 0, 1),
+            inset 0 0 30px rgba(255, 255, 0, 0.8),
+            0 8px 15px rgba(0, 0, 0, 0.7);
+    }
+}
+
+@keyframes scamGlow {
+    0%, 100% { 
+        background: linear-gradient(to bottom, #FFFF00 0%, #FFD700 50%, #FFA500 100%);
+    }
+    50% { 
+        background: linear-gradient(to bottom, #FFFF66 0%, #FFEB3B 50%, #FFB300 100%);
+    }
+}
+
+@keyframes scamBlink {
+    0%, 50%, 100% { opacity: 1; }
+    25%, 75% { opacity: 0.3; }
+}
+
+@keyframes scamBounce {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-2px); }
+}
+
+@keyframes scamShake {
+    0%, 100% { transform: translateX(0) scale(1.05); }
+    25% { transform: translateX(-2px) scale(1.05); }
+    75% { transform: translateX(2px) scale(1.05); }
+}
+
+
+
 /* Windows Media Player Styles */
 #media-player-window {
     width: 800px;
