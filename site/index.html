@@ -462,6 +462,69 @@ until then, i'll be here in my XP nostalgia bubble, waiting for the world to mak
             </div>
         </div>
         
+        <!-- Windows Media Player Window -->
+        <div class="window" id="media-player-window" style="display: none;">
+            <div class="window-titlebar">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23fff'%3E%3Ccircle cx='8' cy='8' r='7' fill='%23FF6600'/%3E%3Cpath d='M6 5v6l5-3z' fill='%23fff'/%3E%3C/svg%3E" alt="WMP">
+                <span class="window-title">Windows Media Player</span>
+                <div class="window-controls">
+                    <button class="window-minimize">_</button>
+                    <button class="window-maximize">□</button>
+                    <button class="window-close">×</button>
+                </div>
+            </div>
+            <div class="window-menu">
+                <span>File</span>
+                <span>View</span>
+                <span>Play</span>
+                <span>Tools</span>
+                <span>Help</span>
+            </div>
+            <div class="media-player-container">
+                <div class="media-player-video-area">
+                    <img id="media-player-video" src="" alt="Now Playing">
+                </div>
+                <div class="media-player-controls">
+                    <div class="media-info">
+                        <div class="now-playing">Now Playing: Classic_Dance_Video.gif</div>
+                        <div class="media-time">∞ / ∞</div>
+                    </div>
+                    <div class="player-controls">
+                        <button class="player-btn" title="Previous">⏮</button>
+                        <button class="player-btn" title="Play">▶</button>
+                        <button class="player-btn" title="Pause">⏸</button>
+                        <button class="player-btn" title="Stop">⏹</button>
+                        <button class="player-btn" title="Next">⏭</button>
+                    </div>
+                    <div class="volume-control">
+                        <span>🔊</span>
+                        <input type="range" class="volume-slider" min="0" max="100" value="50">
+                    </div>
+                    <div class="seek-bar">
+                        <div class="seek-progress"></div>
+                    </div>
+                </div>
+                <div class="media-player-sidebar">
+                    <div class="sidebar-tabs">
+                        <button class="sidebar-tab active">Now Playing</button>
+                        <button class="sidebar-tab">Library</button>
+                    </div>
+                    <div class="playlist">
+                        <div class="playlist-item active">🎵 Classic_Dance_Video.gif</div>
+                        <div class="playlist-item">🎵 Hamster_Dance.mp3</div>
+                        <div class="playlist-item">🎵 Numa_Numa.avi</div>
+                        <div class="playlist-item">🎵 Badger_Badger.swf</div>
+                        <div class="playlist-item">🎵 All_Your_Base.wmv</div>
+                    </div>
+                </div>
+            </div>
+            <div class="window-status">
+                <span>Ready</span>
+                <span class="status-separator"></span>
+                <span>Streaming</span>
+            </div>
+        </div>
+        
         <!-- Countdown GPT-5 Window -->
         <div class="window" id="countdown-window" style="display: none;">
             <div class="window-titlebar">

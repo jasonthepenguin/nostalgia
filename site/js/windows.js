@@ -70,10 +70,16 @@ function showWindow(windowId) {
         window.classList.add('active');
         activeWindow = window;
         
-        // Make sure window is within viewport
-        const maxX = Math.max(0, Math.min(window.offsetLeft, window.innerWidth - window.offsetWidth));
-        const maxY = Math.max(0, Math.min(window.offsetTop, window.innerHeight - window.offsetHeight - 40));
-        window.style.left = maxX + 'px';
-        window.style.top = maxY + 'px';
+        // Make sure window is within viewport - only adjust if it's outside
+        const currentLeft = window.offsetLeft;
+        const currentTop = window.offsetTop;
+        const maxX = window.innerWidth - window.offsetWidth;
+        const maxY = window.innerHeight - window.offsetHeight - 40;
+        
+        // Only reposition if window is outside viewport
+        if (currentLeft < 0 || currentLeft > maxX || currentTop < 0 || currentTop > maxY) {
+            window.style.left = Math.max(0, Math.min(currentLeft, maxX)) + 'px';
+            window.style.top = Math.max(0, Math.min(currentTop, maxY)) + 'px';
+        }
     }
 } 

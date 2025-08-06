@@ -28,14 +28,12 @@ function openMessengerWindow() {
 }
 
 function openMediaPlayer() {
-    alert(`🎵 Windows Media Player
-
-Now Playing: Linkin Park - In The End
-▶️ ═══════════ 2:36/3:36
-
-Visualizations: Enabled 🌈
-
-Don't forget to rip your CDs at 128kbps!`);
+    showWindow('media-player-window');
+    // Initialize the media player with the GIF
+    const videoDisplay = document.getElementById('media-player-video');
+    if (videoDisplay) {
+        videoDisplay.src = 'https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExeG9wMzR0cmNxNzdtcGZ0c2ZjdGluc2t5dTVrN3U3eXB1ZW55djR2dCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/6k6iDdi5NN8ZO/giphy.gif';
+    }
 }
 
 function openSolitaire() {
