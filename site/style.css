@@ -1470,9 +1470,8 @@ body.free-me-game-active {
 #countdown-window {
     width: 600px;
     height: 520px;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
+    left: calc(50% - 300px);
+    top: calc(50% - 260px);
 }
 
 .countdown-container {
