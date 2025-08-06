@@ -102,7 +102,13 @@ function startCountdown() {
             audio.volume = 0.5;
             audio.play().catch(() => {});
             
-            alert('🎉 GPT-5 HAS LAUNCHED! 🎉\\n\\nThe future is here!\\n\\nCheck OpenAI.com for more details.');
+            // Trigger confetti and effects
+            launchGPT5Celebration();
+            
+            // Show alert after a delay so user can see the confetti
+            setTimeout(() => {
+                alert('🎉 GPT-5 HAS LAUNCHED! 🎉\\n\\nThe future is here!\\n\\nCheck OpenAI.com for more details.');
+            }, 2000);
             return;
         }
         
@@ -179,4 +185,137 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
-}); 
+});
+
+// GPT-5 Launch Celebration
+function launchGPT5Celebration() {
+    // Create confetti container
+    const confettiContainer = document.createElement('div');
+    confettiContainer.id = 'gpt5-confetti';
+    confettiContainer.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 9999;
+    `;
+    document.body.appendChild(confettiContainer);
+    
+    // Create confetti pieces
+    const colors = ['#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#FF00FF', '#00FFFF', '#FFA500', '#FF1493'];
+    const confettiCount = 150;
+    
+    for (let i = 0; i < confettiCount; i++) {
+        const confetti = document.createElement('div');
+        const color = colors[Math.floor(Math.random() * colors.length)];
+        const size = Math.random() * 10 + 5;
+        const startX = Math.random() * window.innerWidth;
+        const startY = -20;
+        const endX = startX + (Math.random() - 0.5) * 300;
+        const duration = Math.random() * 3 + 2;
+        const delay = Math.random() * 0.5;
+        
+        confetti.style.cssText = `
+            position: absolute;
+            width: ${size}px;
+            height: ${size * 0.6}px;
+            background: ${color};
+            left: ${startX}px;
+            top: ${startY}px;
+            opacity: 1;
+            transform: rotate(${Math.random() * 360}deg);
+            animation: confettiFall ${duration}s ease-out ${delay}s forwards;
+        `;
+        
+        confettiContainer.appendChild(confetti);
+    }
+    
+    // Add fireworks effect
+    createFireworks();
+    
+    // Flash the countdown display
+    const countdownDisplay = document.querySelector('.countdown-display');
+    if (countdownDisplay) {
+        countdownDisplay.classList.add('celebration-flash');
+    }
+    
+    // Make the window dance
+    const countdownWindow = document.getElementById('countdown-window');
+    if (countdownWindow) {
+        countdownWindow.classList.add('celebration-dance');
+    }
+    
+    // Clean up after animation
+    setTimeout(() => {
+        confettiContainer.remove();
+        if (countdownDisplay) {
+            countdownDisplay.classList.remove('celebration-flash');
+        }
+        if (countdownWindow) {
+            countdownWindow.classList.remove('celebration-dance');
+        }
+    }, 6000);
+}
+
+function createFireworks() {
+    const fireworksContainer = document.createElement('div');
+    fireworksContainer.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 9998;
+    `;
+    document.body.appendChild(fireworksContainer);
+    
+    // Create multiple firework bursts
+    for (let i = 0; i < 5; i++) {
+        setTimeout(() => {
+            const x = Math.random() * window.innerWidth;
+            const y = Math.random() * window.innerHeight * 0.5;
+            createFireworkBurst(fireworksContainer, x, y);
+        }, i * 800);
+    }
+    
+    // Clean up
+    setTimeout(() => {
+        fireworksContainer.remove();
+    }, 5000);
+}
+
+function createFireworkBurst(container, x, y) {
+    const particleCount = 30;
+    const colors = ['#FFD700', '#FF6347', '#00CED1', '#FF1493', '#32CD32'];
+    
+    for (let i = 0; i < particleCount; i++) {
+        const particle = document.createElement('div');
+        const angle = (Math.PI * 2 * i) / particleCount;
+        const velocity = Math.random() * 100 + 50;
+        const color = colors[Math.floor(Math.random() * colors.length)];
+        
+        particle.style.cssText = `
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: ${color};
+            left: ${x}px;
+            top: ${y}px;
+            border-radius: 50%;
+            box-shadow: 0 0 6px ${color};
+            animation: fireworkParticle 1.5s ease-out forwards;
+            --dx: ${Math.cos(angle) * velocity}px;
+            --dy: ${Math.sin(angle) * velocity}px;
+        `;
+        
+        container.appendChild(particle);
+    }
+    
+    // Play a small pop sound if available
+    const audio = new Audio('fire.mp3');
+    audio.volume = 0.2;
+    audio.play().catch(() => {});
+} 

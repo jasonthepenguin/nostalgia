@@ -1673,3 +1673,61 @@ body.free-me-game-active {
     border-top: 1px solid #fff;
     box-shadow: inset 0 1px 0 #919b9c;
 }
+
+/* Celebration animations */
+@keyframes confettiFall {
+    0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(100vh) rotate(720deg);
+        opacity: 0;
+    }
+}
+
+@keyframes fireworkParticle {
+    0% {
+        transform: translate(0, 0);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(var(--dx), calc(var(--dy) + 100px));
+        opacity: 0;
+    }
+}
+
+@keyframes celebration-flash {
+    0%, 100% { 
+        background: #000;
+        box-shadow: inset 0 0 10px rgba(0,255,0,0.2);
+    }
+    25% { 
+        background: #001100;
+        box-shadow: inset 0 0 30px rgba(0,255,0,0.8);
+    }
+    50% { 
+        background: #002200;
+        box-shadow: inset 0 0 50px rgba(0,255,0,1);
+    }
+    75% { 
+        background: #001100;
+        box-shadow: inset 0 0 30px rgba(0,255,0,0.8);
+    }
+}
+
+.celebration-flash {
+    animation: celebration-flash 1s ease-in-out 3;
+}
+
+@keyframes celebration-dance {
+    0%, 100% { transform: rotate(0deg) scale(1); }
+    25% { transform: rotate(-5deg) scale(1.05); }
+    50% { transform: rotate(5deg) scale(1.05); }
+    75% { transform: rotate(-3deg) scale(1.03); }
+}
+
+.celebration-dance {
+    animation: celebration-dance 0.5s ease-in-out 5;
+    transform-origin: center center;
+}
