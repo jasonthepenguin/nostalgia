@@ -40,11 +40,6 @@
                 <span>My Network Places</span>
             </div>
             
-            <div class="desktop-icon-item" ondblclick="showWindow('pinball-window'); initPinballGame()">
-                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect x='8' y='8' width='32' height='32' fill='%234B0082'/%3E%3Ccircle cx='24' cy='24' r='6' fill='%23C0C0C0'/%3E%3Ccircle cx='16' cy='16' r='3' fill='%23FFD700'/%3E%3Ccircle cx='32' cy='16' r='3' fill='%23FF1493'/%3E%3Cpath d='M16 32h4v4h-4zm12 0h4v4h-4z' fill='%23808080'/%3E%3C/svg%3E" alt="3D Pinball">
-                <span>3D Pinball</span>
-            </div>
-            
             <div class="desktop-icon-item" ondblclick="openMediaPlayer()">
                 <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Ccircle cx='24' cy='24' r='20' fill='%23FF6600'/%3E%3Ccircle cx='24' cy='24' r='16' fill='%23FF8C00'/%3E%3Cpath d='M18 16v16l14-8z' fill='%23fff'/%3E%3C/svg%3E" alt="Media Player">
                 <span>Windows Media Player</span>
@@ -394,57 +389,6 @@ Best viewed in Internet Explorer 6 😉
             </div>
         </div>
 
-        <!-- Pinball Window -->
-        <div class="window" id="pinball-window" style="display: none;">
-            <div class="window-titlebar">
-                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23fff'%3E%3Crect x='4' y='4' width='8' height='8' fill='%234B0082'/%3E%3Ccircle cx='8' cy='8' r='2' fill='%23C0C0C0'/%3E%3C/svg%3E" alt="Pinball">
-                <span class="window-title">3D Pinball for Windows - Space Cadet</span>
-                <div class="window-controls">
-                    <button class="window-minimize">_</button>
-                    <button class="window-maximize">□</button>
-                    <button class="window-close">×</button>
-                </div>
-            </div>
-            <div class="window-menu">
-                <span>Game</span>
-                <span>Options</span>
-                <span>Help</span>
-            </div>
-            <div class="pinball-container">
-                <div class="pinball-sidebar">
-                    <div class="pinball-scores">
-                        <div class="score-title">SCORE</div>
-                        <div class="score-display" id="pinball-score">0</div>
-                        <div class="score-title">HIGH SCORE</div>
-                        <div class="score-display" id="pinball-highscore">1000000</div>
-                        <div class="score-title">BALL</div>
-                        <div class="ball-display" id="pinball-ball">1</div>
-                        <div class="score-title">PLAYER</div>
-                        <div class="player-display">1</div>
-                    </div>
-                    <div class="pinball-controls">
-                        <div class="control-info">
-                            <strong>Controls:</strong><br>
-                            <kbd>SPACE</kbd> - Launch<br>
-                            <kbd>Z</kbd> - Left Flipper<br>
-                            <kbd>/</kbd> - Right Flipper<br>
-                            <kbd>X</kbd> - Nudge Left<br>
-                            <kbd>.</kbd> - Nudge Right<br>
-                            <kbd>↑</kbd> - Nudge Up
-                        </div>
-                    </div>
-                </div>
-                <div class="pinball-main">
-                    <canvas id="pinball-canvas" width="500" height="700"></canvas>
-                </div>
-            </div>
-            <div class="window-status">
-                <span>Press SPACE to launch ball</span>
-                <span class="status-separator"></span>
-                <span>Balls remaining: <span id="balls-remaining">3</span></span>
-            </div>
-        </div>
-
         <!-- Contact Window -->
         <div class="window" id="contact-window" style="display: none;">
             <div class="window-titlebar">
@@ -550,7 +494,12 @@ until then, i'll be here in my XP nostalgia bubble, waiting for the world to mak
         </div>
     </div>
     
-    <script src="script.js"></script>
+    <script src="js/windows.js"></script>
+    <script src="js/paint.js"></script>
+    <script src="js/messenger.js"></script>
+    <script src="js/apps.js"></script>
+    <script src="js/nostalgia.js"></script>
+    <script src="js/main.js"></script>
     
     <!-- Matrix Screensaver (activate with Ctrl+Alt+M) -->
     <div id="matrix-screensaver" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: black; z-index: 99999;">
