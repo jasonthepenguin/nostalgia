@@ -696,6 +696,7 @@ let gameLoopId = null;
 let mousePos = { x: 0, y: 0 };
 let lastShotTimes = new Map();
 let freeMeFlickerInterval = null;
+let customCursorEl = null;
 
 function startFreeMeGame() {
     if (freeMeGameActive) return;
@@ -765,6 +766,9 @@ function startFreeMeGame() {
 
     document.addEventListener('mousemove', trackMouseForGame);
 
+    // Create custom bin cursor overlay
+    createCustomCursor();
+
     gameLoopId = requestAnimationFrame(freeMeGameLoop);
 }
 
@@ -786,6 +790,9 @@ function stopFreeMeGame() {
     }
 
     document.body.classList.remove('free-me-game-active');
+
+    // Remove custom cursor overlay
+    removeCustomCursor();
 
     originalIconPositions.forEach((pos, icon) => {
         icon.style.position = pos.position;
@@ -834,6 +841,15 @@ function stopFreeMeGame() {
 function trackMouseForGame(e) {
     mousePos.x = e.clientX;
     mousePos.y = e.clientY;
+
+    // Move custom cursor overlay if present
+    if (customCursorEl) {
+        // Offset to set hotspot near top-center of the bin
+        const hotspotX = 12; // tweak as needed
+        const hotspotY = 12;
+        customCursorEl.style.left = (mousePos.x - hotspotX) + 'px';
+        customCursorEl.style.top = (mousePos.y - hotspotY) + 'px';
+    }
 }
 
 function trashIcon(event) {
@@ -997,4 +1013,29 @@ function createFlame(startX, startY, targetX, targetY) {
     const audio = new Audio('fire.mp3');
     audio.volume = 0.1;
     audio.play().catch(() => { /* Fail silently */ });
-} 
+}
+
+// Custom cursor helpers
+function createCustomCursor() {
+    if (customCursorEl) return;
+    customCursorEl = document.createElement('div');
+    customCursorEl.id = 'custom-cursor-bin';
+    customCursorEl.style.position = 'fixed';
+    customCursorEl.style.width = '32px';
+    customCursorEl.style.height = '32px';
+    customCursorEl.style.backgroundImage = "url('bin.png')";
+    customCursorEl.style.backgroundSize = 'contain';
+    customCursorEl.style.backgroundRepeat = 'no-repeat';
+    customCursorEl.style.pointerEvents = 'none';
+    customCursorEl.style.zIndex = '99999';
+    customCursorEl.style.left = '-1000px'; // off-screen until first move
+    customCursorEl.style.top = '-1000px';
+    document.body.appendChild(customCursorEl);
+}
+
+function removeCustomCursor() {
+    if (customCursorEl) {
+        customCursorEl.remove();
+        customCursorEl = null;
+    }
+}

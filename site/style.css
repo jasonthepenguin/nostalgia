@@ -1462,8 +1462,28 @@ body.free-me-game-active {
     overflow: hidden;
 }
 
-.flame-projectile {
+/* Hide native cursor during the game; JS draws custom bin */
+body.free-me-game-active,
+body.free-me-game-active * {
     cursor: none !important;
+}
+
+/* Visible fireball projectiles */
+.flame-projectile {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    background-image: url('flame.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    pointer-events: none;
+    z-index: 2000;
+}
+
+/* Make fireballs a bit larger during the game */
+body.free-me-game-active .flame-projectile {
+    width: 36px;
+    height: 36px;
 }
 
 /* Countdown GPT-5 Styles */
