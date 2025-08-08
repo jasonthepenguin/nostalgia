@@ -83,3 +83,75 @@ function showWindow(windowId) {
         }
     }
 } 
+
+// XP-style Alert Dialog
+function showXPAlert(title, message, options = {}) {
+    const overlay = document.createElement('div');
+    overlay.className = 'windows-error';
+
+    const container = document.createElement('div');
+    container.className = 'error-window';
+
+    const titlebar = document.createElement('div');
+    titlebar.className = 'error-titlebar';
+
+    const titleSpan = document.createElement('span');
+    titleSpan.textContent = title || 'Windows XP';
+
+    const closeBtn = document.createElement('button');
+    closeBtn.setAttribute('aria-label', 'Close');
+    closeBtn.textContent = '×';
+
+    titlebar.appendChild(titleSpan);
+    titlebar.appendChild(closeBtn);
+
+    const content = document.createElement('div');
+    content.className = 'error-content';
+
+    const messageParagraph = document.createElement('p');
+    messageParagraph.innerHTML = (message || '').toString().replace(/\n/g, '<br>');
+
+    const okBtn = document.createElement('button');
+    okBtn.textContent = options.okText || 'OK';
+
+    content.appendChild(messageParagraph);
+    content.appendChild(okBtn);
+
+    container.appendChild(titlebar);
+    container.appendChild(content);
+    overlay.appendChild(container);
+    document.body.appendChild(overlay);
+
+    function closeDialog() {
+        overlay.remove();
+        if (typeof options.onClose === 'function') {
+            try { options.onClose(); } catch (_) {}
+        }
+    }
+
+    okBtn.addEventListener('click', closeDialog);
+    closeBtn.addEventListener('click', closeDialog);
+
+    // Close on Enter/Escape when dialog is present
+    const keyHandler = (e) => {
+        if (e.key === 'Enter' || e.key === 'Escape') {
+            e.preventDefault();
+            closeDialog();
+            document.removeEventListener('keydown', keyHandler, true);
+        }
+    };
+    document.addEventListener('keydown', keyHandler, true);
+}
+
+// Override native alert to use XP-style dialog
+(function installAlertOverride() {
+    const originalAlert = window.alert;
+    window.alert = function(message) {
+        try {
+            showXPAlert('Windows XP', String(message));
+        } catch (_) {
+            // Fallback to native alert if something goes wrong
+            originalAlert(String(message));
+        }
+    };
+})(); 
