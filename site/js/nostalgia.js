@@ -231,6 +231,7 @@ function showClippy() {
     const clippy = document.createElement('div');
     clippy.className = 'clippy';
     clippy.innerHTML = `
+        <img src="clip.png" alt="Clippy" class="clippy-image" />
         <div class="clippy-bubble">
             <p>It looks like you're writing a website! 📎</p>
             <p>Would you like help?</p>

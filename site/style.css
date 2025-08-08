@@ -705,6 +705,16 @@ body {
     right: 50px;
     z-index: 9999;
     animation: bounce 2s infinite;
+    display: flex;
+    align-items: flex-end;
+    gap: 10px;
+}
+
+.clippy-image {
+    width: 90px;
+    height: auto;
+    filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.3));
+    pointer-events: none;
 }
 
 .clippy-bubble {

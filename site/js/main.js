@@ -59,7 +59,7 @@ const startMenuHTML = `
             </div>
             <div class="start-menu-separator"></div>
             <div class="start-menu-item" onclick="showClippy()">
-                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 4C10 4 6 8 6 14s4 10 4 10h12s4-4 4-10S22 4 16 4z' fill='%23C0C0C0'/%3E%3Ccircle cx='12' cy='12' r='2' fill='%23000'/%3E%3Ccircle cx='20' cy='12' r='2' fill='%23000'/%3E%3C/svg%3E" alt="Clippy">
+                <img src="clip.png" alt="Clippy">
                 <span>Office Assistant</span>
             </div>
             <div class="start-menu-item" onclick="openSolitaire()">
