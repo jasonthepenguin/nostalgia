@@ -1,0 +1,33 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Disable text selection on icon-like elements for a more native feel */
+.desktop-icon-item,
+.desktop-icon,
+.file-item,
+.start-button,
+.taskbar-item,
+.tray-icon,
+.start-menu-item {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+body {
+    font-family: "Tahoma", "Segoe UI", sans-serif;
+    font-size: 11px;
+    overflow: hidden;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* XP Loading cursor */
+body.loading {
+    cursor: url('data:image/x-icon;base64,AAACAAEAICAAAAAAAACoCAAAFgAAACgAAAAgAAAAQAAAAAEACAAAAAAAAAQAAAAAAAAAAAAAAAEAAAAAAAAAAAAA////AAAA/wAA//8A/wAAAP8A/wD/AP8AAAD//wD///8A'), wait;
+}

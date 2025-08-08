@@ -1,0 +1,211 @@
+/* Taskbar */
+.taskbar {
+    height: 40px;
+    background: linear-gradient(to bottom, #3169C6 0%, #2559B0 3%, #1941A5 100%);
+    display: flex;
+    align-items: center;
+    padding: 0 4px;
+    box-shadow: 0 -1px 0 #000;
+    position: relative;
+}
+
+/* Start Button */
+.start-button {
+    height: 34px;
+    padding: 0 20px 0 5px;
+    margin-right: 10px;
+    background: linear-gradient(to bottom, #5EBE4A 0%, #4AA434 50%, #379D24 100%);
+    border: none;
+    border-radius: 0 15px 15px 0;
+    color: white;
+    font-weight: bold;
+    font-size: 11px;
+    font-style: italic;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.3);
+    text-shadow: 1px 1px 1px rgba(0,0,0,0.3);
+}
+
+.start-button:hover {
+    background: linear-gradient(to bottom, #6FD05C 0%, #5BB545 50%, #48AE35 100%);
+}
+
+.start-button:active {
+    background: linear-gradient(to bottom, #4AA434 0%, #379D24 50%, #2A8A1B 100%);
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.3);
+}
+
+.start-button img {
+    width: 16px;
+    height: 16px;
+}
+
+/* Taskbar Items */
+.taskbar-items {
+    flex: 1;
+    display: flex;
+    gap: 2px;
+    margin-right: 10px;
+}
+
+.taskbar-item {
+    min-width: 160px;
+    height: 32px;
+    background: linear-gradient(to bottom, #4584EF 0%, #3B7AE3 50%, #2B6AD3 100%);
+    border: 1px solid #1941A5;
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    padding: 0 8px;
+    gap: 5px;
+    cursor: pointer;
+    color: white;
+    font-size: 11px;
+}
+
+.taskbar-item:hover {
+    background: linear-gradient(to bottom, #5A94F7 0%, #4B8AEB 50%, #3B7ADB 100%);
+    border-color: #2951B5;
+}
+
+.taskbar-item.active {
+    background: linear-gradient(to bottom, #1757C0 0%, #1249B0 50%, #0D3A90 100%);
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.5);
+    border-color: #0A2970;
+}
+
+.taskbar-item img {
+    width: 16px;
+    height: 16px;
+}
+
+/* System Tray */
+.system-tray {
+    background: linear-gradient(to bottom, #12A7E7 0%, #0C9BD9 50%, #0788C3 100%);
+    height: 34px;
+    padding: 0 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-left: 1px solid #0D4F8B;
+    box-shadow: inset 1px 0 0 rgba(255,255,255,0.2);
+}
+
+.tray-icons {
+    display: flex;
+    gap: 5px;
+    padding-right: 10px;
+    border-right: 1px solid #0D4F8B;
+}
+
+.tray-icon {
+    font-size: 14px;
+    cursor: pointer;
+    filter: drop-shadow(0 1px 1px rgba(0,0,0,0.3));
+}
+
+.clock {
+    color: white;
+    font-size: 11px;
+    text-shadow: 1px 1px 1px rgba(0,0,0,0.3);
+}
+
+/* Start Menu */
+.start-menu {
+    position: fixed;
+    bottom: 40px;
+    left: 0;
+    width: 380px;
+    background: #fff;
+    border: 2px solid #0054E3;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-bottom: none;
+    box-shadow: 2px -2px 5px rgba(0,0,0,0.3);
+    z-index: 10000;
+}
+
+.start-menu-header {
+    background: linear-gradient(to bottom, #4584EF 0%, #3169C6 100%);
+    color: white;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.start-menu-header img {
+    width: 48px;
+    height: 48px;
+    border: 2px solid white;
+    border-radius: 3px;
+}
+
+.start-menu-content {
+    display: flex;
+    height: 400px;
+}
+
+.start-menu-left {
+    flex: 1;
+    background: white;
+    border-right: 1px solid #D4D0C8;
+}
+
+.start-menu-right {
+    flex: 1;
+    background: #D6E5F5;
+}
+
+.start-menu-item {
+    padding: 8px 15px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 11px;
+}
+
+.start-menu-item:hover {
+    background: #316AC5;
+    color: white;
+}
+
+.start-menu-item img {
+    width: 32px;
+    height: 32px;
+}
+
+.start-menu-separator {
+    height: 2px;
+    background: #D4D0C8;
+    margin: 5px 15px;
+}
+
+.start-menu-footer {
+    background: #ECE9D8;
+    padding: 8px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    border-top: 1px solid #D4D0C8;
+}
+
+.start-menu-button {
+    background: linear-gradient(to bottom, #FFF 0%, #ECE9D8 100%);
+    border: 1px solid #003C74;
+    border-radius: 3px;
+    padding: 5px 15px;
+    font-size: 11px;
+    cursor: pointer;
+}
+
+.start-menu-button:hover {
+    background: linear-gradient(to bottom, #FFF 0%, #E3F4FF 100%);
+    border-color: #0078D7;
+}

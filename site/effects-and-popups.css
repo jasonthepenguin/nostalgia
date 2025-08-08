@@ -1,0 +1,188 @@
+/* Clippy */
+.clippy {
+    position: fixed;
+    bottom: 100px;
+    right: 50px;
+    z-index: 9999;
+    animation: bounce 2s infinite;
+    display: flex;
+    align-items: flex-end;
+    gap: 10px;
+}
+
+.clippy-image {
+    width: 90px;
+    height: auto;
+    filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.3));
+    pointer-events: none;
+}
+
+.clippy-bubble {
+    background: #FFFACD;
+    border: 2px solid #000;
+    border-radius: 10px;
+    padding: 15px;
+    position: relative;
+    box-shadow: 3px 3px 5px rgba(0,0,0,0.3);
+    max-width: 250px;
+}
+
+.clippy-bubble::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 20px;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 10px solid #000;
+}
+
+.clippy-bubble button {
+    margin-top: 10px;
+    padding: 5px 10px;
+    background: #E1E1E1;
+    border: 1px solid #000;
+    cursor: pointer;
+    font-size: 11px;
+}
+
+/* Popup Ad */
+.popup-ad {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9998;
+    animation: windowJitter 0.1s infinite;
+}
+
+.popup-content {
+    background: #C0C0C0;
+    border: 3px solid #000;
+    box-shadow: 5px 5px 0 #808080;
+    min-width: 300px;
+}
+
+.popup-header {
+    background: #000080;
+    color: white;
+    padding: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: bold;
+}
+
+.popup-header button {
+    background: #C0C0C0;
+    border: 1px solid #000;
+    padding: 0 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.popup-body {
+    padding: 20px;
+    text-align: center;
+}
+
+.popup-body p {
+    margin: 10px 0;
+    font-size: 14px;
+}
+
+/* Blinking scam-style button */
+.blink {
+    animation: blink 1s infinite, buttonJitter 0.05s infinite;
+    background: #FF0000;
+    color: white;
+    border: 2px solid #000;
+    padding: 10px 20px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 16px;
+    position: relative;
+}
+
+/* Windows Error Dialog */
+.windows-error {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10001;
+    animation: windowJitter 0.15s infinite;
+}
+
+.error-window {
+    background: #ECE9D8;
+    border: 3px solid #0054E3;
+    border-radius: 5px 5px 0 0;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+    min-width: 300px;
+}
+
+.error-titlebar {
+    background: linear-gradient(to bottom, #FF6B6B 0%, #E55555 50%, #D14545 51%, #C03535 100%);
+    height: 25px;
+    border-radius: 3px 3px 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 5px;
+    color: white;
+    font-weight: bold;
+}
+
+.error-titlebar button {
+    background: #C0C0C0;
+    border: 1px solid #000;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.error-content {
+    padding: 20px;
+    text-align: center;
+}
+
+.error-content p {
+    margin-bottom: 20px;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.error-content button {
+    background: linear-gradient(to bottom, #FFF 0%, #ECE9D8 100%);
+    border: 2px solid #003C74;
+    border-radius: 3px;
+    padding: 5px 20px;
+    font-size: 11px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.error-content button:hover {
+    background: linear-gradient(to bottom, #FFF 0%, #E3F4FF 100%);
+    border-color: #0078D7;
+}
+
+/* Optional intensified jitter on hover */
+.popup-ad:hover {
+    animation: windowJitter 0.05s infinite;
+}
+
+/* Alternate jitter on some popups */
+.popup-ad:nth-child(even) {
+    animation: windowJitter2 0.2s infinite;
+}
+
+/* Cursor hit feedback */
+body.cursor-hit {
+    animation: cursor-hit-shake 0.2s linear;
+}

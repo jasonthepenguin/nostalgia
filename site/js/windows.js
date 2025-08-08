@@ -55,11 +55,11 @@ function drag(e) {
 
 // Show window function
 function showWindow(windowId) {
-    const window = document.getElementById(windowId);
-    if (window) {
+    const winEl = document.getElementById(windowId);
+    if (winEl) {
         // Don't hide other windows - just bring this one to front
-        window.style.display = 'block';
-        window.style.zIndex = ++highestZIndex;
+        winEl.style.display = 'block';
+        winEl.style.zIndex = ++highestZIndex;
         
         // Remove active class from all windows
         document.querySelectorAll('.window').forEach(w => {
@@ -67,19 +67,19 @@ function showWindow(windowId) {
         });
         
         // Make this window active
-        window.classList.add('active');
-        activeWindow = window;
+        winEl.classList.add('active');
+        activeWindow = winEl;
         
         // Make sure window is within viewport - only adjust if it's outside
-        const currentLeft = window.offsetLeft;
-        const currentTop = window.offsetTop;
-        const maxX = window.innerWidth - window.offsetWidth;
-        const maxY = window.innerHeight - window.offsetHeight - 40;
+        const currentLeft = winEl.offsetLeft;
+        const currentTop = winEl.offsetTop;
+        const maxX = window.innerWidth - winEl.offsetWidth;
+        const maxY = window.innerHeight - winEl.offsetHeight - 40;
         
         // Only reposition if window is outside viewport
         if (currentLeft < 0 || currentLeft > maxX || currentTop < 0 || currentTop > maxY) {
-            window.style.left = Math.max(0, Math.min(currentLeft, maxX)) + 'px';
-            window.style.top = Math.max(0, Math.min(currentTop, maxY)) + 'px';
+            winEl.style.left = Math.max(0, Math.min(currentLeft, maxX)) + 'px';
+            winEl.style.top = Math.max(0, Math.min(currentTop, maxY)) + 'px';
         }
     }
 } 
