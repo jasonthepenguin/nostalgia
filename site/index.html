@@ -25,7 +25,7 @@
                 <span>My Computer</span>
             </div>
             
-            <div class="desktop-icon-item" ondblclick="alert('🌐 Internet Explorer\\n\\nVersion 6.0\\n\\nYour homepage is set to:\\nwww.msn.com\\n\\nToolbars installed: 7\\nPop-ups blocked today: 1,337')">
+            <div class="desktop-icon-item" ondblclick="openRetroTwitter()">
                 <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Ccircle cx='24' cy='24' r='20' fill='%231E90FF'/%3E%3Cpath d='M24 8c-8.8 0-16 7.2-16 16s7.2 16 16 16 16-7.2 16-16S32.8 8 24 8zm0 4c2.2 0 4.3.5 6.2 1.4-1.8 2.5-4.6 4.2-7.7 4.6-1.7-2.8-3-4.6-4-5.5 1.7-.3 3.6-.5 5.5-.5z' fill='%23FFD700'/%3E%3Cpath d='M20 20h8v2h-8zm-2 4h12v2H18zm2 4h8v2h-8z' fill='%23fff'/%3E%3C/svg%3E" alt="Internet Explorer">
                 <span>Internet Explorer</span>
             </div>
@@ -611,6 +611,168 @@ until then, i'll be here in my XP nostalgia bubble, waiting for the world to mak
                 <span id="countdown-status">Calculating time remaining...</span>
                 <span class="status-separator"></span>
                 <span>Version 1.0</span>
+            </div>
+        </div>
+
+        <!-- Retro Twitter/X Window -->
+        <div class="window" id="retro-twitter-window" style="display: none;">
+            <div class="window-titlebar">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%231E90FF'%3E%3Ccircle cx='8' cy='8' r='7'/%3E%3C/svg%3E" alt="IE">
+                <span class="window-title">Twttr - Microsoft Internet Explorer</span>
+                <div class="window-controls">
+                    <button class="window-minimize">_</button>
+                    <button class="window-maximize">□</button>
+                    <button class="window-close">×</button>
+                </div>
+            </div>
+            <div class="window-menu">
+                <span>File</span>
+                <span>Edit</span>
+                <span>View</span>
+                <span>Favorites</span>
+                <span>Tools</span>
+                <span>Help</span>
+            </div>
+            <div class="window-toolbar">
+                <button class="toolbar-btn">← Back</button>
+                <button class="toolbar-btn">→</button>
+                <button class="toolbar-btn">🏠 Home</button>
+                <button class="toolbar-btn">🔍 Search</button>
+                <button class="toolbar-btn">⭐ Favorites</button>
+            </div>
+            <div class="ie-address-bar">
+                <label>Address:</label>
+                <input type="text" value="http://www.twttr.com" readonly>
+                <button>Go</button>
+            </div>
+            <div class="retro-twitter-content">
+                <div class="retro-twitter-header">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath d='M38 12c-1.4.6-2.9 1-4.5 1.2 1.6-1 2.9-2.5 3.5-4.3-1.5.9-3.2 1.6-5 1.9-1.4-1.5-3.5-2.5-5.8-2.5-4.4 0-8 3.6-8 8 0 .6.1 1.2.2 1.8-6.7-.3-12.6-3.5-16.6-8.4-.7 1.2-1.1 2.5-1.1 4 0 2.8 1.4 5.2 3.6 6.7-1.3 0-2.6-.4-3.7-1v.1c0 3.9 2.8 7.1 6.4 7.8-.7.2-1.4.3-2.2.3-.5 0-1.1 0-1.6-.1 1.1 3.4 4.2 5.9 7.9 6-2.9 2.3-6.5 3.6-10.5 3.6-.7 0-1.3 0-2-.1 3.6 2.3 7.9 3.7 12.5 3.7 15 0 23.2-12.4 23.2-23.2v-1.1c1.6-1.1 3-2.5 4.1-4.1z' fill='%2300BFFF'/%3E%3C/svg%3E" alt="Twttr" class="retro-twitter-logo">
+                    <h1>twttr</h1>
+                    <p class="tagline">What are you doing?</p>
+                </div>
+                
+                <div class="retro-twitter-main">
+                    <div class="retro-twitter-sidebar">
+                        <div class="retro-profile-box">
+                            <h3>Your Profile</h3>
+                            <div class="retro-avatar">👤</div>
+                            <p><strong>@xXx_user_2007_xXx</strong></p>
+                            <p class="retro-stats">
+                                Following: 42<br>
+                                Followers: 13<br>
+                                Updates: 267
+                            </p>
+                        </div>
+                        <div class="retro-sidebar-section">
+                            <h3>Navigation</h3>
+                            <ul>
+                                <li><a href="#">Home</a></li>
+                                <li><a href="#">@Replies</a></li>
+                                <li><a href="#">Direct Messages</a></li>
+                                <li><a href="#">Favorites</a></li>
+                                <li><a href="#">Everyone</a></li>
+                            </ul>
+                        </div>
+                        <div class="retro-sidebar-ad">
+                            <marquee behavior="alternate">✨ NEW! ✨</marquee>
+                            <p style="font-size: 10px; text-align: center;">
+                                Get Twttr on your<br>
+                                <strong>RAZR phone!</strong><br>
+                                Text TWTR to 40404
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="retro-twitter-feed">
+                        <div class="retro-tweet-box">
+                            <label>What are you doing?</label>
+                            <textarea maxlength="140" placeholder="type here..."></textarea>
+                            <div class="tweet-box-footer">
+                                <span class="char-count">140</span>
+                                <button class="retro-btn">update</button>
+                            </div>
+                        </div>
+                        
+                        <div class="retro-tweets">
+                            <div class="retro-tweet">
+                                <div class="retro-tweet-avatar">🦅</div>
+                                <div class="retro-tweet-content">
+                                    <p class="retro-tweet-user"><strong>@ev</strong> <span class="retro-timestamp">about 5 hours ago</span></p>
+                                    <p class="retro-tweet-text">just setting up my twttr</p>
+                                    <div class="retro-tweet-actions">
+                                        <a href="#">reply</a> | <a href="#">favorite</a>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="retro-tweet">
+                                <div class="retro-tweet-avatar">🎵</div>
+                                <div class="retro-tweet-content">
+                                    <p class="retro-tweet-user"><strong>@sk8erBoi2007</strong> <span class="retro-timestamp">about 12 hours ago</span></p>
+                                    <p class="retro-tweet-text">listening to linkin park while doing homework... this site is pretty cool</p>
+                                    <div class="retro-tweet-actions">
+                                        <a href="#">reply</a> | <a href="#">favorite</a>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="retro-tweet">
+                                <div class="retro-tweet-avatar">🌟</div>
+                                <div class="retro-tweet-content">
+                                    <p class="retro-tweet-user"><strong>@coolguRL_21</strong> <span class="retro-timestamp">about 1 day ago</span></p>
+                                    <p class="retro-tweet-text">OMG this is like texting but on the internet!!! so cool :D</p>
+                                    <div class="retro-tweet-actions">
+                                        <a href="#">reply</a> | <a href="#">favorite</a>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="retro-tweet">
+                                <div class="retro-tweet-avatar">💻</div>
+                                <div class="retro-tweet-content">
+                                    <p class="retro-tweet-user"><strong>@tech_guru_2006</strong> <span class="retro-timestamp">about 1 day ago</span></p>
+                                    <p class="retro-tweet-text">Can you believe this uses AJAX? Web 2.0 is amazing! No page refreshes needed!!</p>
+                                    <div class="retro-tweet-actions">
+                                        <a href="#">reply</a> | <a href="#">favorite</a>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="retro-tweet">
+                                <div class="retro-tweet-avatar">🎮</div>
+                                <div class="retro-tweet-content">
+                                    <p class="retro-tweet-user"><strong>@gamerdude1337</strong> <span class="retro-timestamp">about 2 days ago</span></p>
+                                    <p class="retro-tweet-text">just got home from blockbuster... anyone wanna chat on AIM later?</p>
+                                    <div class="retro-tweet-actions">
+                                        <a href="#">reply</a> | <a href="#">favorite</a>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="retro-tweet">
+                                <div class="retro-tweet-avatar">📱</div>
+                                <div class="retro-tweet-content">
+                                    <p class="retro-tweet-user"><strong>@early_adopter</strong> <span class="retro-timestamp">about 2 days ago</span></p>
+                                    <p class="retro-tweet-text">posting this from my sidekick!! mobile web is the future!!</p>
+                                    <div class="retro-tweet-actions">
+                                        <a href="#">reply</a> | <a href="#">favorite</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="retro-twitter-footer">
+                    <p>© 2007 Twttr, Inc. | <a href="#">About Us</a> | <a href="#">Contact</a> | <a href="#">Blog</a> | <a href="#">Terms of Service</a></p>
+                    <p style="font-size: 9px; color: #999;">Best viewed in Internet Explorer 6.0+ at 1024x768</p>
+                </div>
+            </div>
+            <div class="window-status">
+                <span>Done</span>
+                <span class="status-separator"></span>
+                <span>Internet</span>
             </div>
         </div>
     </div>

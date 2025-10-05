@@ -47,6 +47,140 @@ function openInternetExplorer() {
     }
 }
 
+function openRetroTwitter() {
+    showWindow('retro-twitter-window');
+    initRetroTwitter();
+}
+
+function initRetroTwitter() {
+    // Character counter for tweet box
+    const tweetTextarea = document.querySelector('#retro-twitter-window .retro-tweet-box textarea');
+    const charCount = document.querySelector('#retro-twitter-window .char-count');
+    const updateBtn = document.querySelector('#retro-twitter-window .retro-btn');
+    
+    if (tweetTextarea && charCount) {
+        tweetTextarea.addEventListener('input', function() {
+            const remaining = 140 - this.value.length;
+            charCount.textContent = remaining;
+            charCount.style.color = remaining < 20 ? '#FF0000' : '#666';
+        });
+        
+        if (updateBtn) {
+            updateBtn.addEventListener('click', function() {
+                if (tweetTextarea.value.trim()) {
+                    postRetroTweet(tweetTextarea.value);
+                    tweetTextarea.value = '';
+                    charCount.textContent = '140';
+                    charCount.style.color = '#666';
+                } else {
+                    alert('⚠️ Please enter some text to update!');
+                }
+            });
+        }
+    }
+}
+
+function postRetroTweet(text) {
+    const tweetsContainer = document.querySelector('#retro-twitter-window .retro-tweets');
+    if (!tweetsContainer) return;
+    
+    // Create user's tweet
+    const userTweet = document.createElement('div');
+    userTweet.className = 'retro-tweet';
+    userTweet.innerHTML = `
+        <div class="retro-tweet-avatar">👤</div>
+        <div class="retro-tweet-content">
+            <p class="retro-tweet-user"><strong>@xXx_user_2007_xXx</strong> <span class="retro-timestamp">just now</span></p>
+            <p class="retro-tweet-text">${escapeHtml(text)}</p>
+            <div class="retro-tweet-actions">
+                <a href="#">reply</a> | <a href="#">favorite</a>
+            </div>
+        </div>
+    `;
+    
+    // Add to top of feed
+    tweetsContainer.insertBefore(userTweet, tweetsContainer.firstChild);
+    
+    // Scroll to top
+    const twitterContent = document.querySelector('#retro-twitter-window .retro-twitter-content');
+    if (twitterContent) {
+        twitterContent.scrollTop = 0;
+    }
+    
+    // Generate hate replies
+    generateHateReplies(text, tweetsContainer);
+}
+
+function generateHateReplies(originalText, container) {
+    const hateReplies = [
+        { user: '@internet_troll_69', avatar: '😈', text: 'who asked??? nobody cares lol' },
+        { user: '@hater4life', avatar: '😠', text: 'this is the dumbest thing ive ever read' },
+        { user: '@xX_edge_lord_Xx', avatar: '💀', text: 'ur opinion is trash and u should feel bad' },
+        { user: '@random_hater_2007', avatar: '🤡', text: 'FAIL! delete this' },
+        { user: '@keyboard_warrior', avatar: '⚔️', text: 'wow another terrible take... shocking' },
+        { user: '@truth_speaker_420', avatar: '🗣️', text: 'no one cares what u think!!! get a life!!!' },
+        { user: '@forum_troll', avatar: '👹', text: 'this is why the internet was a mistake' },
+        { user: '@negative_nancy', avatar: '😤', text: 'ur wrong and everyone knows it' },
+        { user: '@rage_quit_2007', avatar: '🔥', text: 'WORST POST EVER!!!! reported!!!' },
+        { user: '@anonymous_coward', avatar: '🎭', text: 'lmao imagine actually believing this' },
+        { user: '@mean_kid_1337', avatar: '😏', text: 'go back to myspace noob' },
+        { user: '@angry_teenager', avatar: '😡', text: 'this makes me lose faith in humanity' },
+        { user: '@toxic_gamer', avatar: '🎮', text: 'git gud at posting... this aint it chief' },
+        { user: '@pessimist_pete', avatar: '🙄', text: 'another day another bad take from u' },
+        { user: '@grumpy_cat_fan', avatar: '😾', text: 'NO. just... NO.' }
+    ];
+    
+    // Pick 3-5 random hate replies
+    const numReplies = Math.floor(Math.random() * 3) + 3; // 3-5 replies
+    const selectedReplies = [];
+    const usedIndices = new Set();
+    
+    while (selectedReplies.length < numReplies && selectedReplies.length < hateReplies.length) {
+        const randomIndex = Math.floor(Math.random() * hateReplies.length);
+        if (!usedIndices.has(randomIndex)) {
+            usedIndices.add(randomIndex);
+            selectedReplies.push(hateReplies[randomIndex]);
+        }
+    }
+    
+    // Post replies with delays
+    selectedReplies.forEach((reply, index) => {
+        setTimeout(() => {
+            const replyTweet = document.createElement('div');
+            replyTweet.className = 'retro-tweet retro-hate-reply';
+            replyTweet.style.animation = 'slideIn 0.3s ease-out';
+            replyTweet.innerHTML = `
+                <div class="retro-tweet-avatar">${reply.avatar}</div>
+                <div class="retro-tweet-content">
+                    <p class="retro-tweet-user"><strong>${reply.user}</strong> <span class="retro-timestamp">just now</span></p>
+                    <p class="retro-tweet-text">${reply.text}</p>
+                    <p style="font-size: 10px; color: #999; margin-top: 3px;">↳ replying to <strong>@xXx_user_2007_xXx</strong></p>
+                    <div class="retro-tweet-actions">
+                        <a href="#">reply</a> | <a href="#">favorite</a>
+                    </div>
+                </div>
+            `;
+            
+            // Insert after user's tweet
+            const userTweet = container.querySelector('.retro-tweet');
+            if (userTweet.nextSibling) {
+                container.insertBefore(replyTweet, userTweet.nextSibling);
+            } else {
+                userTweet.parentNode.insertBefore(replyTweet, userTweet.nextSibling);
+            }
+            
+            // Play notification sound
+            playSound('ding');
+        }, 1000 + (index * 1500)); // Stagger replies every 1.5 seconds
+    });
+}
+
+function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
+
 function showLogOffDialog() {
     alert('👋 See you later!\\n\\nDon\'t forget to save your work!\\n\\nWindows is shutting down...\\n\\n*dial-up disconnection sounds*');
 }
