@@ -25,6 +25,37 @@
     pointer-events: none; /* Let clicks pass through container */
 }
 
+/* Center Icons */
+.center-icons {
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    gap: 40px;
+    pointer-events: none; /* Container passes clicks */
+    z-index: 50; /* Below active windows but above background */
+}
+
+.center-icons .desktop-icon-item {
+    width: 90px; /* Slightly larger touch targets */
+    pointer-events: auto; /* Re-enable clicks */
+}
+
+.center-icons .desktop-icon-item img {
+    width: 48px; /* Larger icons */
+    height: 48px;
+}
+
+.center-icons .desktop-icon-item span {
+    font-size: 12px;
+    text-shadow: 1px 1px 2px rgba(0,0,0,1);
+    background: rgba(0,0,0,0.2); /* Slight background for legibility */
+    border-radius: 4px;
+    padding: 2px 4px;
+    margin-top: 4px;
+}
+
 .desktop-icon-item {
     display: flex;
     flex-direction: column;
