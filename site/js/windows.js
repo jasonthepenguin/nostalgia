@@ -58,7 +58,11 @@ function showWindow(windowId) {
     const winEl = document.getElementById(windowId);
     if (winEl) {
         // Don't hide other windows - just bring this one to front
-        winEl.style.display = 'block';
+        if (windowId === 'retro-twitter-window') {
+            winEl.style.display = 'flex';
+        } else {
+            winEl.style.display = 'block';
+        }
         winEl.style.zIndex = ++highestZIndex;
         
         // Remove active class from all windows

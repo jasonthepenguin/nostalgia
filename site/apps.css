@@ -737,6 +737,9 @@ body.free-me-game-active .flame-projectile {
     height: 650px;
     left: calc(50% - 450px);
     top: calc(50% - 325px);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
 }
 
 .ie-address-bar {
@@ -777,6 +780,7 @@ body.free-me-game-active .flame-projectile {
     overflow-y: auto;
     display: flex;
     flex-direction: column;
+    min-height: 0;
 }
 
 .retro-twitter-header {
