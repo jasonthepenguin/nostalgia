@@ -18,90 +18,162 @@
 }
 
 .clippy-bubble {
-    background: #FFFACD;
-    border: 2px solid #000;
-    border-radius: 10px;
-    padding: 15px;
+    background: #FFFFE1;
+    border: 1px solid #000;
+    border-radius: 5px;
+    padding: 10px;
     position: relative;
-    box-shadow: 3px 3px 5px rgba(0,0,0,0.3);
-    max-width: 250px;
+    box-shadow: 2px 2px 2px rgba(0,0,0,0.2);
+    max-width: 200px;
+    font-family: "Tahoma", sans-serif;
+    font-size: 11px;
+    color: #000;
 }
 
 .clippy-bubble::after {
     content: '';
     position: absolute;
-    bottom: -10px;
-    left: 20px;
-    border-left: 10px solid transparent;
-    border-right: 10px solid transparent;
-    border-top: 10px solid #000;
+    bottom: 10px;
+    left: -6px;
+    width: 6px;
+    height: 6px;
+    background: #FFFFE1;
+    border-bottom: 1px solid #000;
+    border-left: 1px solid #000;
+    transform: rotate(45deg);
 }
 
 .clippy-bubble button {
-    margin-top: 10px;
-    padding: 5px 10px;
-    background: #E1E1E1;
-    border: 1px solid #000;
+    margin-top: 8px;
+    padding: 2px 8px;
+    background: #ECE9D8;
+    border: 1px solid #7A96DF;
+    border-radius: 3px;
     cursor: pointer;
-    font-size: 11px;
+    font-family: "Tahoma", sans-serif;
+    font-size: 10px;
 }
 
-/* Popup Ad */
+.clippy-bubble button:hover {
+    background-color: #E3F4FF;
+    border-color: #0054E3;
+}
+
+/* Popup Ad (Internet Explorer 6 Style) */
 .popup-ad {
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 9998;
-    animation: windowJitter 0.1s infinite;
+    /* animation: windowJitter 0.1s infinite; */ /* Removed constant jitter, too annoying */
+    display: flex;
+    flex-direction: column;
+    box-shadow: 4px 4px 10px rgba(0,0,0,0.5);
 }
 
 .popup-content {
-    background: #C0C0C0;
-    border: 3px solid #000;
-    box-shadow: 5px 5px 0 #808080;
-    min-width: 300px;
+    background: #ECE9D8; /* Standard dialog color */
+    border: 3px solid #0054E3; /* XP Blue Border */
+    border-radius: 5px 5px 0 0;
+    min-width: 350px;
+    display: flex;
+    flex-direction: column;
 }
 
 .popup-header {
-    background: #000080;
+    /* XP Blue Gradient */
+    background: linear-gradient(to bottom, 
+        #0058EE 0%, 
+        #3593FF 4%, 
+        #288EFB 18%, 
+        #1988FA 20%, 
+        #1684F8 23%, 
+        #026AF1 33%, 
+        #005FD7 85%, 
+        #0054E3 100%);
     color: white;
-    padding: 5px;
+    padding: 3px 5px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    font-family: "Tahoma", sans-serif;
     font-weight: bold;
+    font-size: 13px;
+    border-radius: 3px 3px 0 0;
+    text-shadow: 1px 1px 0 rgba(0,0,0,0.3);
+    cursor: default;
 }
 
 .popup-header button {
-    background: #C0C0C0;
-    border: 1px solid #000;
-    padding: 0 5px;
+    /* Close button red gradient */
+    background: linear-gradient(to bottom, 
+        #ECA2A3 0%, 
+        #D8696B 45%, 
+        #CF5054 50%, 
+        #CF464A 51%, 
+        #E08A8C 100%);
+    border: 1px solid #FFF;
+    color: white;
+    width: 21px;
+    height: 21px;
+    padding: 0;
     cursor: pointer;
+    font-family: "Tahoma", sans-serif;
     font-weight: bold;
+    font-size: 14px;
+    line-height: 14px;
+    border-radius: 3px;
+    box-shadow: inset 0 0 2px rgba(0,0,0,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.popup-header button:active {
+    background: linear-gradient(to bottom, #C44448 0%, #B32D31 100%);
 }
 
 .popup-body {
-    padding: 20px;
+    padding: 15px;
     text-align: center;
+    background: white; /* Web page content area usually white */
+    border: 1px solid #8BA3C0; /* Inner border */
+    margin: 2px;
+    font-family: "Times New Roman", serif; /* Classic web font */
 }
 
 .popup-body p {
     margin: 10px 0;
-    font-size: 14px;
+    font-size: 16px;
+    color: #000;
+}
+
+/* Scammy blinking text */
+.blink-text {
+    animation: blink 0.5s infinite;
+    color: red;
+    font-weight: bold;
 }
 
 /* Blinking scam-style button */
 .blink {
-    animation: blink 1s infinite, buttonJitter 0.05s infinite;
-    background: #FF0000;
-    color: white;
-    border: 2px solid #000;
-    padding: 10px 20px;
+    animation: blink 1s infinite; /* , buttonJitter 0.05s infinite; */
+    background: linear-gradient(to bottom, #FFFF00 0%, #FFCC00 100%);
+    color: red;
+    border: 2px solid red;
+    border-style: outset;
+    padding: 5px 15px;
     font-weight: bold;
     cursor: pointer;
-    font-size: 16px;
-    position: relative;
+    font-size: 14px;
+    font-family: "Arial", sans-serif;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+}
+
+.blink:active {
+    border-style: inset;
+    transform: translate(1px, 1px);
 }
 
 /* Windows Error Dialog */
@@ -111,75 +183,115 @@
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 10001;
-    animation: windowJitter 0.15s infinite;
+    /* animation: windowJitter 0.15s infinite; */
 }
 
 .error-window {
     background: #ECE9D8;
     border: 3px solid #0054E3;
-    border-radius: 5px 5px 0 0;
-    box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
-    min-width: 300px;
+    border-radius: 8px 8px 0 0;
+    box-shadow: 4px 4px 10px rgba(0,0,0,0.5);
+    min-width: 350px;
 }
 
 .error-titlebar {
-    background: linear-gradient(to bottom, #FF6B6B 0%, #E55555 50%, #D14545 51%, #C03535 100%);
-    height: 25px;
-    border-radius: 3px 3px 0 0;
+    /* XP Blue Gradient again for errors too usually */
+    background: linear-gradient(to bottom, 
+        #0058EE 0%, 
+        #3593FF 4%, 
+        #288EFB 18%, 
+        #1988FA 20%, 
+        #1684F8 23%, 
+        #026AF1 33%, 
+        #005FD7 85%, 
+        #0054E3 100%);
+    height: 30px;
+    border-radius: 5px 5px 0 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 5px;
+    padding: 0 8px;
     color: white;
+    font-family: "Tahoma", sans-serif;
     font-weight: bold;
+    font-size: 13px;
+    text-shadow: 1px 1px 0 rgba(0,0,0,0.3);
 }
 
 .error-titlebar button {
-    background: #C0C0C0;
-    border: 1px solid #000;
-    width: 20px;
-    height: 20px;
+    background: linear-gradient(to bottom, 
+        #ECA2A3 0%, 
+        #D8696B 45%, 
+        #CF5054 50%, 
+        #CF464A 51%, 
+        #E08A8C 100%);
+    border: 1px solid #FFF;
+    width: 21px;
+    height: 21px;
     cursor: pointer;
+    color: white;
     font-weight: bold;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    line-height: 1;
 }
 
 .error-content {
     padding: 20px;
-    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #ECE9D8;
 }
 
 .error-content p {
     margin-bottom: 20px;
     font-size: 12px;
+    font-family: "Tahoma", sans-serif;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
+    gap: 15px;
+    color: black;
+    width: 100%;
+    text-align: left;
+}
+
+.error-content p::before {
+    content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='%23FF0000' stroke='%238B0000' stroke-width='2'/%3E%3Cpath d='M10 10 L22 22 M22 10 L10 22' stroke='white' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E");
+    display: block;
+    min-width: 32px;
+    height: 32px;
 }
 
 .error-content button {
-    background: linear-gradient(to bottom, #FFF 0%, #ECE9D8 100%);
-    border: 2px solid #003C74;
+    background: #ECE9D8;
+    border: 1px solid #003C74;
     border-radius: 3px;
-    padding: 5px 20px;
+    padding: 4px 20px;
     font-size: 11px;
+    font-family: "Tahoma", sans-serif;
     cursor: pointer;
-    font-weight: bold;
+    min-width: 80px;
+    box-shadow: inset 1px 1px 0 #FFF;
 }
 
 .error-content button:hover {
-    background: linear-gradient(to bottom, #FFF 0%, #E3F4FF 100%);
-    border-color: #0078D7;
+    box-shadow: inset 1px 1px 0 #FFE8A6, 0 0 2px #EBC55F;
+    border-color: #EBC55F;
 }
 
 /* Optional intensified jitter on hover */
 .popup-ad:hover {
-    animation: windowJitter 0.05s infinite;
+    /* animation: windowJitter 0.05s infinite; */
 }
 
 /* Alternate jitter on some popups */
 .popup-ad:nth-child(even) {
-    animation: windowJitter2 0.2s infinite;
+    /* animation: windowJitter2 0.2s infinite; */
 }
 
 /* Cursor hit feedback */

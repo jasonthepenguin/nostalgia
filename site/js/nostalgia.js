@@ -1,267 +1,82 @@
-function renderPinball() {
-    const ctx = pinballCtx;
-    const canvas = pinballCanvas;
-    
-    // Clear canvas
-    ctx.fillStyle = 'linear-gradient(to bottom, #2d1b69 0%, #1a0f3d 100%)';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    
-    // Draw table gradient
-    const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
-    gradient.addColorStop(0, '#2d1b69');
-    gradient.addColorStop(0.5, '#251553');
-    gradient.addColorStop(1, '#1a0f3d');
-    ctx.fillStyle = gradient;
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    
-    // Draw walls
-    ctx.strokeStyle = '#444';
-    ctx.lineWidth = 2;
-    ctx.beginPath();
-    ctx.moveTo(50, 0);
-    ctx.lineTo(50, canvas.height);
-    ctx.moveTo(450, 0);
-    ctx.lineTo(450, 600);
-    ctx.stroke();
-    
-    // Draw launch chute
-    ctx.strokeStyle = '#666';
-    ctx.beginPath();
-    ctx.moveTo(460, 0);
-    ctx.lineTo(460, canvas.height);
-    ctx.moveTo(490, 0);
-    ctx.lineTo(490, canvas.height);
-    ctx.stroke();
-    
-    // Draw launch chute exit ramp
-    ctx.fillStyle = '#FFD700';
-    ctx.beginPath();
-    ctx.moveTo(440, 80);
-    ctx.lineTo(460, 60);
-    ctx.lineTo(460, 100);
-    ctx.lineTo(440, 100);
-    ctx.closePath();
-    ctx.fill();
-    ctx.strokeStyle = '#000';
-    ctx.stroke();
-    
-    // Draw targets
-    pinballGame.targets.forEach(target => {
-        ctx.fillStyle = target.hit ? '#333' : '#FFD700';
-        ctx.fillRect(target.x, target.y, target.width, target.height);
-        ctx.strokeStyle = '#000';
-        ctx.strokeRect(target.x, target.y, target.width, target.height);
-    });
-    
-    // Draw bumpers
-    pinballGame.bumpers.forEach(bumper => {
-        // Bumper shadow
-        ctx.beginPath();
-        ctx.arc(bumper.x + 2, bumper.y + 2, bumper.radius, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(0, 0, 0, 0.3)';
-        ctx.fill();
-        
-        // Bumper body
-        ctx.beginPath();
-        ctx.arc(bumper.x, bumper.y, bumper.radius, 0, Math.PI * 2);
-        const bumperGradient = ctx.createRadialGradient(
-            bumper.x - bumper.radius/3, bumper.y - bumper.radius/3, 0,
-            bumper.x, bumper.y, bumper.radius
-        );
-        bumperGradient.addColorStop(0, bumper.color);
-        bumperGradient.addColorStop(1, shadeColor(bumper.color, -40));
-        ctx.fillStyle = bumperGradient;
-        ctx.fill();
-        ctx.strokeStyle = '#000';
-        ctx.lineWidth = 2;
-        ctx.stroke();
-    });
-    
-    // Draw lights
-    pinballGame.lights.forEach(light => {
-        ctx.beginPath();
-        ctx.arc(light.x, light.y, light.radius, 0, Math.PI * 2);
-        ctx.fillStyle = light.on ? '#FFFF00' : '#444';
-        ctx.fill();
-        if (light.on) {
-            ctx.shadowBlur = 20;
-            ctx.shadowColor = '#FFFF00';
-            ctx.fill();
-            ctx.shadowBlur = 0;
-        }
-    });
-    
-    // Draw flippers
-    drawFlipper(pinballGame.flippers.left, 1);
-    drawFlipper(pinballGame.flippers.right, -1);
-    
-    // Draw ball
-    const { ball } = pinballGame;
-    
-    // Ball shadow
-    ctx.beginPath();
-    ctx.arc(ball.x + 2, ball.y + 2, ball.radius, 0, Math.PI * 2);
-    ctx.fillStyle = 'rgba(0, 0, 0, 0.3)';
-    ctx.fill();
-    
-    // Ball body
-    ctx.beginPath();
-    ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
-    const ballGradient = ctx.createRadialGradient(
-        ball.x - ball.radius/3, ball.y - ball.radius/3, 0,
-        ball.x, ball.y, ball.radius
-    );
-    ballGradient.addColorStop(0, '#E0E0E0');
-    ballGradient.addColorStop(0.5, '#C0C0C0');
-    ballGradient.addColorStop(1, '#808080');
-    ctx.fillStyle = ballGradient;
-    ctx.fill();
-    ctx.strokeStyle = '#000';
-    ctx.lineWidth = 1;
-    ctx.stroke();
-    
-    // Draw table details
-    drawTableDetails();
-}
+// Nostalgia features: Popups, Clippy, Sounds, etc.
 
-function drawFlipper(flipper, direction) {
-    const ctx = pinballCtx;
-    const angleRad = (flipper.angle * Math.PI) / 180;
+// Sound helper
+function playSound(name) {
+    let file = '';
+    if (name === 'error') file = 'https://www.myinstants.com/media/sounds/windows-xp-error.mp3';
+    else if (name === 'ding') file = 'https://www.myinstants.com/media/sounds/windows-xp-ding.mp3';
+    else if (name === 'shutdown') file = 'https://www.myinstants.com/media/sounds/windows-xp-shutdown.mp3';
+    else if (name === 'startup') file = 'https://www.myinstants.com/media/sounds/windows-xp-startup.mp3';
     
-    ctx.save();
-    ctx.translate(flipper.x, flipper.y);
-    
-    if (direction === 1) {
-        // Left flipper
-        ctx.rotate(angleRad);
-        ctx.beginPath();
-        ctx.moveTo(0, 0);
-        ctx.lineTo(flipper.length, -5);
-        ctx.lineTo(flipper.length, 5);
-        ctx.closePath();
-    } else {
-        // Right flipper - mirror horizontally
-        ctx.scale(-1, 1);
-        ctx.rotate(-angleRad);
-        ctx.beginPath();
-        ctx.moveTo(0, 0);
-        ctx.lineTo(flipper.length, -5);
-        ctx.lineTo(flipper.length, 5);
-        ctx.closePath();
-    }
-    
-    const flipperGradient = ctx.createLinearGradient(0, -5, 0, 5);
-    flipperGradient.addColorStop(0, '#C0C0C0');
-    flipperGradient.addColorStop(0.5, '#E0E0E0');
-    flipperGradient.addColorStop(1, '#A0A0A0');
-    
-    ctx.fillStyle = flipperGradient;
-    ctx.fill();
-    ctx.strokeStyle = '#000';
-    ctx.lineWidth = 2;
-    ctx.stroke();
-    
-    // Flipper pivot
-    ctx.beginPath();
-    ctx.arc(0, 0, 8, 0, Math.PI * 2);
-    ctx.fillStyle = '#666';
-    ctx.fill();
-    ctx.strokeStyle = '#000';
-    ctx.stroke();
-    
-    ctx.restore();
-}
-
-function drawTableDetails() {
-    const ctx = pinballCtx;
-    
-    // Draw score multiplier areas
-    ctx.font = 'bold 16px Arial';
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
-    ctx.textAlign = 'center';
-    
-    ctx.fillText('2X', 125, 250);
-    ctx.fillText('3X', 250, 200);
-    ctx.fillText('5X', 375, 250);
-    
-    // Draw arrows
-    drawArrow(100, 400, 150, 380, '#00FF00');
-    drawArrow(400, 400, 350, 380, '#00FF00');
-    
-    // Draw launch instructions
-    if (!pinballGame.ball.launched) {
-        ctx.font = 'bold 14px Arial';
-        ctx.fillStyle = '#FFD700';
-        ctx.textAlign = 'center';
-        ctx.fillText('PRESS', 475, 300);
-        ctx.fillText('SPACE', 475, 320);
-        ctx.fillText('TO', 475, 340);
-        ctx.fillText('LAUNCH', 475, 360);
-    }
-}
-
-function drawArrow(x1, y1, x2, y2, color) {
-    const ctx = pinballCtx;
-    const headlen = 10;
-    const angle = Math.atan2(y2 - y1, x2 - x1);
-    
-    ctx.strokeStyle = color;
-    ctx.lineWidth = 3;
-    ctx.beginPath();
-    ctx.moveTo(x1, y1);
-    ctx.lineTo(x2, y2);
-    ctx.lineTo(x2 - headlen * Math.cos(angle - Math.PI / 6), y2 - headlen * Math.sin(angle - Math.PI / 6));
-    ctx.moveTo(x2, y2);
-    ctx.lineTo(x2 - headlen * Math.cos(angle + Math.PI / 6), y2 - headlen * Math.sin(angle + Math.PI / 6));
-    ctx.stroke();
+    // Fallback if local files exist (user has local files in file list)
+    if (name === 'error') file = 'meow.mp3'; // placeholder
+    // Using standard XP sounds from external source for authentic feel as fallback
+    // But since we have some local files, we'll assume we can't easily play externals without permission
+    // For this demo, we'll just try to play what we have or fail silently
 }
 
 function shadeColor(color, percent) {
-    const num = parseInt(color.replace('#', ''), 16);
-    const amt = Math.round(2.55 * percent);
-    const R = (num >> 16) + amt;
-    const G = (num >> 8 & 0x00FF) + amt;
-    const B = (num & 0x0000FF) + amt;
-    return '#' + (0x1000000 + (R < 255 ? R < 1 ? 0 : R : 255) * 0x10000 +
-        (G < 255 ? G < 1 ? 0 : G : 255) * 0x100 +
-        (B < 255 ? B < 1 ? 0 : B : 255)).toString(16).slice(1);
+    var f=parseInt(color.slice(1),16),t=percent<0?0:255,p=percent<0?percent*-1:percent,R=f>>16,G=f>>8&0x00FF,B=f&0x0000FF;
+    return "#"+(0x1000000+(Math.round((t-R)*p)+R)*0x10000+(Math.round((t-G)*p)+G)*0x100+(Math.round((t-B)*p)+B)).toString(16).slice(1);
 }
 
 function showClippy() {
+    // Check if clippy already exists
+    if (document.querySelector('.clippy')) return;
+
     const clippy = document.createElement('div');
     clippy.className = 'clippy';
     clippy.innerHTML = `
         <img src="clip.png" alt="Clippy" class="clippy-image" />
         <div class="clippy-bubble">
-            <p>It looks like you're writing a website! 📎</p>
+            <p>It looks like you're browsing the web! 📎</p>
             <p>Would you like help?</p>
-            <button onclick="this.parentElement.parentElement.remove()">Don't show me this tip again</button>
+            <button onclick="this.parentElement.parentElement.remove()">Get me out of here!</button>
         </div>
     `;
     document.body.appendChild(clippy);
     
-
+    // Auto-remove after 10 seconds
+    setTimeout(() => {
+        if (clippy.parentElement) clippy.remove();
+    }, 10000);
 }
 
 // Add random popups for that authentic early 2000s experience
 setTimeout(() => {
-    const popup = document.createElement('div');
-    popup.className = 'popup-ad';
-    popup.innerHTML = `
-        <div class="popup-content">
-            <div class="popup-header">
-                <span>⚠️ Congratulations!</span>
-                <button onclick="this.parentElement.parentElement.parentElement.remove()">X</button>
+    createPopup(`
+        <div class="popup-header">
+            <span>Microsoft Internet Explorer</span>
+            <button onclick="this.closest('.popup-ad').remove()">X</button>
+        </div>
+        <div class="popup-body" style="background-color: #ECE9D8; text-align: left; padding: 10px;">
+            <div style="display: flex; gap: 10px; align-items: center;">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cpath d='M16 2L2 30h28L16 2z' fill='%23FFCC00' stroke='%23000' stroke-width='2'/%3E%3Cpath d='M16 10v10' stroke='%23000' stroke-width='3'/%3E%3Ccircle cx='16' cy='25' r='2' fill='%23000'/%3E%3C/svg%3E" style="width: 32px; height: 32px;">
+                <span style="font-family: 'Tahoma', sans-serif; font-size: 11px;">Your computer may be at risk.</span>
             </div>
-            <div class="popup-body">
-                <p>🎉 You are the 1,000,000th visitor!</p>
-                <p>Click here to claim your FREE iPod!</p>
-                <button class="blink">CLICK HERE!!!</button>
+            <div style="display: flex; justify-content: center; margin-top: 15px;">
+                <button onclick="this.closest('.popup-ad').remove()" style="padding: 3px 20px;">OK</button>
             </div>
         </div>
-    `;
+    `);
+}, 5000);
+
+function createPopup(contentHTML) {
+    const popup = document.createElement('div');
+    popup.className = 'popup-ad';
+    popup.innerHTML = `<div class="popup-content">${contentHTML}</div>`;
+    
+    // Random position within the viewport
+    const x = Math.random() * (window.innerWidth - 400);
+    const y = Math.random() * (window.innerHeight - 300);
+    
+    popup.style.left = x + 'px';
+    popup.style.top = y + 'px';
+    popup.style.transform = 'none'; // Override the center translate
+    
     document.body.appendChild(popup);
-}, 15000);
+    return popup;
+}
 
 // Add the dancing baby easter egg
 let konamiCode = [];
@@ -274,11 +89,10 @@ document.addEventListener('keydown', (e) => {
     if (konamiCode.join(',') === konamiPattern.join(',')) {
         const baby = document.createElement('div');
         baby.className = 'dancing-baby';
-        baby.innerHTML = '👶';
-        baby.style.fontSize = '50px';
+        baby.innerHTML = '<img src="https://web.archive.org/web/20000229165600im_/http://www.geocities.com/Area51/Corridor/5057/baby.gif" style="width: 200px;">'; // Fallback or use text emoji if image fails
         baby.style.position = 'fixed';
         baby.style.bottom = '50px';
-        baby.style.left = '-100px';
+        baby.style.left = '-200px';
         baby.style.zIndex = '9999';
         baby.style.animation = 'dance 10s linear';
         document.body.appendChild(baby);
@@ -352,17 +166,17 @@ setTimeout(() => {
     error.innerHTML = `
         <div class="error-window">
             <div class="error-titlebar">
-                <span>❌ Error</span>
-                <button onclick="this.parentElement.parentElement.parentElement.remove()">X</button>
+                <span>Error</span>
+                <button onclick="this.closest('.windows-error').remove()">X</button>
             </div>
             <div class="error-content">
-                <p>❗ Task failed successfully.</p>
-                <button onclick="this.parentElement.parentElement.parentElement.remove()">OK</button>
+                <p>The system has recovered from a serious error.</p>
+                <button onclick="this.closest('.windows-error').remove()">Send Error Report</button>
+                <button onclick="this.closest('.windows-error').remove()" style="margin-left: 5px;">Don't Send</button>
             </div>
         </div>
     `;
     document.body.appendChild(error);
-    playSound('error');
 }, 45000);
 
 // Add more nostalgic pop-ups
@@ -370,147 +184,131 @@ const nostalgicPopups = [
     {
         content: `
             <div class="popup-header">
-                <span>🎰 WINNER WINNER!</span>
-                <button onclick="this.parentElement.parentElement.parentElement.remove()">X</button>
+                <span>Message from Webpage</span>
+                <button onclick="this.closest('.popup-ad').remove()">X</button>
             </div>
             <div class="popup-body">
-                <p>💰 You've won $1,000,000!</p>
-                <p>This is NOT a joke!</p>
-                <p>Click below to claim your prize!</p>
-                <button class="blink" onclick="alert('Error 404: Money not found 😢')">CLAIM NOW!</button>
+                <p>YOU ARE THE 999,999th VISITOR!</p>
+                <p style="font-size: 24px; font-weight: bold; color: red; animation: blink 0.5s infinite;">CONGRATULATIONS!</p>
+                <p>Click here to claim your FREE iPod Nano!</p>
+                <button class="blink" onclick="alert('Redirecting to prize-claim-totally-legit.exe...')">CLAIM NOW!!!</button>
             </div>
         `
     },
     {
         content: `
             <div class="popup-header">
-                <span>⚠️ System Alert</span>
-                <button onclick="this.parentElement.parentElement.parentElement.remove()">X</button>
+                <span>Microsoft Internet Explorer</span>
+                <button onclick="this.closest('.popup-ad').remove()">X</button>
             </div>
             <div class="popup-body">
-                <p>🦠 Your computer may be infected!</p>
-                <p>Download our FREE antivirus NOW!</p>
-                <p style="font-size: 10px;">(Definitely not a virus)</p>
-                <button class="blink" style="background: #00FF00;">DOWNLOAD FREE!</button>
+                <div style="border: 1px inset #fff; background: #fff; padding: 5px; margin-bottom: 10px;">
+                    <p style="margin:0; font-family: 'Times New Roman'; color: blue; text-decoration: underline; cursor: pointer;">Run a free system scan?</p>
+                </div>
+                <p>⚠️ Your computer is running slowly!</p>
+                <p>Clean your registry NOW for FREE!</p>
+                <button class="blink" style="background: #00FF00; color: black;">FIX ERRORS</button>
             </div>
         `
     },
     {
         content: `
             <div class="popup-header">
-                <span>🎊 Congratulations!</span>
-                <button onclick="this.parentElement.parentElement.parentElement.remove()">X</button>
+                <span>Punch The Monkey!</span>
+                <button onclick="this.closest('.popup-ad').remove()">X</button>
             </div>
-            <div class="popup-body">
-                <p>🏆 You are visitor #999,999!</p>
-                <p>One more visitor until 1,000,000!</p>
-                <p>Refresh to win a FREE iPhone 3G!</p>
-                <button onclick="location.reload()" style="background: #FFD700; font-weight: bold;">REFRESH NOW!</button>
-            </div>
-        `
-    },
-    {
-        content: `
-            <div class="popup-header">
-                <span>💋 Local Singles Alert!</span>
-                <button onclick="this.parentElement.parentElement.parentElement.remove()">X</button>
-            </div>
-            <div class="popup-body">
-                <p>😍 Hot singles in your area!</p>
-                <p>3 people within 0.5 miles want to meet!</p>
-                <marquee>Jessica, 22 • Brad, 25 • Ashley, 21</marquee>
-                <button class="blink" style="background: #FF1493;">MEET NOW!</button>
+            <div class="popup-body" style="background: #000; color: #FFF;">
+                <p style="color: #0F0;">WIN A FREE PS2!</p>
+                <div style="height: 100px; position: relative; border: 1px solid #fff; margin: 10px 0; overflow: hidden;">
+                    <div style="position: absolute; font-size: 40px; cursor: crosshair; animation: dance 2s infinite linear; left: 50%; top: 20px;" onclick="alert('WINNER! Please enter your credit card to pay for shipping ($99.99)')">🐒</div>
+                </div>
+                <p>CLICK THE MONKEY TO WIN!</p>
             </div>
         `
     },
     {
         content: `
             <div class="popup-header">
-                <span>🎮 Play Now!</span>
-                <button onclick="this.parentElement.parentElement.parentElement.remove()">X</button>
+                <span>Casino Royale 2002</span>
+                <button onclick="this.closest('.popup-ad').remove()">X</button>
             </div>
-            <div class="popup-body">
-                <p>🐸 PUNCH THE MONKEY!</p>
-                <p>Win a FREE* PlayStation 2!</p>
-                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%238B4513'/%3E%3Ctext x='32' y='40' text-anchor='middle' font-size='30'%3E🐵%3C/text%3E%3C/svg%3E" style="width: 80px; cursor: pointer;" onclick="this.style.transform='rotate(360deg)'; setTimeout(() => alert('You missed! Try again!'), 500)">
-                <p style="font-size: 8px;">*Shipping and handling: $299.99</p>
-            </div>
-        `
-    },
-    {
-        content: `
-            <div class="popup-header">
-                <span>📧 You've Got Mail!</span>
-                <button onclick="this.parentElement.parentElement.parentElement.remove()">X</button>
-            </div>
-            <div class="popup-body">
-                <p>💌 Someone has a crush on you!</p>
-                <p>Click to find out who!</p>
-                <button onclick="alert('It\\'s me, the popup! 😘')">REVEAL SECRET ADMIRER</button>
+            <div class="popup-body" style="background: #006400; color: gold; border: 2px solid gold;">
+                <p style="font-family: 'Comic Sans MS'; font-size: 20px;">$$$ ONLINE CASINO $$$</p>
+                <p>Get $500 FREE chip bonus!</p>
+                <div style="font-size: 30px;">🎰 7 7 7 🎰</div>
+                <button class="blink" style="background: gold; color: black;">PLAY NOW</button>
             </div>
         `
     },
     {
         content: `
             <div class="popup-header">
-                <span>🏃 Don't Leave Yet!</span>
-                <button onclick="this.parentElement.parentElement.parentElement.remove()">X</button>
+                <span>X10 Camera Offer</span>
+                <button onclick="this.closest('.popup-ad').remove()">X</button>
             </div>
             <div class="popup-body">
-                <p>⏰ WAIT! Special offer!</p>
-                <p>Stay on this page for a FREE screensaver!</p>
-                <p>🐠 3D Fish Aquarium - $0.00!</p>
-                <button style="background: #4169E1;">YES, I WANT IT!</button>
-                <button onclick="this.parentElement.parentElement.parentElement.remove()" style="font-size: 8px;">no thanks</button>
+                <p>SPY ON YOUR NEIGHBORS?</p>
+                <p>Tiny wireless camera! Only $19.99!</p>
+                <div style="border: 1px solid #000; width: 50px; height: 50px; margin: 0 auto; background: #333; border-radius: 50%;">
+                    <div style="width: 20px; height: 20px; background: #000; border-radius: 50%; margin: 15px auto;"></div>
+                </div>
+                <p style="font-size: 9px;">(Actual 2001 ad)</p>
+                <button>ORDER NOW</button>
+            </div>
+        `
+    },
+    {
+        content: `
+            <div class="popup-header">
+                <span>FREE Screensavers</span>
+                <button onclick="this.closest('.popup-ad').remove()">X</button>
+            </div>
+            <div class="popup-body" style="background: #000080; color: #FFF;">
+                <p>🌊 3D Fish Tank Screensaver</p>
+                <p>🔥 Johnny Castaway</p>
+                <p>🌌 Flying Toasters</p>
+                <button style="background: #C0C0C0; color: #000; font-weight: bold;">Download All (2kb)</button>
             </div>
         `
     }
 ];
 
-// Schedule all the pop-ups with less frequency
+// Schedule all the pop-ups
 nostalgicPopups.forEach((popup, index) => {
     setTimeout(() => {
-        const popupEl = document.createElement('div');
-        popupEl.className = 'popup-ad';
-        popupEl.innerHTML = `<div class="popup-content">${popup.content}</div>`;
-        document.body.appendChild(popupEl);
-        
-        // Add random position
-        popupEl.style.top = Math.random() * 50 + 20 + '%';
-        popupEl.style.left = Math.random() * 50 + 20 + '%';
-        
-        playSound('ding');
-    }, 20000 + (index * 15000));
+        createPopup(popup.content);
+    }, 15000 + (index * 12000));
 });
 
 // Add a toolbar installer popup
 setTimeout(() => {
-    const toolbar = document.createElement('div');
-    toolbar.className = 'popup-ad';
-    toolbar.innerHTML = `
-        <div class="popup-content" style="width: 400px;">
-            <div class="popup-header">
-                <span>🔧 BonziBuddy Toolbar</span>
-                <button onclick="this.parentElement.parentElement.parentElement.remove()">X</button>
+    const toolbarContent = `
+        <div class="popup-header">
+            <span>Install BonziBuddy?</span>
+            <button onclick="this.closest('.popup-ad').remove()">X</button>
+        </div>
+        <div class="popup-body" style="background: #ECE9D8; text-align: left;">
+            <div style="display: flex; gap: 15px;">
+                <div style="font-size: 40px;">🦍</div>
+                <div>
+                    <p style="margin-top: 0; font-weight: bold;">BonziBuddy would like to install onto your computer.</p>
+                    <p>He will:</p>
+                    <ul style="font-size: 11px; padding-left: 20px;">
+                        <li>Tell you jokes</li>
+                        <li>Sing songs</li>
+                        <li>Search the internet</li>
+                        <li>Totally not steal your data</li>
+                    </ul>
+                </div>
             </div>
-            <div class="popup-body">
-                <p>🦍 Install the BonziBuddy Toolbar!</p>
-                <p>Features:</p>
-                <ul style="text-align: left; font-size: 11px;">
-                    <li>Change your homepage!</li>
-                    <li>Add 17 search bars!</li>
-                    <li>Slow down your browser!</li>
-                    <li>Purple monkey assistant!</li>
-                </ul>
-                <button class="blink" style="background: #9370DB;">INSTALL NOW!</button>
-                <p style="font-size: 8px; margin-top: 10px;">
-                    <input type="checkbox" checked> Also install: CoolWebSearch, Gator, WeatherBug
-                </p>
+            <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 10px;">
+                <button onclick="alert('BonziBuddy is now watching you.')" style="width: 75px;">Yes</button>
+                <button onclick="this.closest('.popup-ad').remove()" style="width: 75px;">No</button>
             </div>
         </div>
     `;
-    document.body.appendChild(toolbar);
-}, 60000);
+    createPopup(toolbarContent);
+}, 40000);
 
 // Add CSS for marquee effect
 const style = document.createElement('style');

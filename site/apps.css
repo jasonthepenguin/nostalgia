@@ -2,6 +2,7 @@
 .email-form {
     flex: 1;
     padding: 20px;
+    background: #F0F0F0;
 }
 
 .email-field {
@@ -13,12 +14,14 @@
 .email-field label {
     width: 80px;
     font-weight: bold;
+    font-family: "Tahoma", sans-serif;
+    font-size: 11px;
 }
 
 .email-field input {
     flex: 1;
     padding: 3px;
-    border: 1px solid #7F9DB9;
+    border: 1px solid #7F9DB9; /* XP Input Border Blue */
     background: white;
     font-family: "Tahoma", sans-serif;
     font-size: 11px;
@@ -65,52 +68,58 @@
     border-right: 1px solid #848484;
     display: flex;
     flex-direction: column;
+    padding: 2px;
 }
 
 .toolbox-title {
-    background: linear-gradient(to bottom, #0054E3 0%, #0046D5 50%, #0038C7 51%, #002FB2 100%);
+    background: linear-gradient(to bottom, #0058EE 0%, #0054E3 100%);
     color: white;
     padding: 2px 5px;
     font-size: 11px;
     font-weight: bold;
+    margin-bottom: 2px;
+    border-radius: 2px;
 }
 
 .paint-tools {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 1px;
+    gap: 2px;
     padding: 4px;
-    background: #C0C0C0;
-    border: 1px inset #fff;
-    margin: 4px;
+    background: #ECE9D8;
+    margin-bottom: 4px;
 }
 
 .paint-tool {
-    width: 25px;
-    height: 25px;
-    border: 1px solid #848484;
-    background: #ECE9D8;
+    width: 24px;
+    height: 24px;
+    border: 1px solid #ECE9D8; /* Invisible border initially */
+    background: transparent;
     cursor: pointer;
     font-size: 14px;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 0;
+    border-radius: 2px;
 }
 
 .paint-tool:hover {
-    border: 1px solid #0054E3;
-    background: #E3F4FF;
+    border: 1px solid #316AC5;
+    background: #C1D2EE;
+    box-shadow: inset 0 0 2px rgba(255,255,255,0.5);
 }
 
 .paint-tool.active {
-    border: 1px inset #848484;
-    background: #C0C0C0;
+    border: 1px solid #316AC5;
+    background: #D2E1F4; /* Checked state */
+    box-shadow: inset 1px 1px 2px rgba(0,0,0,0.1);
 }
 
 .brush-sizes {
     padding: 8px;
     font-size: 11px;
+    border-top: 1px solid #848484;
 }
 
 .brush-sizes label {
@@ -136,22 +145,23 @@
     display: flex;
     flex-direction: column;
     background: #808080;
+    padding: 10px;
 }
 
 .paint-canvas-container {
     flex: 1;
     display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 10px;
+    align-items: flex-start;
+    justify-content: flex-start;
     overflow: auto;
+    background: #808080;
 }
 
 #paint-canvas {
     background: white;
-    border: 2px inset #000;
+    border: 1px solid #000;
     cursor: crosshair;
-    box-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+    box-shadow: 3px 3px 0 rgba(0,0,0,0.2);
 }
 
 /* Paint Colors */
@@ -159,15 +169,18 @@
     background: #ECE9D8;
     border-top: 1px solid #848484;
     padding: 8px;
+    margin-top: 10px;
+    border-radius: 2px;
 }
 
 .colors-title {
-    background: linear-gradient(to bottom, #0054E3 0%, #0046D5 50%, #0038C7 51%, #002FB2 100%);
+    background: linear-gradient(to bottom, #0058EE 0%, #0054E3 100%);
     color: white;
     padding: 2px 5px;
     font-size: 11px;
     font-weight: bold;
-    margin-bottom: 8px;
+    margin-bottom: 5px;
+    border-radius: 2px;
 }
 
 .color-palette {
@@ -179,53 +192,54 @@
 .current-colors {
     display: flex;
     flex-direction: column;
+    border: 1px inset #fff;
+    padding: 2px;
 }
 
 .color-display {
     position: relative;
-    width: 40px;
-    height: 40px;
+    width: 32px;
+    height: 32px;
 }
 
 #primary-color {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 28px;
-    height: 28px;
+    top: 2px;
+    left: 2px;
+    width: 16px;
+    height: 16px;
     border: 1px solid #000;
     z-index: 2;
 }
 
 #secondary-color {
     position: absolute;
-    bottom: 0;
-    right: 0;
-    width: 28px;
-    height: 28px;
+    bottom: 2px;
+    right: 2px;
+    width: 16px;
+    height: 16px;
     border: 1px solid #000;
     z-index: 1;
 }
 
 .color-grid {
     display: grid;
-    grid-template-columns: repeat(14, 16px);
+    grid-template-columns: repeat(14, 15px);
     gap: 1px;
-    background: #808080;
-    padding: 2px;
-    border: 1px inset #fff;
+    background: #fff;
+    padding: 1px;
+    border: 1px inset #848484;
 }
 
 .color-swatch {
-    width: 16px;
-    height: 16px;
-    border: 1px solid #000;
+    width: 15px;
+    height: 15px;
+    border: 1px solid #808080;
     cursor: pointer;
 }
 
 .color-swatch:hover {
-    border: 1px solid #fff;
-    box-shadow: 0 0 2px rgba(0,0,0,0.5);
+    border: 1px solid #000;
 }
 
 /* Paint-specific cursors */
@@ -243,8 +257,8 @@
 
 /* MSN Messenger Window Styles */
 #messenger-window {
-    width: 450px;
-    height: 550px;
+    width: 400px;
+    height: 500px;
     top: 100px;
     left: 200px;
 }
@@ -252,47 +266,55 @@
 .messenger-container {
     display: flex;
     flex-direction: column;
-    height: calc(100% - 90px);
+    height: 100%;
     background: #FAFAFA;
 }
 
 .messenger-header {
-    background: linear-gradient(to bottom, #E8F2FE 0%, #D6E9FD 100%);
+    background: linear-gradient(to bottom, #D8EAF9 0%, #C8E2F7 100%);
     border-bottom: 1px solid #A8C7E7;
-    padding: 8px;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .messenger-status {
     display: flex;
     align-items: center;
     gap: 8px;
-    font-size: 12px;
+    font-size: 11px;
     color: #333;
+    font-family: "Tahoma", sans-serif;
 }
 
 .status-indicator {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
+    width: 14px;
+    height: 14px;
+    border-radius: 3px;
     border: 1px solid #666;
+    box-shadow: inset 0 0 2px rgba(255,255,255,0.8);
 }
 
 .status-indicator.online {
-    background: #7FBA00;
-    border-color: #5C8800;
+    background: radial-gradient(circle at 30% 30%, #A4E858 0%, #5D8F1A 100%);
+    border-color: #3F6311;
 }
 
 .messenger-toolbar {
     display: flex;
-    gap: 2px;
-    margin-top: 8px;
+    gap: 4px;
+    margin-top: 5px;
+    padding: 2px 5px;
+    background: #EEF7FF;
+    border-bottom: 1px solid #BCD6F1;
 }
 
 .messenger-toolbar button {
-    background: linear-gradient(to bottom, #FFFFFF 0%, #E3E3E3 100%);
-    border: 1px solid #A0A0A0;
-    border-radius: 3px;
-    padding: 4px 8px;
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 2px;
+    padding: 2px 6px;
     font-size: 11px;
     cursor: pointer;
     min-width: 24px;
@@ -300,26 +322,27 @@
 }
 
 .messenger-toolbar button:hover {
-    background: linear-gradient(to bottom, #E8F2FE 0%, #D6E9FD 100%);
-    border-color: #7AA3D0;
+    background: #FFE6A0;
+    border: 1px solid #D2B466;
 }
 
 /* Chat Area */
 .messenger-chat {
     flex: 1;
     background: white;
-    border: 1px solid #D4D0C8;
-    margin: 8px;
+    border: 1px solid #8BA3C0;
+    margin: 5px;
     overflow: hidden;
     display: flex;
     flex-direction: column;
+    border-radius: 2px;
 }
 
 .chat-messages {
     flex: 1;
     padding: 8px;
     overflow-y: auto;
-    font-family: "Arial", sans-serif;
+    font-family: "Trebuchet MS", "Arial", sans-serif;
     font-size: 12px;
     line-height: 1.4;
 }
@@ -330,7 +353,7 @@
 }
 
 .chat-message .sender {
-    font-weight: normal;
+    font-weight: bold;
     color: #666;
     font-size: 11px;
     display: block;
@@ -338,7 +361,7 @@
 }
 
 .chat-message .sender.other {
-    color: #FF6600;
+    color: #0066CC;
 }
 
 .chat-message .text {
@@ -358,6 +381,10 @@
     font-style: italic;
     margin: 8px 0;
     font-size: 11px;
+    background: #FFFFCC;
+    padding: 2px;
+    border: 1px solid #EEDD88;
+    border-radius: 2px;
 }
 
 /* Emoticons */
@@ -370,38 +397,36 @@
 
 /* Input Area */
 .messenger-input {
-    border-top: 1px solid #D4D0C8;
-    background: #F0F0F0;
+    border-top: 1px solid #BCD6F1;
+    background: #EEF7FF;
     padding: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
 }
 
 .input-toolbar {
     display: flex;
     gap: 2px;
-    margin-bottom: 8px;
-    padding-bottom: 8px;
-    border-bottom: 1px solid #D4D0C8;
 }
 
 .input-toolbar button {
-    background: linear-gradient(to bottom, #FFFFFF 0%, #E3E3E3 100%);
-    border: 1px solid #A0A0A0;
+    background: transparent;
+    border: 1px solid transparent;
     border-radius: 2px;
     padding: 2px 6px;
     font-size: 11px;
     cursor: pointer;
-    min-width: 20px;
-    height: 20px;
 }
 
 .input-toolbar button:hover {
-    background: linear-gradient(to bottom, #E8F2FE 0%, #D6E9FD 100%);
-    border-color: #7AA3D0;
+    background: #FFE6A0;
+    border: 1px solid #D2B466;
 }
 
 #messenger-input-text {
     width: 100%;
-    height: 60px;
+    height: 50px;
     border: 1px solid #7F9DB9;
     padding: 4px;
     font-family: "Arial", sans-serif;
@@ -412,57 +437,56 @@
 
 #messenger-input-text:focus {
     outline: none;
-    border-color: #4D90FE;
+    border-color: #0054E3;
 }
 
 .messenger-actions {
     display: flex;
     justify-content: flex-end;
-    margin-top: 8px;
     gap: 8px;
 }
 
 .send-button {
-    background: linear-gradient(to bottom, #FFFFFF 0%, #E3E3E3 100%);
+    background: #ECE9D8;
     border: 1px solid #003C74;
     border-radius: 3px;
-    padding: 4px 16px;
+    padding: 3px 15px;
     font-size: 11px;
     cursor: pointer;
     font-weight: normal;
 }
 
 .send-button:hover:not(:disabled) {
-    background: linear-gradient(to bottom, #E8F2FE 0%, #D6E9FD 100%);
+    background: linear-gradient(to bottom, #FFF 0%, #E3F4FF 100%);
     border-color: #0078D7;
 }
 
 .send-button:disabled {
     opacity: 0.6;
     cursor: default;
+    color: #888;
 }
 
 /* Scrollbar styling for chat */
-.chat-messages::-webkit-scrollbar { width: 16px; }
+.chat-messages::-webkit-scrollbar { width: 14px; }
 .chat-messages::-webkit-scrollbar-track {
-    background: #F0F0F0;
+    background: #FAFAFA;
     border-left: 1px solid #D4D0C8;
 }
 .chat-messages::-webkit-scrollbar-thumb {
-    background: linear-gradient(to right, #E3E3E3 0%, #D0D0D0 100%);
-    border: 1px solid #A0A0A0;
-    border-radius: 0;
+    background: #C1D2EE;
+    border: 1px solid #fff;
 }
 .chat-messages::-webkit-scrollbar-button {
-    background: linear-gradient(to bottom, #F0F0F0 0%, #D0D0D0 100%);
-    border: 1px solid #A0A0A0;
-    height: 16px;
+    background: #E8F2FE;
+    height: 14px;
 }
 
 /* Typing indicator */
 #typing-indicator {
     color: #666;
     font-style: italic;
+    font-size: 10px;
 }
 #typing-indicator::after {
     content: '...';
@@ -510,7 +534,7 @@ body.free-me-game-active .flame-projectile {
     display: flex;
     flex-direction: column;
     padding: 20px;
-    height: calc(100% - 100px);
+    height: calc(100% - 25px); /* adjust for window frame */
     background: linear-gradient(to bottom, #f0f0f0 0%, #e0e0e0 100%);
     overflow-y: auto;
 }
@@ -534,7 +558,7 @@ body.free-me-game-active .flame-projectile {
 
 .countdown-display {
     background: #000;
-    border: 2px inset #c0c0c0;
+    border: 3px inset #c0c0c0;
     padding: 20px;
     margin: 20px 0;
     text-align: center;
@@ -650,7 +674,7 @@ body.free-me-game-active .flame-projectile {
 .media-player-container {
     display: flex;
     flex-direction: column;
-    height: calc(100% - 72px);
+    height: calc(100% - 22px); /* window status height */
     background: #000;
 }
 
@@ -754,6 +778,7 @@ body.free-me-game-active .flame-projectile {
 .ie-address-bar label {
     font-size: 11px;
     font-weight: bold;
+    color: #666;
 }
 
 .ie-address-bar input {

@@ -11,7 +11,9 @@
 .start-button,
 .taskbar-item,
 .tray-icon,
-.start-menu-item {
+.start-menu-item,
+.window-titlebar,
+.window-menu {
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
@@ -25,9 +27,76 @@ body {
     height: 100vh;
     display: flex;
     flex-direction: column;
+    background-color: #000;
 }
 
 /* XP Loading cursor */
 body.loading {
     cursor: url('data:image/x-icon;base64,AAACAAEAICAAAAAAAACoCAAAFgAAACgAAAAgAAAAQAAAAAEACAAAAAAAAAQAAAAAAAAAAAAAAAEAAAAAAAAAAAAA////AAAA/wAA//8A/wAAAP8A/wD/AP8AAAD//wD///8A'), wait;
+}
+
+/* Custom XP-style Scrollbars for WebKit */
+::-webkit-scrollbar {
+    width: 16px;
+    height: 16px;
+}
+
+::-webkit-scrollbar-track {
+    background: #F0F0F0;
+    border-left: 1px solid #E0E0E0;
+    /* Pattern for track usually track is solid or checkerboard in older windows, XP is solid light gray */
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #C1DBFC; /* Light blue thumb */
+    border: 1px solid #fff;
+    box-shadow: inset 1px 1px 0 #5CA1F9, inset -1px -1px 0 #5CA1F9;
+    border-radius: 0;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: #A9C9F5;
+}
+
+::-webkit-scrollbar-thumb:active {
+    background-color: #7DA6EF;
+}
+
+::-webkit-scrollbar-button {
+    display: block;
+    height: 16px;
+    width: 16px;
+    background-color: #ECE9D8;
+    border: 1px solid #fff;
+    box-shadow: inset -1px -1px 0 #ACA899, inset 1px 1px 0 #fff;
+}
+
+/* Button Arrows (Simulated with gradients or images if possible, here just colored blocks for now or use background image) */
+::-webkit-scrollbar-button:vertical:decrement {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cpath fill='black' d='M4 10l4-4 4 4z'/%3E%3C/svg%3E");
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+::-webkit-scrollbar-button:vertical:increment {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cpath fill='black' d='M4 6l4 4 4-4z'/%3E%3C/svg%3E");
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+::-webkit-scrollbar-button:horizontal:decrement {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cpath fill='black' d='M10 4l-4 4 4 4z'/%3E%3C/svg%3E");
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+::-webkit-scrollbar-button:horizontal:increment {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cpath fill='black' d='M6 4l4 4-4 4z'/%3E%3C/svg%3E");
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+/* Corner */
+::-webkit-scrollbar-corner {
+    background: #ECE9D8;
 }
