@@ -1,0 +1,207 @@
+/* Paint Application Styles */
+#paint-window {
+    width: 900px;
+    height: 650px;
+    top: 50px;
+    left: 50px;
+}
+
+.paint-container {
+    display: flex;
+    height: calc(100% - 90px);
+    background: #C0C0C0;
+}
+
+/* Paint Toolbox */
+.paint-toolbox {
+    width: 60px;
+    background: #ECE9D8;
+    border-right: 1px solid #848484;
+    display: flex;
+    flex-direction: column;
+    padding: 2px;
+}
+
+.toolbox-title {
+    background: linear-gradient(to bottom, #0058EE 0%, #0054E3 100%);
+    color: white;
+    padding: 2px 5px;
+    font-size: 11px;
+    font-weight: bold;
+    margin-bottom: 2px;
+    border-radius: 2px;
+}
+
+.paint-tools {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    padding: 4px;
+    background: #ECE9D8;
+    margin-bottom: 4px;
+}
+
+.paint-tool {
+    width: 24px;
+    height: 24px;
+    border: 1px solid #ECE9D8; /* Invisible border initially */
+    background: transparent;
+    cursor: pointer;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border-radius: 2px;
+}
+
+.paint-tool:hover {
+    border: 1px solid #316AC5;
+    background: #C1D2EE;
+    box-shadow: inset 0 0 2px rgba(255,255,255,0.5);
+}
+
+.paint-tool.active {
+    border: 1px solid #316AC5;
+    background: #D2E1F4; /* Checked state */
+    box-shadow: inset 1px 1px 2px rgba(0,0,0,0.1);
+}
+
+.brush-sizes {
+    padding: 8px;
+    font-size: 11px;
+    border-top: 1px solid #848484;
+}
+
+.brush-sizes label {
+    display: block;
+    margin-bottom: 4px;
+}
+
+.brush-sizes input[type="range"] {
+    width: 100%;
+    height: 10px;
+}
+
+#size-display {
+    display: inline-block;
+    width: 20px;
+    text-align: center;
+    font-size: 10px;
+}
+
+/* Paint Main Area */
+.paint-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background: #808080;
+    padding: 10px;
+}
+
+.paint-canvas-container {
+    flex: 1;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    overflow: auto;
+    background: #808080;
+}
+
+#paint-canvas {
+    background: white;
+    border: 1px solid #000;
+    cursor: crosshair;
+    box-shadow: 3px 3px 0 rgba(0,0,0,0.2);
+}
+
+/* Paint Colors */
+.paint-colors {
+    background: #ECE9D8;
+    border-top: 1px solid #848484;
+    padding: 8px;
+    margin-top: 10px;
+    border-radius: 2px;
+}
+
+.colors-title {
+    background: linear-gradient(to bottom, #0058EE 0%, #0054E3 100%);
+    color: white;
+    padding: 2px 5px;
+    font-size: 11px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    border-radius: 2px;
+}
+
+.color-palette {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.current-colors {
+    display: flex;
+    flex-direction: column;
+    border: 1px inset #fff;
+    padding: 2px;
+}
+
+.color-display {
+    position: relative;
+    width: 32px;
+    height: 32px;
+}
+
+#primary-color {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 16px;
+    height: 16px;
+    border: 1px solid #000;
+    z-index: 2;
+}
+
+#secondary-color {
+    position: absolute;
+    bottom: 2px;
+    right: 2px;
+    width: 16px;
+    height: 16px;
+    border: 1px solid #000;
+    z-index: 1;
+}
+
+.color-grid {
+    display: grid;
+    grid-template-columns: repeat(14, 15px);
+    gap: 1px;
+    background: #fff;
+    padding: 1px;
+    border: 1px inset #848484;
+}
+
+.color-swatch {
+    width: 15px;
+    height: 15px;
+    border: 1px solid #808080;
+    cursor: pointer;
+}
+
+.color-swatch:hover {
+    border: 1px solid #000;
+}
+
+/* Paint-specific cursors */
+#paint-canvas.pencil-cursor {
+    cursor: url('data:image/x-icon;base64,AAACAAEAEBAQAAEABAAoAQAAFgAAACgAAAAQAAAAIAAAAAEABAAAAAAAgAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAACAAACAAAAAgIAAgAAAAIAAgACAgAAAgICAAMDAwAAAAP8AAP8AAAD//wD/AAAA/wD/AP//AAD///8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'), crosshair;
+}
+
+#paint-canvas.eraser-cursor {
+    cursor: url('data:image/x-icon;base64,AAACAAEAEBAQAAEABAAoAQAAFgAAACgAAAAQAAAAIAAAAAEABAAAAAAAgAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAP///wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'), crosshair;
+}
+
+#paint-canvas.fill-cursor {
+    cursor: url('data:image/x-icon;base64,AAACAAEAEBAQAAEABAAoAQAAFgAAACgAAAAQAAAAIAAAAAEABAAAAAAAgAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAACAAACAAAAAgIAAgAAAAIAAgACAgAAAgICAAMDAwAAAAP8AAP8AAAD//wD/AAAA/wD/AP//AAD///8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'), crosshair;
+}

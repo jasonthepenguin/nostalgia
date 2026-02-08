@@ -1,0 +1,356 @@
+/* Retro Twitter/X Styles */
+#retro-twitter-window {
+    width: 900px;
+    height: 650px;
+    left: calc(50% - 450px);
+    top: calc(50% - 325px);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.ie-address-bar {
+    background: linear-gradient(to bottom, #FEFEFE 0%, #F3F3F3 50%, #E9E9E9 100%);
+    border-bottom: 1px solid #D4D0C8;
+    padding: 4px 8px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.ie-address-bar label {
+    font-size: 11px;
+    font-weight: bold;
+    color: #666;
+}
+
+.ie-address-bar input {
+    flex: 1;
+    padding: 2px 4px;
+    border: 1px inset #848484;
+    background: white;
+    font-size: 11px;
+    font-family: "Lucida Console", monospace;
+}
+
+.ie-address-bar button {
+    padding: 2px 8px;
+    font-size: 11px;
+    background: linear-gradient(to bottom, #FFF 0%, #ECE9D8 100%);
+    border: 1px solid #003C74;
+    border-radius: 2px;
+    cursor: pointer;
+}
+
+.retro-twitter-content {
+    background: white;
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+}
+
+.retro-twitter-header {
+    background: linear-gradient(to bottom, #9ae4e8 0%, #7dd6da 100%);
+    padding: 20px;
+    text-align: center;
+    border-bottom: 3px solid #5bc0c5;
+}
+
+.retro-twitter-logo {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 10px;
+}
+
+.retro-twitter-header h1 {
+    font-family: "Trebuchet MS", Arial, sans-serif;
+    font-size: 36px;
+    color: #00BFFF;
+    margin: 0;
+    text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.1);
+    letter-spacing: -2px;
+}
+
+.retro-twitter-header .tagline {
+    font-size: 14px;
+    color: #333;
+    margin: 5px 0 0 0;
+    font-style: italic;
+}
+
+.retro-twitter-main {
+    display: flex;
+    flex: 1;
+    background: #F5F5F5;
+}
+
+.retro-twitter-sidebar {
+    width: 200px;
+    background: #E8F5F7;
+    border-right: 1px solid #B8D5D8;
+    padding: 15px;
+}
+
+.retro-profile-box {
+    background: white;
+    border: 1px solid #9FCDCF;
+    padding: 10px;
+    margin-bottom: 15px;
+    text-align: center;
+    border-radius: 5px;
+}
+
+.retro-profile-box h3 {
+    font-size: 12px;
+    margin: 0 0 10px 0;
+    color: #00BFFF;
+    border-bottom: 1px solid #9FCDCF;
+    padding-bottom: 5px;
+}
+
+.retro-avatar {
+    width: 60px;
+    height: 60px;
+    margin: 0 auto 10px;
+    border: 2px solid #9FCDCF;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    background: #F0F8FF;
+}
+
+.retro-profile-box p {
+    margin: 5px 0;
+    font-size: 11px;
+}
+
+.retro-stats {
+    font-size: 10px !important;
+    color: #666;
+    line-height: 1.6;
+}
+
+.retro-sidebar-section {
+    margin-bottom: 15px;
+}
+
+.retro-sidebar-section h3 {
+    font-size: 12px;
+    color: #00BFFF;
+    margin: 0 0 8px 0;
+    border-bottom: 1px solid #9FCDCF;
+    padding-bottom: 3px;
+}
+
+.retro-sidebar-section ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.retro-sidebar-section li {
+    margin: 3px 0;
+}
+
+.retro-sidebar-section a {
+    color: #0066CC;
+    text-decoration: none;
+    font-size: 11px;
+}
+
+.retro-sidebar-section a:hover {
+    text-decoration: underline;
+    color: #FF6600;
+}
+
+.retro-sidebar-ad {
+    background: #FFF9E6;
+    border: 2px dashed #FFB300;
+    padding: 10px;
+    margin-top: 15px;
+    text-align: center;
+    border-radius: 3px;
+}
+
+.retro-twitter-feed {
+    flex: 1;
+    padding: 20px;
+    background: white;
+}
+
+.retro-tweet-box {
+    background: #F0F8FF;
+    border: 2px solid #9FCDCF;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+}
+
+.retro-tweet-box label {
+    display: block;
+    font-size: 14px;
+    font-weight: bold;
+    color: #00BFFF;
+    margin-bottom: 8px;
+}
+
+.retro-tweet-box textarea {
+    width: 100%;
+    height: 60px;
+    padding: 5px;
+    border: 1px solid #9FCDCF;
+    font-family: "Lucida Grande", Arial, sans-serif;
+    font-size: 12px;
+    resize: none;
+    border-radius: 3px;
+}
+
+.tweet-box-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 8px;
+}
+
+.char-count {
+    font-size: 11px;
+    color: #666;
+    font-weight: bold;
+}
+
+.retro-btn {
+    background: linear-gradient(to bottom, #FFE68C 0%, #FFD700 100%);
+    border: 1px solid #CC9900;
+    padding: 5px 15px;
+    font-size: 11px;
+    font-weight: bold;
+    border-radius: 3px;
+    cursor: pointer;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+}
+
+.retro-btn:hover {
+    background: linear-gradient(to bottom, #FFEB99 0%, #FFE68C 100%);
+}
+
+.retro-btn:active {
+    background: linear-gradient(to bottom, #FFD700 0%, #FFCC00 100%);
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.2);
+}
+
+.retro-tweets {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.retro-tweet {
+    display: flex;
+    gap: 10px;
+    padding: 12px;
+    border: 1px solid #E8E8E8;
+    background: #FAFAFA;
+    border-radius: 5px;
+}
+
+.retro-tweet:hover {
+    background: #F0F8FF;
+    border-color: #9FCDCF;
+}
+
+.retro-tweet-avatar {
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(to bottom, #E8F5F7 0%, #D0E8EB 100%);
+    border: 2px solid #9FCDCF;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    flex-shrink: 0;
+}
+
+.retro-tweet-content {
+    flex: 1;
+}
+
+.retro-tweet-user {
+    margin: 0 0 5px 0;
+    font-size: 11px;
+}
+
+.retro-tweet-user strong {
+    color: #0066CC;
+    font-size: 12px;
+}
+
+.retro-timestamp {
+    color: #999;
+    font-size: 10px;
+}
+
+.retro-tweet-text {
+    margin: 5px 0;
+    font-size: 13px;
+    line-height: 1.4;
+    color: #333;
+}
+
+.retro-tweet-actions {
+    margin-top: 5px;
+    font-size: 10px;
+}
+
+.retro-tweet-actions a {
+    color: #0066CC;
+    text-decoration: none;
+    margin-right: 5px;
+}
+
+.retro-tweet-actions a:hover {
+    text-decoration: underline;
+    color: #FF6600;
+}
+
+.retro-twitter-footer {
+    background: #E8F5F7;
+    border-top: 2px solid #9FCDCF;
+    padding: 15px;
+    text-align: center;
+}
+
+.retro-twitter-footer p {
+    margin: 5px 0;
+    font-size: 10px;
+    color: #666;
+}
+
+.retro-twitter-footer a {
+    color: #0066CC;
+    text-decoration: none;
+}
+
+.retro-twitter-footer a:hover {
+    text-decoration: underline;
+}
+
+/* Hate reply animation */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.retro-hate-reply {
+    border-left: 3px solid #FF6600 !important;
+}
