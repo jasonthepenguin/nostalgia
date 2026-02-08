@@ -46,7 +46,7 @@ const startMenuHTML = `
     <div class="start-menu-content">
         <div class="start-menu-left">
             <div class="start-menu-item" onclick="openPaint()">
-                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='4' y='4' width='24' height='24' fill='%23fff' stroke='%23000'/%3E%3Cpath d='M8 8h4v4H8zm6 0h4v4h-4zm6 0h4v4h-4zM8 14h4v4H8zm6 0h4v4h-4zm6 0h4v4h-4z' fill='%23ff0000'/%3E%3C/svg%3E" alt="Paint">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3ClinearGradient id='a' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0' stop-color='%23FFFEF5'/%3E%3Cstop offset='1' stop-color='%23E8DCC8'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cellipse cx='14' cy='18' rx='12' ry='10' fill='url(%23a)' stroke='%238B7355' stroke-width='1.2'/%3E%3Cellipse cx='9' cy='22' rx='3' ry='2.5' fill='%23C8B898' stroke='%238B7355' stroke-width='0.8'/%3E%3Ccircle cx='8' cy='14' r='2.5' fill='%23FF0000'/%3E%3Ccircle cx='14' cy='11' r='2.5' fill='%23FFD700'/%3E%3Ccircle cx='21' cy='13' r='2.5' fill='%2300AA00'/%3E%3Ccircle cx='23' cy='20' r='2.5' fill='%230000FF'/%3E%3Ccircle cx='18' cy='24' r='2' fill='%23FF00FF'/%3E%3Ccircle cx='13' cy='16' r='2' fill='%23FF8C00'/%3E%3Cline x1='22' y1='10' x2='30' y2='2' stroke='%23C4943D' stroke-width='3' stroke-linecap='round'/%3E%3Cline x1='22' y1='10' x2='24' y2='8' stroke='%23999' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E" alt="Paint">
                 <span>Paint</span>
             </div>
             <div class="start-menu-item" onclick="openMessengerWindow()">
@@ -67,7 +67,7 @@ const startMenuHTML = `
                 <span>Solitaire</span>
             </div>
             <div class="start-menu-item" onclick="openInternetExplorer()">
-                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='%231E90FF'/%3E%3Cpath d='M16 4c-6.6 0-12 5.4-12 12s5.4 12 12 12 12-5.4 12-12S22.6 4 16 4zm0 2c1.7 0 3.3.4 4.7 1.2-1.5 2.1-3.8 3.5-6.4 3.8-1.4-2.3-2.5-3.8-3.3-4.6 1.6-.3 3.3-.4 5-.4z' fill='%23FFD700'/%3E%3C/svg%3E" alt="IE">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3ClinearGradient id='a' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0' stop-color='%236BD5F9'/%3E%3Cstop offset='.5' stop-color='%231E80D0'/%3E%3Cstop offset='1' stop-color='%230C3F8C'/%3E%3C/linearGradient%3E%3ClinearGradient id='b' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23FFF59D'/%3E%3Cstop offset='.4' stop-color='%23FFB300'/%3E%3Cstop offset='1' stop-color='%23E65100'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M5 9C3 5 8 1 15 2C20 3 26 6 28 11' stroke='url(%23b)' stroke-width='3' fill='none' stroke-linecap='round'/%3E%3Ctext x='16' y='26' font-family='Georgia,serif' font-size='28' font-weight='bold' font-style='italic' fill='url(%23a)' text-anchor='middle' stroke='%230C3F8C' stroke-width='0.3'%3Ee%3C/text%3E%3Cpath d='M28 20C29 25 25 29 19 30C12 31 5 27 4 21' stroke='url(%23b)' stroke-width='3' fill='none' stroke-linecap='round'/%3E%3C/svg%3E" alt="IE">
                 <span>Internet Explorer</span>
             </div>
         </div>
