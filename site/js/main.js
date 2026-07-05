@@ -6,35 +6,72 @@ function updateClock() {
     const ampm = hours >= 12 ? 'PM' : 'AM';
     const displayHours = hours % 12 || 12;
     
-    document.getElementById('clock').textContent = `${displayHours}:${minutes} ${ampm}`;
+    const clock = document.getElementById('clock');
+    clock.textContent = `${displayHours}:${minutes} ${ampm}`;
+    // XP shows the full date when you hover the clock
+    clock.title = now.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
 }
 
 // Update clock immediately and then every minute
 updateClock();
 setInterval(updateClock, 60000);
 
-// Sound effects
+// Sound effects synthesized with the Web Audio API (approximations of the XP system sounds)
+let xpAudioContext = null;
+
+function getAudioContext() {
+    const AudioCtx = window.AudioContext || window.webkitAudioContext;
+    if (!AudioCtx) return null;
+    if (!xpAudioContext) {
+        xpAudioContext = new AudioCtx();
+    }
+    if (xpAudioContext.state === 'suspended') {
+        xpAudioContext.resume().catch(() => {});
+    }
+    return xpAudioContext;
+}
+
+function playChime(notes, { type = 'sine', noteLength = 0.4, gap = 0.1, volume = 0.12 } = {}) {
+    const ctx = getAudioContext();
+    if (!ctx) return;
+    notes.forEach((freq, i) => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        const start = ctx.currentTime + i * gap;
+        osc.type = type;
+        osc.frequency.setValueAtTime(freq, start);
+        gain.gain.setValueAtTime(0, start);
+        gain.gain.linearRampToValueAtTime(volume, start + 0.02);
+        gain.gain.exponentialRampToValueAtTime(0.001, start + noteLength);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(start);
+        osc.stop(start + noteLength);
+    });
+}
+
 function playSound(type) {
-    const audio = new Audio();
-    audio.volume = 0.3;
-    
-    switch(type) {
+    switch (type) {
         case 'startup':
-            // Windows XP startup sound simulation
-            audio.src = 'data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQoGAAA=';
+            playChime([311.13, 415.3, 466.16, 622.25], { noteLength: 0.9, gap: 0.13 });
+            break;
+        case 'shutdown':
+            playChime([622.25, 466.16, 415.3, 311.13], { noteLength: 0.8, gap: 0.15 });
             break;
         case 'ding':
-            // Simple ding sound
-            audio.src = 'data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAAA=';
+            playChime([987.77, 1318.51], { noteLength: 0.35, gap: 0.02, volume: 0.08 });
             break;
         case 'error':
-            // Error sound
-            audio.src = 'data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAAA=';
+            playChime([392, 261.63], { type: 'triangle', noteLength: 0.5, gap: 0.08, volume: 0.15 });
             break;
     }
-    
-    audio.play().catch(() => {});
 }
+
+// Play the startup chime on the first interaction (browsers block audio before a user gesture)
+document.addEventListener('click', function playStartupOnce() {
+    playSound('startup');
+    document.removeEventListener('click', playStartupOnce);
+}, { once: true });
 
 // Start Menu HTML
 const startMenuHTML = `
@@ -69,6 +106,12 @@ const startMenuHTML = `
             <div class="start-menu-item" onclick="openInternetExplorer()">
                 <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3ClinearGradient id='a' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0' stop-color='%236BD5F9'/%3E%3Cstop offset='.5' stop-color='%231E80D0'/%3E%3Cstop offset='1' stop-color='%230C3F8C'/%3E%3C/linearGradient%3E%3ClinearGradient id='b' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23FFF59D'/%3E%3Cstop offset='.4' stop-color='%23FFB300'/%3E%3Cstop offset='1' stop-color='%23E65100'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M5 9C3 5 8 1 15 2C20 3 26 6 28 11' stroke='url(%23b)' stroke-width='3' fill='none' stroke-linecap='round'/%3E%3Ctext x='16' y='26' font-family='Georgia,serif' font-size='28' font-weight='bold' font-style='italic' fill='url(%23a)' text-anchor='middle' stroke='%230C3F8C' stroke-width='0.3'%3Ee%3C/text%3E%3Cpath d='M28 20C29 25 25 29 19 30C12 31 5 27 4 21' stroke='url(%23b)' stroke-width='3' fill='none' stroke-linecap='round'/%3E%3C/svg%3E" alt="IE">
                 <span>Internet Explorer</span>
+            </div>
+            <div class="start-menu-spacer"></div>
+            <div class="start-menu-separator"></div>
+            <div class="start-menu-item all-programs" onclick="alert('📂 All Programs\n\nAccessories\nGames\nStartup\nWinamp\nKazaa Lite\nMicrosoft Office 2003\n\n(Loading 47 more items...)')">
+                <span>All Programs</span>
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='7' fill='%233C953C' stroke='%232A6E2A'/%3E%3Cpath d='M6 4.5L11 8L6 11.5z' fill='white'/%3E%3C/svg%3E" alt="">
             </div>
         </div>
         <div class="start-menu-right">
@@ -110,8 +153,14 @@ const startMenuHTML = `
         </div>
     </div>
     <div class="start-menu-footer">
-        <button class="start-menu-button" onclick="showLogOffDialog()">Log Off</button>
-        <button class="start-menu-button" onclick="showShutDownDialog()">Turn Off Computer</button>
+        <button class="start-menu-button" onclick="showLogOffDialog()">
+            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect x='1' y='1' width='14' height='14' rx='2' fill='%23E8A33D'/%3E%3Cpath d='M5 8h6M8 5l3 3-3 3' stroke='white' stroke-width='1.8' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E" alt="">
+            Log Off
+        </button>
+        <button class="start-menu-button" onclick="showShutDownDialog()">
+            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='7' fill='%23D63F3F'/%3E%3Cpath d='M8 3.5v4.5' stroke='white' stroke-width='1.8' stroke-linecap='round'/%3E%3Cpath d='M5 5.5a4.2 4.2 0 1 0 6 0' stroke='white' stroke-width='1.8' fill='none' stroke-linecap='round'/%3E%3C/svg%3E" alt="">
+            Turn Off Computer
+        </button>
     </div>
 </div>
 `;
@@ -130,43 +179,30 @@ document.addEventListener('DOMContentLoaded', function() {
     document.addEventListener('mousemove', drag);
     document.addEventListener('mouseup', dragEnd);
     
-    // Handle taskbar item clicks
-    document.querySelectorAll('.taskbar-item').forEach(item => {
+    // Handle taskbar item clicks (each item declares its window via data-window)
+    document.querySelectorAll('.taskbar-item[data-window]').forEach(item => {
         item.addEventListener('click', function() {
-            // Get window ID based on taskbar item text
-            const itemText = this.querySelector('span').textContent.toLowerCase();
-            let windowId;
+            const windowId = this.dataset.window;
+            const win = document.getElementById(windowId);
+            if (!win) return;
             
-            switch(itemText) {
-                case 'home':
-                    windowId = 'home-window';
-                    break;
-                case 'about me':
-                    windowId = 'about-window';
-                    break;
-                case 'projects':
-                    windowId = 'projects-window';
-                    break;
-                case 'contact':
-                    windowId = 'contact-window';
-                    break;
-            }
-            
-            // Toggle the window and active state
-            if (windowId) {
-                const window = document.getElementById(windowId);
-                if (window.style.display === 'block' && this.classList.contains('active')) {
-                    // If window is open and active, minimize it
-                    window.style.display = 'none';
-                    this.classList.remove('active');
-                } else {
-                    // Show window and make it active
-                    showWindow(windowId);
-                    this.classList.add('active');
-                }
+            if (win.style.display === 'block' && this.classList.contains('active')) {
+                // If window is open and active, minimize it
+                win.style.display = 'none';
+                this.classList.remove('active');
+            } else {
+                // Show window and make it active
+                showWindow(windowId);
+                this.classList.add('active');
             }
         });
     });
+    
+    // Deactivate the taskbar item associated with a window (if any)
+    function deactivateTaskbarItem(windowId) {
+        const item = document.querySelector(`.taskbar-item[data-window="${windowId}"]`);
+        if (item) item.classList.remove('active');
+    }
     
     // Click on window to bring to front
     document.querySelectorAll('.window').forEach(window => {
@@ -187,46 +223,22 @@ document.addEventListener('DOMContentLoaded', function() {
     // Window controls
     document.querySelectorAll('.window-close').forEach(btn => {
         btn.addEventListener('click', function() {
-            const window = this.closest('.window');
-            window.style.display = 'none';
+            const win = this.closest('.window');
+            win.style.display = 'none';
+            deactivateTaskbarItem(win.id);
             
-            // Find and deactivate the corresponding taskbar item
-            const windowId = window.id;
-            let taskbarText = '';
-            
-            switch(windowId) {
-                case 'home-window':
-                    taskbarText = 'Home';
-                    break;
-                case 'about-window':
-                    taskbarText = 'About Me';
-                    break;
-                case 'projects-window':
-                    taskbarText = 'Projects';
-                    break;
-                case 'contact-window':
-                    taskbarText = 'Contact';
-                    break;
-                case 'messenger-window':
-                    // Stop conversation when closing
-                    if (messengerTimeout) {
-                        clearTimeout(messengerTimeout);
-                    }
-                    break;
+            // Stop the messenger conversation when closing its window
+            if (win.id === 'messenger-window' && messengerTimeout) {
+                clearTimeout(messengerTimeout);
             }
-            
-            document.querySelectorAll('.taskbar-item').forEach(item => {
-                if (item.querySelector('span').textContent === taskbarText) {
-                    item.classList.remove('active');
-                }
-            });
         });
     });
     
     document.querySelectorAll('.window-minimize').forEach(btn => {
         btn.addEventListener('click', function() {
-            const window = this.closest('.window');
-            window.style.display = 'none';
+            const win = this.closest('.window');
+            win.style.display = 'none';
+            deactivateTaskbarItem(win.id);
         });
     });
     
@@ -254,7 +266,6 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!startMenuOpen) {
             startMenu.style.display = 'block';
             startMenuOpen = true;
-            playSound('startup');
         } else {
             startMenu.style.display = 'none';
             startMenuOpen = false;

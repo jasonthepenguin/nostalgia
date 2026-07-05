@@ -267,6 +267,12 @@
     height: 32px;
 }
 
+.error-buttons {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+}
+
 .error-content button {
     background: #ECE9D8;
     border: 1px solid #003C74;
@@ -297,4 +303,66 @@
 /* Cursor hit feedback */
 body.cursor-hit {
     animation: cursor-hit-shake 0.2s linear;
+}
+
+/* XP System Tray Balloon */
+.tray-balloon {
+    position: fixed;
+    bottom: 45px;
+    right: 15px;
+    max-width: 280px;
+    background: #FFFFE1;
+    border: 1px solid #000;
+    border-radius: 8px;
+    padding: 10px 24px 10px 10px;
+    font-family: "Tahoma", sans-serif;
+    font-size: 11px;
+    color: #000;
+    box-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    cursor: pointer;
+    z-index: 10001;
+}
+
+/* Balloon tail pointing at the tray */
+.tray-balloon::after {
+    content: '';
+    position: absolute;
+    bottom: -12px;
+    right: 40px;
+    border: 12px solid transparent;
+    border-top-color: #FFFFE1;
+    border-bottom: none;
+    border-right: none;
+    filter: drop-shadow(0 1px 0 #000);
+}
+
+.tray-balloon-title {
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-bottom: 4px;
+}
+
+.tray-balloon-body {
+    line-height: 1.4;
+}
+
+.tray-balloon-close {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    width: 15px;
+    height: 15px;
+    background: #FFFFE1;
+    border: 1px solid #808080;
+    font-size: 10px;
+    line-height: 1;
+    cursor: pointer;
+    padding: 0;
+    color: #000;
+}
+
+.tray-balloon-close:hover {
+    background: #E8E5C9;
 }

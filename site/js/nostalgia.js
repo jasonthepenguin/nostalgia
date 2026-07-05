@@ -1,24 +1,4 @@
-// Nostalgia features: Popups, Clippy, Sounds, etc.
-
-// Sound helper
-function playSound(name) {
-    let file = '';
-    if (name === 'error') file = 'https://www.myinstants.com/media/sounds/windows-xp-error.mp3';
-    else if (name === 'ding') file = 'https://www.myinstants.com/media/sounds/windows-xp-ding.mp3';
-    else if (name === 'shutdown') file = 'https://www.myinstants.com/media/sounds/windows-xp-shutdown.mp3';
-    else if (name === 'startup') file = 'https://www.myinstants.com/media/sounds/windows-xp-startup.mp3';
-    
-    // Fallback if local files exist (user has local files in file list)
-    if (name === 'error') file = 'meow.mp3'; // placeholder
-    // Using standard XP sounds from external source for authentic feel as fallback
-    // But since we have some local files, we'll assume we can't easily play externals without permission
-    // For this demo, we'll just try to play what we have or fail silently
-}
-
-function shadeColor(color, percent) {
-    var f=parseInt(color.slice(1),16),t=percent<0?0:255,p=percent<0?percent*-1:percent,R=f>>16,G=f>>8&0x00FF,B=f&0x0000FF;
-    return "#"+(0x1000000+(Math.round((t-R)*p)+R)*0x10000+(Math.round((t-G)*p)+G)*0x100+(Math.round((t-B)*p)+B)).toString(16).slice(1);
-}
+// Nostalgia features: Popups, Clippy, etc. (sounds live in main.js)
 
 function showClippy() {
     // Check if clippy already exists
@@ -41,6 +21,39 @@ function showClippy() {
         if (clippy.parentElement) clippy.remove();
     }, 10000);
 }
+
+// Classic XP security balloon over the system tray
+setTimeout(() => {
+    const balloon = document.createElement('div');
+    balloon.className = 'tray-balloon';
+    balloon.innerHTML = `
+        <button class="tray-balloon-close" aria-label="Close">×</button>
+        <div class="tray-balloon-title">
+            <span class="tray-balloon-icon">🛡️</span>
+            Your computer might be at risk
+        </div>
+        <div class="tray-balloon-body">
+            Antivirus software might not be installed.<br>
+            Click this balloon to fix this problem.
+        </div>
+    `;
+    document.body.appendChild(balloon);
+    playSound('ding');
+
+    balloon.querySelector('.tray-balloon-close').addEventListener('click', (e) => {
+        e.stopPropagation();
+        balloon.remove();
+    });
+    balloon.addEventListener('click', () => {
+        balloon.remove();
+        alert('🛡️ Windows Security Center\n\nNo antivirus found.\n\nRecommendation: Install Norton 2004 from the CD your uncle burned for you.');
+    });
+
+    // Auto-dismiss like the real balloon did
+    setTimeout(() => {
+        if (balloon.parentElement) balloon.remove();
+    }, 15000);
+}, 8000);
 
 // Add random popups for that authentic early 2000s experience
 setTimeout(() => {
@@ -469,13 +482,7 @@ function playMeow() {
     const audio = new Audio('meow.mp3');
     audio.volume = 0.5;
     audio.playbackRate = 0.8 + Math.random() * 0.4; // Vary pitch
-    audio.play().catch(() => {
-        // If meow.mp3 doesn't exist, use a fallback sound
-        const fallbackAudio = new Audio();
-        fallbackAudio.src = 'data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQoGAAA=';
-        fallbackAudio.volume = 0.3;
-        fallbackAudio.play().catch(() => {});
-    });
+    audio.play().catch(() => playSound('ding'));
 }
 
 function stopCatRain() {

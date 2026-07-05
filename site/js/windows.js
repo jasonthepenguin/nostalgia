@@ -88,8 +88,9 @@ function showWindow(windowId) {
     }
 } 
 
-// XP-style Alert Dialog
-function showXPAlert(title, message, options = {}) {
+// XP-style dialog builder (shared by alert and confirm)
+// buttons: array of { label, onClick }. The titlebar × and Escape trigger onDismiss.
+function showXPDialog(title, message, buttons, onDismiss) {
     const overlay = document.createElement('div');
     overlay.className = 'windows-error';
 
@@ -113,38 +114,60 @@ function showXPAlert(title, message, options = {}) {
     content.className = 'error-content';
 
     const messageParagraph = document.createElement('p');
-    messageParagraph.innerHTML = (message || '').toString().replace(/\n/g, '<br>');
-
-    const okBtn = document.createElement('button');
-    okBtn.textContent = options.okText || 'OK';
-
+    messageParagraph.innerHTML = String(message ?? '').replace(/\n/g, '<br>');
     content.appendChild(messageParagraph);
-    content.appendChild(okBtn);
+
+    const buttonRow = document.createElement('div');
+    buttonRow.className = 'error-buttons';
+
+    function closeDialog(callback) {
+        overlay.remove();
+        document.removeEventListener('keydown', keyHandler, true);
+        if (typeof callback === 'function') {
+            try { callback(); } catch (_) {}
+        }
+    }
+
+    buttons.forEach(btn => {
+        const el = document.createElement('button');
+        el.textContent = btn.label;
+        el.addEventListener('click', () => closeDialog(btn.onClick));
+        buttonRow.appendChild(el);
+    });
+    content.appendChild(buttonRow);
 
     container.appendChild(titlebar);
     container.appendChild(content);
     overlay.appendChild(container);
     document.body.appendChild(overlay);
 
-    function closeDialog() {
-        overlay.remove();
-        if (typeof options.onClose === 'function') {
-            try { options.onClose(); } catch (_) {}
-        }
-    }
+    closeBtn.addEventListener('click', () => closeDialog(onDismiss));
 
-    okBtn.addEventListener('click', closeDialog);
-    closeBtn.addEventListener('click', closeDialog);
-
-    // Close on Enter/Escape when dialog is present
+    // Enter activates the first (default) button, Escape dismisses
     const keyHandler = (e) => {
-        if (e.key === 'Enter' || e.key === 'Escape') {
+        if (e.key === 'Enter') {
             e.preventDefault();
-            closeDialog();
-            document.removeEventListener('keydown', keyHandler, true);
+            closeDialog(buttons[0] && buttons[0].onClick);
+        } else if (e.key === 'Escape') {
+            e.preventDefault();
+            closeDialog(onDismiss);
         }
     };
     document.addEventListener('keydown', keyHandler, true);
+}
+
+function showXPAlert(title, message, options = {}) {
+    showXPDialog(title, message, [
+        { label: options.okText || 'OK', onClick: options.onClose }
+    ], options.onClose);
+}
+
+// Async replacement for confirm(): calls onConfirm or onCancel instead of returning a value
+function showXPConfirm(title, message, onConfirm, onCancel, options = {}) {
+    showXPDialog(title, message, [
+        { label: options.okText || 'OK', onClick: onConfirm },
+        { label: options.cancelText || 'Cancel', onClick: onCancel }
+    ], onCancel);
 }
 
 // Override native alert to use XP-style dialog

@@ -295,6 +295,22 @@
     margin: 5px 10px;
 }
 
+/* Pushes "All Programs" to the bottom of the left column, like real XP */
+.start-menu-spacer {
+    flex: 1;
+}
+
+.start-menu-item.all-programs {
+    font-weight: bold;
+    justify-content: flex-end;
+    gap: 6px;
+}
+
+.start-menu-item.all-programs img {
+    width: 16px;
+    height: 16px;
+}
+
 .start-menu-right .start-menu-separator {
     background: #9FBDE5;
     box-shadow: 0 1px 0 #fff;
@@ -330,5 +346,4 @@
 .start-menu-button img {
     width: 16px;
     height: 16px;
-    filter: brightness(0) invert(1); /* Make icons white */
 }

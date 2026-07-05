@@ -4,21 +4,6 @@ function openPaint() {
     initPaintApp();
 }
 
-function openMessenger() {
-    const nudge = confirm(`📧 MSN Messenger
-
-Your contacts:
-- xXx_DarkAngel_xXx (Away - "brb")
-- Viss Mubbles (Online)
-- Sk8erBoi2003 (Busy - "homework -_-")
-- (L)Joey(L) (Online)
-
-Send a nudge?`);
-    if (nudge) {
-        alert('*BUZZ BUZZ* You sent a nudge! 🔔');
-    }
-}
-
 function openMessengerWindow() {
     showWindow('messenger-window');
     startMessengerConversation();
@@ -37,14 +22,17 @@ function openMediaPlayer() {
 }
 
 function openSolitaire() {
-    alert('♠️ Solitaire\\n\\nGames played: 2,847\\nGames won: 3\\nWin percentage: 0.1%\\n\\nTime wasted: 247 hours\\n\\n"Just one more game..."');
+    alert('♠️ Solitaire\n\nGames played: 2,847\nGames won: 3\nWin percentage: 0.1%\n\nTime wasted: 247 hours\n\n"Just one more game..."');
 }
 
 function openInternetExplorer() {
-    const response = confirm('🌐 Internet Explorer 6\\n\\nSecurity Warning: This page contains both secure and nonsecure items.\\n\\nDo you want to display the nonsecure items?');
-    if (response) {
-        alert('⏳ Loading... Please wait...\\n[████████████████████] 99%\\n\\nEstimated time remaining: 17 hours');
-    }
+    showXPConfirm(
+        'Security Alert',
+        '🌐 Internet Explorer 6\n\nSecurity Warning: This page contains both secure and nonsecure items.\n\nDo you want to display the nonsecure items?',
+        () => alert('⏳ Loading... Please wait...\n[████████████████████] 99%\n\nEstimated time remaining: 17 hours'),
+        null,
+        { okText: 'Yes', cancelText: 'No' }
+    );
 }
 
 function openRetroTwitter() {
@@ -182,19 +170,25 @@ function escapeHtml(text) {
 }
 
 function showLogOffDialog() {
-    alert('👋 See you later!\\n\\nDon\'t forget to save your work!\\n\\nWindows is shutting down...\\n\\n*dial-up disconnection sounds*');
+    alert('👋 See you later!\n\nDon\'t forget to save your work!\n\nWindows is shutting down...\n\n*dial-up disconnection sounds*');
 }
 
 function showShutDownDialog() {
-    const shutdown = confirm('🖥️ Turn Off Computer\\n\\nSelect an option:\\n• Stand By (Your computer goes brrrrr quietly)\\n• Turn Off (It\'s safe to turn off your computer)\\n• Restart (Have you tried turning it off and on again?)\\n\\nContinue?');
-    if (shutdown) {
-        document.body.style.transition = 'opacity 2s';
-        document.body.style.opacity = '0';
-        setTimeout(() => {
-            document.body.innerHTML = '<div style="display: flex; justify-content: center; align-items: center; height: 100vh; background: black; color: orange; font-family: monospace; font-size: 20px;">It is now safe to turn off your computer.</div>';
-            document.body.style.opacity = '1';
-        }, 2000);
-    }
+    showXPConfirm(
+        'Turn Off Computer',
+        '🖥️ Turn Off Computer\n\nSelect an option:\n• Stand By (Your computer goes brrrrr quietly)\n• Turn Off (It\'s safe to turn off your computer)\n• Restart (Have you tried turning it off and on again?)\n\nContinue?',
+        () => {
+            playSound('shutdown');
+            document.body.style.transition = 'opacity 2s';
+            document.body.style.opacity = '0';
+            setTimeout(() => {
+                document.body.innerHTML = '<div style="display: flex; justify-content: center; align-items: center; height: 100vh; background: black; color: orange; font-family: monospace; font-size: 20px;">It is now safe to turn off your computer.</div>';
+                document.body.style.opacity = '1';
+            }, 2000);
+        },
+        null,
+        { okText: 'Turn Off', cancelText: 'Cancel' }
+    );
 }
 
 // Countdown GPT-5 App
@@ -239,7 +233,7 @@ function startCountdown() {
             
             // Show alert after a delay so user can see the confetti
             setTimeout(() => {
-                alert('🎉 GPT-5 HAS LAUNCHED! 🎉\\n\\nThe future is here!\\n\\nCheck OpenAI.com for more details.');
+                alert('🎉 GPT-5 HAS LAUNCHED! 🎉\n\nThe future is here!\n\nCheck OpenAI.com for more details.');
             }, 2000);
             return;
         }
@@ -290,20 +284,22 @@ function shareCountdown() {
     const text = `I'm counting down to the GPT-5 launch on August 7, 2025! Join me at this retro countdown app! 🚀`;
     
     // 2007 style share dialog
-    const shareDialog = confirm(`📤 Share Countdown\\n\\n"${text}"\\n\\nWould you like to copy this to your clipboard?\\n\\n(In 2007, we'd email this to all our contacts!)`);
-    
-    if (shareDialog) {
-        // Try to copy to clipboard (won't work in 2007 but hey)
-        if (navigator.clipboard) {
-            navigator.clipboard.writeText(text).then(() => {
-                alert('✅ Copied to clipboard!\\n\\nNow paste it in your AIM away message!');
-            }).catch(() => {
-                alert('📋 Manual copy required:\\n\\n' + text);
-            });
-        } else {
-            alert('📋 Manual copy required:\\n\\n' + text);
+    showXPConfirm(
+        'Share Countdown',
+        `📤 Share Countdown\n\n"${text}"\n\nWould you like to copy this to your clipboard?\n\n(In 2007, we'd email this to all our contacts!)`,
+        () => {
+            // Try to copy to clipboard (won't work in 2007 but hey)
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(text).then(() => {
+                    alert('✅ Copied to clipboard!\n\nNow paste it in your AIM away message!');
+                }).catch(() => {
+                    alert('📋 Manual copy required:\n\n' + text);
+                });
+            } else {
+                alert('📋 Manual copy required:\n\n' + text);
+            }
         }
-    }
+    );
 }
 
 // Clean up interval when window closes
