@@ -1,9 +1,9 @@
 /* Desktop Background */
 .desktop {
     flex: 1;
-    background-image: url('jason.png');
+    background-image: url('jb.png');
     background-size: cover;
-    background-position: center;
+    background-position: center top; /* Keep the riders' heads in frame on wide screens */
     background-repeat: no-repeat;
     background-color: #3A6EA5;
     position: relative;
